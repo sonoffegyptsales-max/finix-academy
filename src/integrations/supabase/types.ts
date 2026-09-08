@@ -1,3 +1,5 @@
+// This file is generated from the LMS schema migrations. Regenerate via
+// `supabase gen types typescript` once migrations are applied to the live project.
 export type Json =
   | string
   | number
@@ -7,8 +9,6 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instantiate createClient with right options
-  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "14.15"
   }
@@ -125,9 +125,408 @@ export type Database = {
         }
         Relationships: []
       }
+      tracks: {
+        Row: {
+          id: string
+          name: string
+          name_ar: string
+          tagline: string
+          tagline_ar: string
+          position: number
+          created_at: string
+        }
+        Insert: {
+          id: string
+          name: string
+          name_ar: string
+          tagline: string
+          tagline_ar: string
+          position?: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          name_ar?: string
+          tagline?: string
+          tagline_ar?: string
+          position?: number
+          created_at?: string
+        }
+        Relationships: []
+      }
+      modules: {
+        Row: {
+          id: string
+          slug: string
+          code: string
+          track_id: string
+          title: string
+          title_ar: string
+          summary: string
+          summary_ar: string
+          external_url: string | null
+          position: number
+          published: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          slug: string
+          code: string
+          track_id: string
+          title: string
+          title_ar: string
+          summary: string
+          summary_ar: string
+          external_url?: string | null
+          position?: number
+          published?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          slug?: string
+          code?: string
+          track_id?: string
+          title?: string
+          title_ar?: string
+          summary?: string
+          summary_ar?: string
+          external_url?: string | null
+          position?: number
+          published?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      lessons: {
+        Row: {
+          id: string
+          module_id: string
+          title: string
+          title_ar: string
+          content: string | null
+          content_ar: string | null
+          video_url: string | null
+          position: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          module_id: string
+          title: string
+          title_ar: string
+          content?: string | null
+          content_ar?: string | null
+          video_url?: string | null
+          position?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          module_id?: string
+          title?: string
+          title_ar?: string
+          content?: string | null
+          content_ar?: string | null
+          video_url?: string | null
+          position?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      quizzes: {
+        Row: {
+          id: string
+          module_id: string
+          tier: Database["public"]["Enums"]["quiz_tier"]
+          title: string
+          title_ar: string
+          pass_percent: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          module_id: string
+          tier: Database["public"]["Enums"]["quiz_tier"]
+          title: string
+          title_ar: string
+          pass_percent?: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          module_id?: string
+          tier?: Database["public"]["Enums"]["quiz_tier"]
+          title?: string
+          title_ar?: string
+          pass_percent?: number
+          created_at?: string
+        }
+        Relationships: []
+      }
+      quiz_questions: {
+        Row: {
+          id: string
+          quiz_id: string
+          question: string
+          question_ar: string
+          position: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          quiz_id: string
+          question: string
+          question_ar: string
+          position?: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          quiz_id?: string
+          question?: string
+          question_ar?: string
+          position?: number
+          created_at?: string
+        }
+        Relationships: []
+      }
+      quiz_options: {
+        Row: {
+          id: string
+          question_id: string
+          option_text: string
+          option_text_ar: string
+          is_correct: boolean
+          position: number
+        }
+        Insert: {
+          id?: string
+          question_id: string
+          option_text: string
+          option_text_ar: string
+          is_correct?: boolean
+          position?: number
+        }
+        Update: {
+          id?: string
+          question_id?: string
+          option_text?: string
+          option_text_ar?: string
+          is_correct?: boolean
+          position?: number
+        }
+        Relationships: []
+      }
+      enrollments: {
+        Row: {
+          id: string
+          user_id: string
+          module_id: string
+          status: string
+          completed_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          module_id: string
+          status?: string
+          completed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          module_id?: string
+          status?: string
+          completed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      quiz_attempts: {
+        Row: {
+          id: string
+          user_id: string
+          quiz_id: string
+          score: number | null
+          total: number | null
+          percent: number | null
+          passed: boolean | null
+          started_at: string
+          submitted_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          quiz_id: string
+          score?: number | null
+          total?: number | null
+          percent?: number | null
+          passed?: boolean | null
+          started_at?: string
+          submitted_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          quiz_id?: string
+          score?: number | null
+          total?: number | null
+          percent?: number | null
+          passed?: boolean | null
+          started_at?: string
+          submitted_at?: string | null
+        }
+        Relationships: []
+      }
+      quiz_answers: {
+        Row: {
+          id: string
+          attempt_id: string
+          question_id: string
+          selected_option_id: string | null
+          is_correct: boolean | null
+        }
+        Insert: {
+          id?: string
+          attempt_id: string
+          question_id: string
+          selected_option_id?: string | null
+          is_correct?: boolean | null
+        }
+        Update: {
+          id?: string
+          attempt_id?: string
+          question_id?: string
+          selected_option_id?: string | null
+          is_correct?: boolean | null
+        }
+        Relationships: []
+      }
+      certificates: {
+        Row: {
+          id: string
+          user_id: string
+          tier: Database["public"]["Enums"]["quiz_tier"]
+          certificate_number: string
+          issued_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          tier: Database["public"]["Enums"]["quiz_tier"]
+          certificate_number: string
+          issued_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          tier?: Database["public"]["Enums"]["quiz_tier"]
+          certificate_number?: string
+          issued_at?: string
+        }
+        Relationships: []
+      }
+      kpi_evaluations: {
+        Row: {
+          id: string
+          evaluator_id: string
+          trainee_name: string
+          trainee_id: string | null
+          project_name: string | null
+          scores: Json
+          technical_percent: number
+          behavioral_percent: number
+          final_percent: number
+          band: string
+          feedback: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          evaluator_id: string
+          trainee_name: string
+          trainee_id?: string | null
+          project_name?: string | null
+          scores?: Json
+          technical_percent: number
+          behavioral_percent: number
+          final_percent: number
+          band: string
+          feedback?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          evaluator_id?: string
+          trainee_name?: string
+          trainee_id?: string | null
+          project_name?: string | null
+          scores?: Json
+          technical_percent?: number
+          behavioral_percent?: number
+          final_percent?: number
+          band?: string
+          feedback?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
+      survey_reports: {
+        Row: {
+          id: string
+          created_by: string
+          project_name: string
+          client_name: string | null
+          stages: Json
+          notes: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          created_by: string
+          project_name: string
+          client_name?: string | null
+          stages?: Json
+          notes?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          created_by?: string
+          project_name?: string
+          client_name?: string | null
+          stages?: Json
+          notes?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      quiz_options_public: {
+        Row: {
+          id: string
+          question_id: string
+          option_text: string
+          option_text_ar: string
+          position: number
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {
@@ -137,9 +536,23 @@ export type Database = {
         }
         Returns: boolean
       }
+      submit_quiz_attempt: {
+        Args: {
+          _quiz_id: string
+          _answers: Json
+        }
+        Returns: {
+          attempt_id: string
+          score: number
+          total: number
+          percent: number
+          passed: boolean
+        }[]
+      }
     }
     Enums: {
-      app_role: "admin" | "trainee"
+      app_role: "admin" | "trainee" | "trainer"
+      quiz_tier: "bronze" | "silver" | "gold"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -261,13 +674,14 @@ export type CompositeTypes<
 }
   ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
-    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    ? DefaultSchema["CompositeTypes"][CompositeTypeName]
     : never
 
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "trainee"],
+      app_role: ["admin", "trainee", "trainer"],
+      quiz_tier: ["bronze", "silver", "gold"],
     },
   },
 } as const
