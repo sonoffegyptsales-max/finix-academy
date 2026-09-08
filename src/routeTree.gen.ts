@@ -23,6 +23,8 @@ import { Route as FinixSlugRouteImport } from './routes/finix.$slug'
 import { Route as FinixCertificationRouteImport } from './routes/finix.certification'
 import { Route as FinixKpiRouteImport } from './routes/finix.kpi'
 import { Route as FinixSurveyRouteImport } from './routes/finix.survey'
+import { Route as DashboardAuthoringIndexRouteImport } from './routes/dashboard/authoring/index'
+import { Route as DashboardAuthoringModuleIdRouteImport } from './routes/dashboard/authoring/$moduleId'
 import { Route as DashboardModuleSlugRouteImport } from './routes/dashboard/module.$slug'
 import { Route as DashboardQuizSlugTierRouteImport } from './routes/dashboard/quiz.$slug.$tier'
 
@@ -96,6 +98,17 @@ const FinixSurveyRoute = FinixSurveyRouteImport.update({
   path: '/finix/survey',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardAuthoringIndexRoute = DashboardAuthoringIndexRouteImport.update({
+  id: '/authoring/',
+  path: '/authoring/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardAuthoringModuleIdRoute =
+  DashboardAuthoringModuleIdRouteImport.update({
+    id: '/authoring/$moduleId',
+    path: '/authoring/$moduleId',
+    getParentRoute: () => DashboardRoute,
+  } as any)
 const DashboardModuleSlugRoute = DashboardModuleSlugRouteImport.update({
   id: '/module/$slug',
   path: '/module/$slug',
@@ -122,7 +135,9 @@ export interface FileRoutesByFullPath {
   '/finix/survey': typeof FinixSurveyRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/finix/': typeof FinixIndexRoute
+  '/dashboard/authoring/$moduleId': typeof DashboardAuthoringModuleIdRoute
   '/dashboard/module/$slug': typeof DashboardModuleSlugRoute
+  '/dashboard/authoring/': typeof DashboardAuthoringIndexRoute
   '/dashboard/quiz/$slug/$tier': typeof DashboardQuizSlugTierRoute
 }
 export interface FileRoutesByTo {
@@ -139,7 +154,9 @@ export interface FileRoutesByTo {
   '/finix/survey': typeof FinixSurveyRoute
   '/dashboard': typeof DashboardIndexRoute
   '/finix': typeof FinixIndexRoute
+  '/dashboard/authoring/$moduleId': typeof DashboardAuthoringModuleIdRoute
   '/dashboard/module/$slug': typeof DashboardModuleSlugRoute
+  '/dashboard/authoring': typeof DashboardAuthoringIndexRoute
   '/dashboard/quiz/$slug/$tier': typeof DashboardQuizSlugTierRoute
 }
 export interface FileRoutesById {
@@ -158,7 +175,9 @@ export interface FileRoutesById {
   '/finix/survey': typeof FinixSurveyRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/finix/': typeof FinixIndexRoute
+  '/dashboard/authoring/$moduleId': typeof DashboardAuthoringModuleIdRoute
   '/dashboard/module/$slug': typeof DashboardModuleSlugRoute
+  '/dashboard/authoring/': typeof DashboardAuthoringIndexRoute
   '/dashboard/quiz/$slug/$tier': typeof DashboardQuizSlugTierRoute
 }
 export interface FileRouteTypes {
@@ -178,7 +197,9 @@ export interface FileRouteTypes {
     | '/finix/survey'
     | '/dashboard/'
     | '/finix/'
+    | '/dashboard/authoring/$moduleId'
     | '/dashboard/module/$slug'
+    | '/dashboard/authoring/'
     | '/dashboard/quiz/$slug/$tier'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -195,7 +216,9 @@ export interface FileRouteTypes {
     | '/finix/survey'
     | '/dashboard'
     | '/finix'
+    | '/dashboard/authoring/$moduleId'
     | '/dashboard/module/$slug'
+    | '/dashboard/authoring'
     | '/dashboard/quiz/$slug/$tier'
   id:
     | '__root__'
@@ -213,7 +236,9 @@ export interface FileRouteTypes {
     | '/finix/survey'
     | '/dashboard/'
     | '/finix/'
+    | '/dashboard/authoring/$moduleId'
     | '/dashboard/module/$slug'
+    | '/dashboard/authoring/'
     | '/dashboard/quiz/$slug/$tier'
   fileRoutesById: FileRoutesById
 }
@@ -328,6 +353,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinixSurveyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/authoring/': {
+      id: '/dashboard/authoring/'
+      path: '/authoring'
+      fullPath: '/dashboard/authoring/'
+      preLoaderRoute: typeof DashboardAuthoringIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/authoring/$moduleId': {
+      id: '/dashboard/authoring/$moduleId'
+      path: '/authoring/$moduleId'
+      fullPath: '/dashboard/authoring/$moduleId'
+      preLoaderRoute: typeof DashboardAuthoringModuleIdRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/module/$slug': {
       id: '/dashboard/module/$slug'
       path: '/module/$slug'
@@ -352,7 +391,9 @@ interface DashboardRouteChildren {
   DashboardKpiEvaluatorRoute: typeof DashboardKpiEvaluatorRoute
   DashboardMyCoursesRoute: typeof DashboardMyCoursesRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardAuthoringModuleIdRoute: typeof DashboardAuthoringModuleIdRoute
   DashboardModuleSlugRoute: typeof DashboardModuleSlugRoute
+  DashboardAuthoringIndexRoute: typeof DashboardAuthoringIndexRoute
   DashboardQuizSlugTierRoute: typeof DashboardQuizSlugTierRoute
 }
 
@@ -363,7 +404,9 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardKpiEvaluatorRoute: DashboardKpiEvaluatorRoute,
   DashboardMyCoursesRoute: DashboardMyCoursesRoute,
   DashboardIndexRoute: DashboardIndexRoute,
+  DashboardAuthoringModuleIdRoute: DashboardAuthoringModuleIdRoute,
   DashboardModuleSlugRoute: DashboardModuleSlugRoute,
+  DashboardAuthoringIndexRoute: DashboardAuthoringIndexRoute,
   DashboardQuizSlugTierRoute: DashboardQuizSlugTierRoute,
 }
 

@@ -26,6 +26,9 @@ function DashboardLayout() {
       ? [{ to: "/dashboard/kpi-evaluator", label: t("KPI Evaluator", "تقييم الأداء"), icon: "kpi" }]
       : []),
     ...(isStaff
+      ? [{ to: "/dashboard/authoring", label: t("Course Authoring", "تحرير الدورات"), icon: "authoring" }]
+      : []),
+    ...(isStaff
       ? [{
           to: "/dashboard/admin-panel",
           label: isAdmin ? t("Admin Panel", "لوحة الإدارة") : t("Trainer Panel", "لوحة المدرب"),
@@ -240,6 +243,13 @@ function NavIcon({ name, className }: { name: string; className?: string }) {
           <path d="M18 20V10"/>
           <path d="M12 20V4"/>
           <path d="M6 20v-6"/>
+        </svg>
+      );
+    case "authoring":
+      return (
+        <svg {...iconProps} className={className}>
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
         </svg>
       );
     case "admin":

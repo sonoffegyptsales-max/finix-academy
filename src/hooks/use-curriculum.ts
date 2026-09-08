@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 import { finixModules, finixTracks } from "@/content/finix";
@@ -17,6 +17,8 @@ interface CurriculumState {
   loading: boolean;
   /** True if the Supabase tables weren't reachable/seeded and we fell back to static content. */
   usingFallback: boolean;
+  /** Re-run the fetch (e.g. after an authoring edit). */
+  refresh: () => void;
 }
 
 /** Static fallback shaped like the DB rows, used when Supabase isn't seeded yet. */
@@ -66,34 +68,40 @@ function fallbackCurriculum(): { tracks: DbTrack[]; modules: CurriculumModule[] 
  * Loads the live curriculum (tracks, modules, lessons) from Supabase.
  * Falls back to the bundled static content if the tables aren't reachable
  * (e.g. migrations not yet applied to this Supabase project).
+ *
+ * @param includeUnpublished - staff-only: also load draft (unpublished) modules.
  */
-export function useCurriculum(): CurriculumState {
+export function useCurriculum(includeUnpublished = false): CurriculumState {
   const [tracks, setTracks] = useState<DbTrack[]>([]);
   const [modules, setModules] = useState<CurriculumModule[]>([]);
   const [loading, setLoading] = useState(true);
   const [usingFallback, setUsingFallback] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
+
+  const refresh = useCallback(() => setReloadKey((k) => k + 1), []);
 
   useEffect(() => {
     let active = true;
 
     async function load() {
+      setLoading(true);
       try {
+        let moduleQuery = supabase.from("modules").select("*").order("position");
+        if (!includeUnpublished) {
+          moduleQuery = moduleQuery.eq("published", true);
+        }
+
         const [{ data: trackRows, error: trackErr }, { data: moduleRows, error: moduleErr }] =
-          await Promise.all([
-            supabase.from("tracks").select("*").order("position"),
-            supabase.from("modules").select("*").eq("published", true).order("position"),
-          ]);
+          await Promise.all([supabase.from("tracks").select("*").order("position"), moduleQuery]);
 
         if (trackErr || moduleErr || !trackRows || !moduleRows || trackRows.length === 0) {
           throw trackErr || moduleErr || new Error("No curriculum rows found");
         }
 
         const moduleIds = moduleRows.map((m) => m.id);
-        const { data: lessonRows, error: lessonErr } = await supabase
-          .from("lessons")
-          .select("*")
-          .in("module_id", moduleIds)
-          .order("position");
+        const { data: lessonRows, error: lessonErr } = moduleIds.length
+          ? await supabase.from("lessons").select("*").in("module_id", moduleIds).order("position")
+          : { data: [] as DbLesson[], error: null };
 
         if (lessonErr) throw lessonErr;
 
@@ -128,7 +136,7 @@ export function useCurriculum(): CurriculumState {
     return () => {
       active = false;
     };
-  }, []);
+  }, [includeUnpublished, reloadKey]);
 
-  return { tracks, modules, loading, usingFallback };
+  return { tracks, modules, loading, usingFallback, refresh };
 }
