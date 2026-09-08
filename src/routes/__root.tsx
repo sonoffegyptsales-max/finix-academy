@@ -248,30 +248,34 @@ function SiteHeader() {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const location = useLocation();
+  const inDashboard = location.pathname.startsWith("/dashboard");
 
   return (
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
         <AuthProvider>
           <div className="min-h-screen bg-background font-sans text-foreground">
-            <SiteHeader />
+            {!inDashboard && <SiteHeader />}
             <Outlet />
-            <footer className="border-t border-border bg-background px-6 py-6">
-              <div className="flex flex-col items-center gap-2 text-center text-xs text-muted-foreground">
-                <p>© 2026 Finix Systems. All rights reserved.</p>
-                <a
-                  href="https://onhercules.app"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium text-muted-foreground hover:bg-secondary transition-colors"
-                >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polygon points="13 2 3 14 12 14 14 18 21 10 19 8 13 2"/>
-                  </svg>
-                  Built with Hercules
-                </a>
-              </div>
-            </footer>
+            {!inDashboard && (
+              <footer className="border-t border-border bg-background px-6 py-6">
+                <div className="flex flex-col items-center gap-2 text-center text-xs text-muted-foreground">
+                  <p>© 2026 Finix Systems. All rights reserved.</p>
+                  <a
+                    href="https://onhercules.app"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium text-muted-foreground hover:bg-secondary transition-colors"
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polygon points="13 2 3 14 12 14 14 18 21 10 19 8 13 2"/>
+                    </svg>
+                    Built with Hercules
+                  </a>
+                </div>
+              </footer>
+            )}
           </div>
         </AuthProvider>
       </LanguageProvider>
