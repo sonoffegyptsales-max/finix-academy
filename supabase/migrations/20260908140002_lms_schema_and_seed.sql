@@ -432,7 +432,7 @@ BEGIN
   WHERE id = _attempt_id;
 
   -- Mark enrollment complete on a pass
-  IF (SELECT passed FROM public.quiz_attempts WHERE id = _attempt_id) THEN
+  IF (SELECT qa2.passed FROM public.quiz_attempts qa2 WHERE qa2.id = _attempt_id) THEN
     INSERT INTO public.enrollments (user_id, module_id, status, completed_at)
     VALUES (_user_id, _module_id, 'completed', now())
     ON CONFLICT (user_id, module_id)
