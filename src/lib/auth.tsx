@@ -11,10 +11,16 @@ import type { User } from "@supabase/supabase-js";
 import { Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 
+export type AppRole = "admin" | "trainer" | "trainee";
+
 type AuthValue = {
   loading: boolean;
   user: User | null;
   isAdmin: boolean;
+  isTrainer: boolean;
+  /** True for admin OR trainer — anyone with staff/teaching privileges. */
+  isStaff: boolean;
+  roles: AppRole[];
   signOut: () => Promise<void>;
 };
 
@@ -22,44 +28,45 @@ const AuthContext = createContext<AuthValue>({
   loading: true,
   user: null,
   isAdmin: false,
+  isTrainer: false,
+  isStaff: false,
+  roles: [],
   signOut: async () => {},
 });
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [roles, setRoles] = useState<AppRole[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let active = true;
 
-    const loadRole = (uid: string | undefined) => {
+    const loadRoles = (uid: string | undefined) => {
       if (!uid) {
-        setIsAdmin(false);
+        setRoles([]);
         return;
       }
       void supabase
         .from("user_roles")
         .select("role")
         .eq("user_id", uid)
-        .eq("role", "admin")
-        .maybeSingle()
         .then(({ data }) => {
-          if (active) setIsAdmin(Boolean(data));
+          if (active) setRoles((data ?? []).map((r) => r.role as AppRole));
         });
     };
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       if (!active) return;
       setUser(session?.user ?? null);
-      loadRole(session?.user?.id);
+      loadRoles(session?.user?.id);
       setLoading(false);
     });
 
     void supabase.auth.getSession().then(({ data }) => {
       if (!active) return;
       setUser(data.session?.user ?? null);
-      loadRole(data.session?.user?.id);
+      loadRoles(data.session?.user?.id);
       setLoading(false);
     });
 
@@ -72,12 +79,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signOut = useCallback(async () => {
     await supabase.auth.signOut();
     setUser(null);
-    setIsAdmin(false);
+    setRoles([]);
   }, []);
 
+  const isAdmin = roles.includes("admin");
+  const isTrainer = roles.includes("trainer");
+  const isStaff = isAdmin || isTrainer;
+
   const value = useMemo(
-    () => ({ loading, user, isAdmin, signOut }),
-    [loading, user, isAdmin, signOut],
+    () => ({ loading, user, isAdmin, isTrainer, isStaff, roles, signOut }),
+    [loading, user, isAdmin, isTrainer, isStaff, roles, signOut],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
@@ -90,11 +101,15 @@ export function useAuth() {
 export function Protected({
   children,
   adminOnly,
+  staffOnly,
 }: {
   children: ReactNode;
+  /** Restrict to admin role only. */
   adminOnly?: boolean;
+  /** Restrict to admin OR trainer (any staff role). */
+  staffOnly?: boolean;
 }) {
-  const { loading, user, isAdmin } = useAuth();
+  const { loading, user, isAdmin, isStaff } = useAuth();
 
   if (loading) {
     return (
@@ -128,6 +143,17 @@ export function Protected({
         <h1 className="text-2xl font-bold text-foreground">Administrators only</h1>
         <p className="mt-3 text-sm text-muted-foreground">
           Your account does not have administrator rights.
+        </p>
+      </div>
+    );
+  }
+
+  if (staffOnly && !isStaff) {
+    return (
+      <div className="mx-auto max-w-md px-6 py-24 text-center">
+        <h1 className="text-2xl font-bold text-foreground">Staff only</h1>
+        <p className="mt-3 text-sm text-muted-foreground">
+          This page is restricted to trainers and administrators.
         </p>
       </div>
     );

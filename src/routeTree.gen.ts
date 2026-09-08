@@ -23,6 +23,8 @@ import { Route as FinixSlugRouteImport } from './routes/finix.$slug'
 import { Route as FinixCertificationRouteImport } from './routes/finix.certification'
 import { Route as FinixKpiRouteImport } from './routes/finix.kpi'
 import { Route as FinixSurveyRouteImport } from './routes/finix.survey'
+import { Route as DashboardModuleSlugRouteImport } from './routes/dashboard/module.$slug'
+import { Route as DashboardQuizSlugTierRouteImport } from './routes/dashboard/quiz.$slug.$tier'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -94,6 +96,16 @@ const FinixSurveyRoute = FinixSurveyRouteImport.update({
   path: '/finix/survey',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardModuleSlugRoute = DashboardModuleSlugRouteImport.update({
+  id: '/module/$slug',
+  path: '/module/$slug',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardQuizSlugTierRoute = DashboardQuizSlugTierRouteImport.update({
+  id: '/quiz/$slug/$tier',
+  path: '/quiz/$slug/$tier',
+  getParentRoute: () => DashboardRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -110,6 +122,8 @@ export interface FileRoutesByFullPath {
   '/finix/survey': typeof FinixSurveyRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/finix/': typeof FinixIndexRoute
+  '/dashboard/module/$slug': typeof DashboardModuleSlugRoute
+  '/dashboard/quiz/$slug/$tier': typeof DashboardQuizSlugTierRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -125,6 +139,8 @@ export interface FileRoutesByTo {
   '/finix/survey': typeof FinixSurveyRoute
   '/dashboard': typeof DashboardIndexRoute
   '/finix': typeof FinixIndexRoute
+  '/dashboard/module/$slug': typeof DashboardModuleSlugRoute
+  '/dashboard/quiz/$slug/$tier': typeof DashboardQuizSlugTierRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -142,6 +158,8 @@ export interface FileRoutesById {
   '/finix/survey': typeof FinixSurveyRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/finix/': typeof FinixIndexRoute
+  '/dashboard/module/$slug': typeof DashboardModuleSlugRoute
+  '/dashboard/quiz/$slug/$tier': typeof DashboardQuizSlugTierRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -160,6 +178,8 @@ export interface FileRouteTypes {
     | '/finix/survey'
     | '/dashboard/'
     | '/finix/'
+    | '/dashboard/module/$slug'
+    | '/dashboard/quiz/$slug/$tier'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -175,6 +195,8 @@ export interface FileRouteTypes {
     | '/finix/survey'
     | '/dashboard'
     | '/finix'
+    | '/dashboard/module/$slug'
+    | '/dashboard/quiz/$slug/$tier'
   id:
     | '__root__'
     | '/'
@@ -191,6 +213,8 @@ export interface FileRouteTypes {
     | '/finix/survey'
     | '/dashboard/'
     | '/finix/'
+    | '/dashboard/module/$slug'
+    | '/dashboard/quiz/$slug/$tier'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -304,6 +328,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinixSurveyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/module/$slug': {
+      id: '/dashboard/module/$slug'
+      path: '/module/$slug'
+      fullPath: '/dashboard/module/$slug'
+      preLoaderRoute: typeof DashboardModuleSlugRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/quiz/$slug/$tier': {
+      id: '/dashboard/quiz/$slug/$tier'
+      path: '/quiz/$slug/$tier'
+      fullPath: '/dashboard/quiz/$slug/$tier'
+      preLoaderRoute: typeof DashboardQuizSlugTierRouteImport
+      parentRoute: typeof DashboardRoute
+    }
   }
 }
 
@@ -314,6 +352,8 @@ interface DashboardRouteChildren {
   DashboardKpiEvaluatorRoute: typeof DashboardKpiEvaluatorRoute
   DashboardMyCoursesRoute: typeof DashboardMyCoursesRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardModuleSlugRoute: typeof DashboardModuleSlugRoute
+  DashboardQuizSlugTierRoute: typeof DashboardQuizSlugTierRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
@@ -323,6 +363,8 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardKpiEvaluatorRoute: DashboardKpiEvaluatorRoute,
   DashboardMyCoursesRoute: DashboardMyCoursesRoute,
   DashboardIndexRoute: DashboardIndexRoute,
+  DashboardModuleSlugRoute: DashboardModuleSlugRoute,
+  DashboardQuizSlugTierRoute: DashboardQuizSlugTierRoute,
 }
 
 const DashboardRouteWithChildren = DashboardRoute._addFileChildren(

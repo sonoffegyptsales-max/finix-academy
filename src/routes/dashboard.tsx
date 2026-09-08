@@ -7,16 +7,31 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 function DashboardLayout() {
-  const { user, signOut, loading } = useAuth();
+  const { user, signOut, loading, isAdmin, isTrainer, isStaff } = useAuth();
   const { t, isRTL } = useLang();
+
+  const roleLabel = isAdmin ? "Admin" : isTrainer ? "Trainer" : "Trainee";
+  const roleBadgeColor = isAdmin
+    ? "bg-destructive text-destructive-foreground"
+    : isTrainer
+      ? "bg-primary text-primary-foreground"
+      : "bg-sidebar-accent text-sidebar-accent-foreground";
 
   const navItems = [
     { to: "/dashboard", label: t("Dashboard", "لوحة التحكم"), icon: "dashboard" },
     { to: "/dashboard/my-courses", label: t("My Courses", "دوراتي"), icon: "courses" },
     { to: "/dashboard/certifications", label: t("Certifications", "اعتمادات"), icon: "certs" },
     { to: "/dashboard/field-survey", label: t("Field Survey", "مسح الموقع"), icon: "survey" },
-    { to: "/dashboard/kpi-evaluator", label: t("KPI Evaluator", "تقييم الأداء"), icon: "kpi" },
-    { to: "/dashboard/admin-panel", label: t("Admin Panel", "لوحة الإدارة"), icon: "admin" },
+    ...(isStaff
+      ? [{ to: "/dashboard/kpi-evaluator", label: t("KPI Evaluator", "تقييم الأداء"), icon: "kpi" }]
+      : []),
+    ...(isStaff
+      ? [{
+          to: "/dashboard/admin-panel",
+          label: isAdmin ? t("Admin Panel", "لوحة الإدارة") : t("Trainer Panel", "لوحة المدرب"),
+          icon: "admin",
+        }]
+      : []),
   ];
 
   if (loading) {
@@ -70,10 +85,10 @@ function DashboardLayout() {
           </div>
           <div className="flex flex-col overflow-hidden">
             <span className="truncate text-sm font-medium text-sidebar-foreground">
-              {user.email?.split("@")[0] || "User"} Egypt
+              {user.email?.split("@")[0] || "User"}
             </span>
-            <span className="rounded-full bg-destructive px-1.5 py-0.5 text-[10px] font-semibold text-destructive-foreground">
-              Admin
+            <span className={`w-fit rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${roleBadgeColor}`}>
+              {roleLabel}
             </span>
           </div>
         </div>
@@ -125,7 +140,11 @@ function DashboardLayout() {
         {/* Top bar */}
         <div className="flex h-16 items-center justify-between border-b border-border bg-background px-6">
           <h2 className="text-lg font-semibold text-foreground">
-            {t("Admin Dashboard", "لوحة تحكم الإدارة")}
+            {isAdmin
+              ? t("Admin Dashboard", "لوحة تحكم الإدارة")
+              : isTrainer
+                ? t("Trainer Dashboard", "لوحة تحكم المدرب")
+                : t("My Dashboard", "لوحتي")}
           </h2>
           <div className="flex items-center gap-3">
             <LanguageToggle />
