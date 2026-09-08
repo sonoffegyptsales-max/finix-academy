@@ -11,6 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as DashboardAdminPanelRouteImport } from './routes/dashboard/admin-panel'
+import { Route as DashboardCertificationsRouteImport } from './routes/dashboard/certifications'
+import { Route as DashboardFieldSurveyRouteImport } from './routes/dashboard/field-survey'
+import { Route as DashboardKpiEvaluatorRouteImport } from './routes/dashboard/kpi-evaluator'
+import { Route as DashboardMyCoursesRouteImport } from './routes/dashboard/my-courses'
 import { Route as FinixIndexRouteImport } from './routes/finix.index'
 import { Route as FinixSlugRouteImport } from './routes/finix.$slug'
 import { Route as FinixCertificationRouteImport } from './routes/finix.certification'
@@ -26,6 +33,41 @@ const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
   getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardAdminPanelRoute = DashboardAdminPanelRouteImport.update({
+  id: '/admin-panel',
+  path: '/admin-panel',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardCertificationsRoute = DashboardCertificationsRouteImport.update({
+  id: '/certifications',
+  path: '/certifications',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardFieldSurveyRoute = DashboardFieldSurveyRouteImport.update({
+  id: '/field-survey',
+  path: '/field-survey',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardKpiEvaluatorRoute = DashboardKpiEvaluatorRouteImport.update({
+  id: '/kpi-evaluator',
+  path: '/kpi-evaluator',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardMyCoursesRoute = DashboardMyCoursesRouteImport.update({
+  id: '/my-courses',
+  path: '/my-courses',
+  getParentRoute: () => DashboardRoute,
 } as any)
 const FinixIndexRoute = FinixIndexRouteImport.update({
   id: '/finix/',
@@ -56,29 +98,49 @@ const FinixSurveyRoute = FinixSurveyRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/dashboard/admin-panel': typeof DashboardAdminPanelRoute
+  '/dashboard/certifications': typeof DashboardCertificationsRoute
+  '/dashboard/field-survey': typeof DashboardFieldSurveyRoute
+  '/dashboard/kpi-evaluator': typeof DashboardKpiEvaluatorRoute
+  '/dashboard/my-courses': typeof DashboardMyCoursesRoute
   '/finix/$slug': typeof FinixSlugRoute
   '/finix/certification': typeof FinixCertificationRoute
   '/finix/kpi': typeof FinixKpiRoute
   '/finix/survey': typeof FinixSurveyRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/finix/': typeof FinixIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/dashboard/admin-panel': typeof DashboardAdminPanelRoute
+  '/dashboard/certifications': typeof DashboardCertificationsRoute
+  '/dashboard/field-survey': typeof DashboardFieldSurveyRoute
+  '/dashboard/kpi-evaluator': typeof DashboardKpiEvaluatorRoute
+  '/dashboard/my-courses': typeof DashboardMyCoursesRoute
   '/finix/$slug': typeof FinixSlugRoute
   '/finix/certification': typeof FinixCertificationRoute
   '/finix/kpi': typeof FinixKpiRoute
   '/finix/survey': typeof FinixSurveyRoute
+  '/dashboard': typeof DashboardIndexRoute
   '/finix': typeof FinixIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/dashboard/admin-panel': typeof DashboardAdminPanelRoute
+  '/dashboard/certifications': typeof DashboardCertificationsRoute
+  '/dashboard/field-survey': typeof DashboardFieldSurveyRoute
+  '/dashboard/kpi-evaluator': typeof DashboardKpiEvaluatorRoute
+  '/dashboard/my-courses': typeof DashboardMyCoursesRoute
   '/finix/$slug': typeof FinixSlugRoute
   '/finix/certification': typeof FinixCertificationRoute
   '/finix/kpi': typeof FinixKpiRoute
   '/finix/survey': typeof FinixSurveyRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/finix/': typeof FinixIndexRoute
 }
 export interface FileRouteTypes {
@@ -86,34 +148,55 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/dashboard'
+    | '/dashboard/admin-panel'
+    | '/dashboard/certifications'
+    | '/dashboard/field-survey'
+    | '/dashboard/kpi-evaluator'
+    | '/dashboard/my-courses'
     | '/finix/$slug'
     | '/finix/certification'
     | '/finix/kpi'
     | '/finix/survey'
+    | '/dashboard/'
     | '/finix/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
+    | '/dashboard/admin-panel'
+    | '/dashboard/certifications'
+    | '/dashboard/field-survey'
+    | '/dashboard/kpi-evaluator'
+    | '/dashboard/my-courses'
     | '/finix/$slug'
     | '/finix/certification'
     | '/finix/kpi'
     | '/finix/survey'
+    | '/dashboard'
     | '/finix'
   id:
     | '__root__'
     | '/'
     | '/auth'
+    | '/dashboard'
+    | '/dashboard/admin-panel'
+    | '/dashboard/certifications'
+    | '/dashboard/field-survey'
+    | '/dashboard/kpi-evaluator'
+    | '/dashboard/my-courses'
     | '/finix/$slug'
     | '/finix/certification'
     | '/finix/kpi'
     | '/finix/survey'
+    | '/dashboard/'
     | '/finix/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
   FinixSlugRoute: typeof FinixSlugRoute
   FinixCertificationRoute: typeof FinixCertificationRoute
   FinixKpiRoute: typeof FinixKpiRoute
@@ -136,6 +219,55 @@ declare module '@tanstack/react-router' {
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/admin-panel': {
+      id: '/dashboard/admin-panel'
+      path: '/admin-panel'
+      fullPath: '/dashboard/admin-panel'
+      preLoaderRoute: typeof DashboardAdminPanelRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/certifications': {
+      id: '/dashboard/certifications'
+      path: '/certifications'
+      fullPath: '/dashboard/certifications'
+      preLoaderRoute: typeof DashboardCertificationsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/field-survey': {
+      id: '/dashboard/field-survey'
+      path: '/field-survey'
+      fullPath: '/dashboard/field-survey'
+      preLoaderRoute: typeof DashboardFieldSurveyRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/kpi-evaluator': {
+      id: '/dashboard/kpi-evaluator'
+      path: '/kpi-evaluator'
+      fullPath: '/dashboard/kpi-evaluator'
+      preLoaderRoute: typeof DashboardKpiEvaluatorRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/my-courses': {
+      id: '/dashboard/my-courses'
+      path: '/my-courses'
+      fullPath: '/dashboard/my-courses'
+      preLoaderRoute: typeof DashboardMyCoursesRouteImport
+      parentRoute: typeof DashboardRoute
     }
     '/finix/': {
       id: '/finix/'
@@ -175,9 +307,32 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface DashboardRouteChildren {
+  DashboardAdminPanelRoute: typeof DashboardAdminPanelRoute
+  DashboardCertificationsRoute: typeof DashboardCertificationsRoute
+  DashboardFieldSurveyRoute: typeof DashboardFieldSurveyRoute
+  DashboardKpiEvaluatorRoute: typeof DashboardKpiEvaluatorRoute
+  DashboardMyCoursesRoute: typeof DashboardMyCoursesRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardAdminPanelRoute: DashboardAdminPanelRoute,
+  DashboardCertificationsRoute: DashboardCertificationsRoute,
+  DashboardFieldSurveyRoute: DashboardFieldSurveyRoute,
+  DashboardKpiEvaluatorRoute: DashboardKpiEvaluatorRoute,
+  DashboardMyCoursesRoute: DashboardMyCoursesRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
+  DashboardRoute: DashboardRouteWithChildren,
   FinixSlugRoute: FinixSlugRoute,
   FinixCertificationRoute: FinixCertificationRoute,
   FinixKpiRoute: FinixKpiRoute,

@@ -7,13 +7,14 @@ import {
   useNavigate,
   HeadContent,
   Scripts,
+  useLocation,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider, useAuth } from "../lib/auth";
-import { LanguageProvider } from "../lib/language";
+import { LanguageProvider, useLang, LanguageToggle } from "../lib/language";
 
 function NotFoundComponent() {
   return (
@@ -129,40 +130,114 @@ function RootShell({ children }: { children: ReactNode }) {
 function SiteHeader() {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
+  const { t } = useLang();
+  const location = useLocation();
+
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur">
-      <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4">
-        <Link to="/" className="font-mono text-sm font-semibold tracking-tight text-foreground">
-          FINIX<span className="text-accent">ACADEMY</span>
+    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3">
+        <Link
+          to="/"
+          className="font-mono text-sm font-semibold tracking-tight text-foreground"
+        >
+          FINIX<span className="text-primary">ACADEMY</span>
         </Link>
+
         <nav className="flex items-center gap-5 text-sm text-muted-foreground">
-          <Link to="/finix" activeProps={{ className: "text-accent" }}>
-            Portal
-          </Link>
-          <Link to="/finix/certification" activeProps={{ className: "text-accent" }}>
-            Certifications
-          </Link>
-          <Link to="/finix/kpi" activeProps={{ className: "text-accent" }}>
-            KPI
-          </Link>
-          <Link to="/finix/survey" activeProps={{ className: "text-accent" }}>
-            Survey
-          </Link>
           {user ? (
-            <button
-              onClick={() => {
-                void signOut().then(() => navigate({ to: "/auth" }));
-              }}
-              className="rounded-lg border border-border px-3 py-1.5 text-xs text-foreground hover:bg-secondary"
-            >
-              Sign out
-            </button>
+            <>
+              <Link
+                to="/dashboard"
+                activeProps={{ className: "text-primary font-medium" }}
+              >
+                {t("Dashboard", "لوحة التحكم")}
+              </Link>
+              <Link
+                to="/dashboard/my-courses"
+                activeProps={{ className: "text-primary font-medium" }}
+              >
+                {t("My Courses", "دوراتي")}
+              </Link>
+              <Link
+                to="/dashboard/certifications"
+                activeProps={{ className: "text-primary font-medium" }}
+              >
+                {t("Certifications", "اعتمادات")}
+              </Link>
+              <Link
+                to="/dashboard/field-survey"
+                activeProps={{ className: "text-primary font-medium" }}
+              >
+                {t("Field Survey", "مسح الموقع")}
+              </Link>
+              <Link
+                to="/dashboard/kpi-evaluator"
+                activeProps={{ className: "text-primary font-medium" }}
+              >
+                {t("KPI Evaluator", "تقييم الأداء")}
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/finix"
+                activeProps={{ className: "text-primary font-medium" }}
+              >
+                Portal
+              </Link>
+              <Link
+                to="/finix/certification"
+                activeProps={{ className: "text-primary font-medium" }}
+              >
+                Certifications
+              </Link>
+              <Link
+                to="/finix/kpi"
+                activeProps={{ className: "text-primary font-medium" }}
+              >
+                KPI
+              </Link>
+              <Link
+                to="/finix/survey"
+                activeProps={{ className: "text-primary font-medium" }}
+              >
+                Survey
+              </Link>
+            </>
+          )}
+
+          <LanguageToggle />
+
+          {user ? (
+            <div className="flex items-center gap-3">
+              <button className="relative rounded-lg p-1 text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+                <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-primary border-2 border-background" />
+              </button>
+              <button className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground hover:bg-secondary transition-colors">
+                <span className="font-medium">{user.email?.split("@")[0] || "User"}</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m6 9 6 6 6-6"/>
+                </svg>
+              </button>
+              <button
+                onClick={() => {
+                  void signOut().then(() => navigate({ to: "/auth" }));
+                }}
+                className="rounded-lg border border-border px-3 py-1.5 text-xs text-foreground hover:bg-secondary transition-colors"
+              >
+                {t("Sign out", "تسجيل الخروج")}
+              </button>
+            </div>
           ) : (
             <Link
               to="/auth"
-              className="rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground"
+              className="rounded-lg bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
             >
-              Sign in
+              {t("Sign in", "تسجيل الدخول")}
             </Link>
           )}
         </nav>
@@ -180,10 +255,22 @@ function RootComponent() {
         <AuthProvider>
           <div className="min-h-screen bg-background font-sans text-foreground">
             <SiteHeader />
-            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
             <Outlet />
-            <footer className="border-t border-border px-6 py-10 text-center text-xs text-muted-foreground">
-              Finix Systems · Smart Home & Industrial Automation Training
+            <footer className="border-t border-border bg-background px-6 py-6">
+              <div className="flex flex-col items-center gap-2 text-center text-xs text-muted-foreground">
+                <p>© 2026 Finix Systems. All rights reserved.</p>
+                <a
+                  href="https://onhercules.app"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium text-muted-foreground hover:bg-secondary transition-colors"
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polygon points="13 2 3 14 12 14 14 18 21 10 19 8 13 2"/>
+                  </svg>
+                  Built with Hercules
+                </a>
+              </div>
             </footer>
           </div>
         </AuthProvider>
