@@ -177,34 +177,7 @@ function SiteHeader() {
                 {t("KPI Evaluator", "تقييم الأداء")}
               </Link>
             </>
-          ) : (
-            <>
-              <Link
-                to="/finix"
-                activeProps={{ className: "text-primary font-medium" }}
-              >
-                Portal
-              </Link>
-              <Link
-                to="/finix/certification"
-                activeProps={{ className: "text-primary font-medium" }}
-              >
-                Certifications
-              </Link>
-              <Link
-                to="/finix/kpi"
-                activeProps={{ className: "text-primary font-medium" }}
-              >
-                KPI
-              </Link>
-              <Link
-                to="/finix/survey"
-                activeProps={{ className: "text-primary font-medium" }}
-              >
-                Survey
-              </Link>
-            </>
-          )}
+          ) : null}
 
           <LanguageToggle />
 

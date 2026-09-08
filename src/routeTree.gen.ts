@@ -18,11 +18,6 @@ import { Route as DashboardCertificationsRouteImport } from './routes/dashboard/
 import { Route as DashboardFieldSurveyRouteImport } from './routes/dashboard/field-survey'
 import { Route as DashboardKpiEvaluatorRouteImport } from './routes/dashboard/kpi-evaluator'
 import { Route as DashboardMyCoursesRouteImport } from './routes/dashboard/my-courses'
-import { Route as FinixIndexRouteImport } from './routes/finix.index'
-import { Route as FinixSlugRouteImport } from './routes/finix.$slug'
-import { Route as FinixCertificationRouteImport } from './routes/finix.certification'
-import { Route as FinixKpiRouteImport } from './routes/finix.kpi'
-import { Route as FinixSurveyRouteImport } from './routes/finix.survey'
 import { Route as DashboardAuthoringIndexRouteImport } from './routes/dashboard/authoring/index'
 import { Route as DashboardAuthoringModuleIdRouteImport } from './routes/dashboard/authoring/$moduleId'
 import { Route as DashboardModuleSlugRouteImport } from './routes/dashboard/module.$slug'
@@ -73,31 +68,6 @@ const DashboardMyCoursesRoute = DashboardMyCoursesRouteImport.update({
   path: '/my-courses',
   getParentRoute: () => DashboardRoute,
 } as any)
-const FinixIndexRoute = FinixIndexRouteImport.update({
-  id: '/finix/',
-  path: '/finix/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FinixSlugRoute = FinixSlugRouteImport.update({
-  id: '/finix/$slug',
-  path: '/finix/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FinixCertificationRoute = FinixCertificationRouteImport.update({
-  id: '/finix/certification',
-  path: '/finix/certification',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FinixKpiRoute = FinixKpiRouteImport.update({
-  id: '/finix/kpi',
-  path: '/finix/kpi',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FinixSurveyRoute = FinixSurveyRouteImport.update({
-  id: '/finix/survey',
-  path: '/finix/survey',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DashboardAuthoringIndexRoute = DashboardAuthoringIndexRouteImport.update({
   id: '/authoring/',
   path: '/authoring/',
@@ -129,12 +99,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/field-survey': typeof DashboardFieldSurveyRoute
   '/dashboard/kpi-evaluator': typeof DashboardKpiEvaluatorRoute
   '/dashboard/my-courses': typeof DashboardMyCoursesRoute
-  '/finix/$slug': typeof FinixSlugRoute
-  '/finix/certification': typeof FinixCertificationRoute
-  '/finix/kpi': typeof FinixKpiRoute
-  '/finix/survey': typeof FinixSurveyRoute
   '/dashboard/': typeof DashboardIndexRoute
-  '/finix/': typeof FinixIndexRoute
   '/dashboard/authoring/$moduleId': typeof DashboardAuthoringModuleIdRoute
   '/dashboard/module/$slug': typeof DashboardModuleSlugRoute
   '/dashboard/authoring/': typeof DashboardAuthoringIndexRoute
@@ -148,12 +113,7 @@ export interface FileRoutesByTo {
   '/dashboard/field-survey': typeof DashboardFieldSurveyRoute
   '/dashboard/kpi-evaluator': typeof DashboardKpiEvaluatorRoute
   '/dashboard/my-courses': typeof DashboardMyCoursesRoute
-  '/finix/$slug': typeof FinixSlugRoute
-  '/finix/certification': typeof FinixCertificationRoute
-  '/finix/kpi': typeof FinixKpiRoute
-  '/finix/survey': typeof FinixSurveyRoute
   '/dashboard': typeof DashboardIndexRoute
-  '/finix': typeof FinixIndexRoute
   '/dashboard/authoring/$moduleId': typeof DashboardAuthoringModuleIdRoute
   '/dashboard/module/$slug': typeof DashboardModuleSlugRoute
   '/dashboard/authoring': typeof DashboardAuthoringIndexRoute
@@ -169,12 +129,7 @@ export interface FileRoutesById {
   '/dashboard/field-survey': typeof DashboardFieldSurveyRoute
   '/dashboard/kpi-evaluator': typeof DashboardKpiEvaluatorRoute
   '/dashboard/my-courses': typeof DashboardMyCoursesRoute
-  '/finix/$slug': typeof FinixSlugRoute
-  '/finix/certification': typeof FinixCertificationRoute
-  '/finix/kpi': typeof FinixKpiRoute
-  '/finix/survey': typeof FinixSurveyRoute
   '/dashboard/': typeof DashboardIndexRoute
-  '/finix/': typeof FinixIndexRoute
   '/dashboard/authoring/$moduleId': typeof DashboardAuthoringModuleIdRoute
   '/dashboard/module/$slug': typeof DashboardModuleSlugRoute
   '/dashboard/authoring/': typeof DashboardAuthoringIndexRoute
@@ -191,12 +146,7 @@ export interface FileRouteTypes {
     | '/dashboard/field-survey'
     | '/dashboard/kpi-evaluator'
     | '/dashboard/my-courses'
-    | '/finix/$slug'
-    | '/finix/certification'
-    | '/finix/kpi'
-    | '/finix/survey'
     | '/dashboard/'
-    | '/finix/'
     | '/dashboard/authoring/$moduleId'
     | '/dashboard/module/$slug'
     | '/dashboard/authoring/'
@@ -210,12 +160,7 @@ export interface FileRouteTypes {
     | '/dashboard/field-survey'
     | '/dashboard/kpi-evaluator'
     | '/dashboard/my-courses'
-    | '/finix/$slug'
-    | '/finix/certification'
-    | '/finix/kpi'
-    | '/finix/survey'
     | '/dashboard'
-    | '/finix'
     | '/dashboard/authoring/$moduleId'
     | '/dashboard/module/$slug'
     | '/dashboard/authoring'
@@ -230,12 +175,7 @@ export interface FileRouteTypes {
     | '/dashboard/field-survey'
     | '/dashboard/kpi-evaluator'
     | '/dashboard/my-courses'
-    | '/finix/$slug'
-    | '/finix/certification'
-    | '/finix/kpi'
-    | '/finix/survey'
     | '/dashboard/'
-    | '/finix/'
     | '/dashboard/authoring/$moduleId'
     | '/dashboard/module/$slug'
     | '/dashboard/authoring/'
@@ -246,11 +186,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
   DashboardRoute: typeof DashboardRouteWithChildren
-  FinixSlugRoute: typeof FinixSlugRoute
-  FinixCertificationRoute: typeof FinixCertificationRoute
-  FinixKpiRoute: typeof FinixKpiRoute
-  FinixSurveyRoute: typeof FinixSurveyRoute
-  FinixIndexRoute: typeof FinixIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -318,41 +253,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardMyCoursesRouteImport
       parentRoute: typeof DashboardRoute
     }
-    '/finix/': {
-      id: '/finix/'
-      path: '/finix'
-      fullPath: '/finix/'
-      preLoaderRoute: typeof FinixIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/finix/$slug': {
-      id: '/finix/$slug'
-      path: '/finix/$slug'
-      fullPath: '/finix/$slug'
-      preLoaderRoute: typeof FinixSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/finix/certification': {
-      id: '/finix/certification'
-      path: '/finix/certification'
-      fullPath: '/finix/certification'
-      preLoaderRoute: typeof FinixCertificationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/finix/kpi': {
-      id: '/finix/kpi'
-      path: '/finix/kpi'
-      fullPath: '/finix/kpi'
-      preLoaderRoute: typeof FinixKpiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/finix/survey': {
-      id: '/finix/survey'
-      path: '/finix/survey'
-      fullPath: '/finix/survey'
-      preLoaderRoute: typeof FinixSurveyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/dashboard/authoring/': {
       id: '/dashboard/authoring/'
       path: '/authoring'
@@ -418,11 +318,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
   DashboardRoute: DashboardRouteWithChildren,
-  FinixSlugRoute: FinixSlugRoute,
-  FinixCertificationRoute: FinixCertificationRoute,
-  FinixKpiRoute: FinixKpiRoute,
-  FinixSurveyRoute: FinixSurveyRoute,
-  FinixIndexRoute: FinixIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
