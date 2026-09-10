@@ -220,17 +220,6 @@ function AdminPanelPage() {
             <span className="text-sm font-medium text-foreground">Finix Academy</span>
           </div>
           <div className="flex items-center justify-between rounded-lg bg-background px-4 py-3">
-            <span className="text-sm text-muted-foreground">{t("Built with", "بُني باستخدام")}</span>
-            <a
-              href="https://onhercules.app"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground hover:bg-secondary"
-            >
-              Hercules
-            </a>
-          </div>
-          <div className="flex items-center justify-between rounded-lg bg-background px-4 py-3">
             <span className="text-sm text-muted-foreground">{t("Curriculum source", "مصدر المنهج")}</span>
             <span className="text-sm font-medium text-foreground">
               {curriculumLoading

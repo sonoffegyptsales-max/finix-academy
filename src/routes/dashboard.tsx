@@ -121,21 +121,6 @@ function DashboardLayout() {
             );
           })}
         </nav>
-
-        {/* Footer badge */}
-        <div className="absolute bottom-0 left-0 right-0 border-t border-sidebar-border bg-sidebar/90 px-4 py-2">
-          <a
-            href="https://onhercules.app"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-full border border-sidebar-border bg-sidebar-accent/50 px-3 py-1 text-[10px] font-medium text-sidebar-accent-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground transition-colors"
-          >
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="13 2 3 14 12 14 14 18 21 10 19 8 13 2"/>
-            </svg>
-            Built with Hercules
-          </a>
-        </div>
       </aside>
 
       {/* Main content */}
