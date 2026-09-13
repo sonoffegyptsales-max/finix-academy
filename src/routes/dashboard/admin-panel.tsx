@@ -4,6 +4,8 @@ import { Protected, useAuth } from "@/lib/auth";
 import { useLang } from "@/lib/language";
 import { supabase } from "@/integrations/supabase/client";
 import { useCurriculum } from "@/hooks/use-curriculum";
+import { createTrainee, listTrainees, deleteTrainee } from "@/lib/trainees.functions";
+import { sendPushToTrainees } from "@/lib/push.functions";
 
 export const Route = createFileRoute("/dashboard/admin-panel")({
   head: () => ({
@@ -23,6 +25,8 @@ interface UserRow {
   roles: string[];
 }
 
+type AdminTab = "overview" | "trainees" | "notify";
+
 function AdminPanelPage() {
   const { t } = useLang();
   const { isAdmin } = useAuth();
@@ -31,41 +35,43 @@ function AdminPanelPage() {
   const [usersLoading, setUsersLoading] = useState(true);
   const [certCount, setCertCount] = useState(0);
   const [attemptCount, setAttemptCount] = useState(0);
+  const [tab, setTab] = useState<AdminTab>("overview");
+
+  async function loadStats() {
+    try {
+      const [{ data: profiles }, { data: roles }, { count: certs }, { count: attempts }] =
+        await Promise.all([
+          supabase.from("profiles").select("id, email, full_name"),
+          supabase.from("user_roles").select("user_id, role"),
+          supabase.from("certificates").select("*", { count: "exact", head: true }),
+          supabase.from("quiz_attempts").select("*", { count: "exact", head: true }),
+        ]);
+
+      const rolesByUser = new Map<string, string[]>();
+      for (const r of roles ?? []) {
+        const list = rolesByUser.get(r.user_id) ?? [];
+        list.push(r.role);
+        rolesByUser.set(r.user_id, list);
+      }
+
+      setUsers(
+        (profiles ?? []).map((p) => ({
+          id: p.id,
+          email: p.email,
+          full_name: p.full_name,
+          roles: rolesByUser.get(p.id) ?? [],
+        })),
+      );
+      setCertCount(certs ?? 0);
+      setAttemptCount(attempts ?? 0);
+    } catch {
+      // Table not reachable yet — leave defaults.
+    } finally {
+      setUsersLoading(false);
+    }
+  }
 
   useEffect(() => {
-    async function loadStats() {
-      try {
-        const [{ data: profiles }, { data: roles }, { count: certs }, { count: attempts }] =
-          await Promise.all([
-            supabase.from("profiles").select("id, email, full_name"),
-            supabase.from("user_roles").select("user_id, role"),
-            supabase.from("certificates").select("*", { count: "exact", head: true }),
-            supabase.from("quiz_attempts").select("*", { count: "exact", head: true }),
-          ]);
-
-        const rolesByUser = new Map<string, string[]>();
-        for (const r of roles ?? []) {
-          const list = rolesByUser.get(r.user_id) ?? [];
-          list.push(r.role);
-          rolesByUser.set(r.user_id, list);
-        }
-
-        setUsers(
-          (profiles ?? []).map((p) => ({
-            id: p.id,
-            email: p.email,
-            full_name: p.full_name,
-            roles: rolesByUser.get(p.id) ?? [],
-          })),
-        );
-        setCertCount(certs ?? 0);
-        setAttemptCount(attempts ?? 0);
-      } catch {
-        // Table not reachable yet — leave defaults.
-      } finally {
-        setUsersLoading(false);
-      }
-    }
     void loadStats();
   }, []);
 
@@ -96,6 +102,12 @@ function AdminPanelPage() {
     },
   ];
 
+  const tabs: { id: AdminTab; label: string; adminOnly?: boolean }[] = [
+    { id: "overview", label: t("Overview", "نظرة عامة") },
+    { id: "trainees", label: t("Trainees", "المتدربون"), adminOnly: true },
+    { id: "notify", label: t("Notifications", "الإشعارات"), adminOnly: true },
+  ];
+
   return (
     <div className="p-6">
       <div className="mb-6 flex items-center justify-between">
@@ -112,6 +124,58 @@ function AdminPanelPage() {
         </span>
       </div>
 
+      {/* Tab bar */}
+      <div className="mb-6 flex gap-1 border-b border-border">
+        {tabs
+          .filter((tb) => !tb.adminOnly || isAdmin)
+          .map((tb) => (
+            <button
+              key={tb.id}
+              onClick={() => setTab(tb.id)}
+              className={`-mb-px border-b-2 px-4 py-2 text-sm font-medium transition-colors ${
+                tab === tb.id
+                  ? "border-primary text-primary"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {tb.label}
+            </button>
+          ))}
+      </div>
+
+      {tab === "overview" && (
+        <OverviewTab
+          statsCards={statsCards}
+          curriculumLoading={curriculumLoading}
+          modules={modules}
+          usersLoading={usersLoading}
+          users={users}
+        />
+      )}
+
+      {tab === "trainees" && isAdmin && <TraineesTab onChanged={loadStats} />}
+
+      {tab === "notify" && isAdmin && <NotifyTab />}
+    </div>
+  );
+}
+
+function OverviewTab({
+  statsCards,
+  curriculumLoading,
+  modules,
+  usersLoading,
+  users,
+}: {
+  statsCards: { label: string; value: string; sublabel: string; color: string }[];
+  curriculumLoading: boolean;
+  modules: any[];
+  usersLoading: boolean;
+  users: UserRow[];
+}) {
+  const { t } = useLang();
+  return (
+    <>
       <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {statsCards.map((stat) => (
           <div key={stat.label} className="overflow-hidden rounded-xl border border-border bg-card p-5 shadow-sm">
@@ -125,10 +189,7 @@ function AdminPanelPage() {
         ))}
       </div>
 
-      {/* Curriculum management */}
-      <h2 className="mb-4 text-lg font-semibold text-foreground">
-        {t("Curriculum", "المنهج")}
-      </h2>
+      <h2 className="mb-4 text-lg font-semibold text-foreground">{t("Curriculum", "المنهج")}</h2>
       <div className="mb-8 overflow-hidden rounded-xl border border-border bg-card">
         {curriculumLoading ? (
           <p className="p-6 text-sm text-muted-foreground">{t("Loading…", "جارٍ التحميل…")}</p>
@@ -154,18 +215,9 @@ function AdminPanelPage() {
             ))}
           </div>
         )}
-        <div className="border-t border-border bg-muted/30 px-4 py-3 text-xs text-muted-foreground">
-          {t(
-            "Full course/lesson/quiz authoring UI is on the roadmap — for now, edit content directly via the Supabase table editor or SQL.",
-            "واجهة تحرير الدورات والدروس والاختبارات الكاملة قيد التطوير — حاليًا، عدّل المحتوى مباشرة عبر محرر جداول Supabase أو SQL.",
-          )}
-        </div>
       </div>
 
-      {/* Users */}
-      <h2 className="mb-4 text-lg font-semibold text-foreground">
-        {t("Users", "المستخدمون")}
-      </h2>
+      <h2 className="mb-4 text-lg font-semibold text-foreground">{t("Users", "المستخدمون")}</h2>
       <div className="mb-8 overflow-hidden rounded-xl border border-border bg-card">
         {usersLoading ? (
           <p className="p-6 text-sm text-muted-foreground">{t("Loading…", "جارٍ التحميل…")}</p>
@@ -208,29 +260,273 @@ function AdminPanelPage() {
           </div>
         )}
       </div>
+    </>
+  );
+}
 
-      {/* System info */}
-      <div className="overflow-hidden rounded-xl border border-border bg-card p-6">
+interface TraineeRow {
+  id: string;
+  email: string;
+  full_name: string | null;
+}
+
+function TraineesTab({ onChanged }: { onChanged: () => void }) {
+  const { t } = useLang();
+  const [trainees, setTrainees] = useState<TraineeRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [password, setPassword] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<{ kind: "ok" | "err"; text: string } | null>(null);
+
+  async function load() {
+    setLoading(true);
+    try {
+      const res = await listTrainees();
+      setTrainees(res.trainees ?? []);
+    } catch (e: any) {
+      setMsg({ kind: "err", text: e?.message ?? "Failed to load trainees." });
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    void load();
+  }, []);
+
+  async function handleCreate(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setMsg(null);
+    try {
+      await createTrainee({ data: { email: email.trim(), password, fullName: fullName.trim() } });
+      setMsg({ kind: "ok", text: t("Trainee created.", "تم إنشاء المتدرب.") });
+      setEmail("");
+      setFullName("");
+      setPassword("");
+      await load();
+      onChanged();
+    } catch (e: any) {
+      setMsg({ kind: "err", text: e?.message ?? "Failed to create trainee." });
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function handleDelete(id: string) {
+    if (!confirm(t("Delete this trainee account permanently?", "حذف حساب هذا المتدرب نهائيًا؟"))) return;
+    try {
+      await deleteTrainee({ data: { userId: id } });
+      await load();
+      onChanged();
+    } catch (e: any) {
+      setMsg({ kind: "err", text: e?.message ?? "Failed to delete trainee." });
+    }
+  }
+
+  return (
+    <div className="grid gap-8 lg:grid-cols-[380px_1fr]">
+      {/* Create form */}
+      <div>
         <h2 className="mb-4 text-lg font-semibold text-foreground">
-          {t("System Information", "معلومات النظام")}
+          {t("Create Trainee Account", "إنشاء حساب متدرب")}
         </h2>
-        <div className="grid gap-3 sm:grid-cols-2">
-          <div className="flex items-center justify-between rounded-lg bg-background px-4 py-3">
-            <span className="text-sm text-muted-foreground">{t("Platform", "المنصة")}</span>
-            <span className="text-sm font-medium text-foreground">Finix Academy</span>
+        <form
+          onSubmit={handleCreate}
+          className="space-y-4 rounded-xl border border-border bg-card p-5 shadow-sm"
+        >
+          <div>
+            <label className="mb-1 block text-sm font-medium text-foreground">
+              {t("Full name", "الاسم الكامل")}
+            </label>
+            <input
+              type="text"
+              required
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+              placeholder={t("e.g. Ahmed Hassan", "مثال: أحمد حسن")}
+            />
           </div>
-          <div className="flex items-center justify-between rounded-lg bg-background px-4 py-3">
-            <span className="text-sm text-muted-foreground">{t("Curriculum source", "مصدر المنهج")}</span>
-            <span className="text-sm font-medium text-foreground">
-              {curriculumLoading
-                ? "…"
-                : modules.length > 0
-                  ? t("Live (Supabase)", "مباشر (Supabase)")
-                  : t("Fallback (bundled)", "احتياطي (مدمج)")}
-            </span>
+          <div>
+            <label className="mb-1 block text-sm font-medium text-foreground">
+              {t("Email", "البريد الإلكتروني")}
+            </label>
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+              placeholder="trainee@example.com"
+            />
           </div>
+          <div>
+            <label className="mb-1 block text-sm font-medium text-foreground">
+              {t("Temporary password", "كلمة مرور مؤقتة")}
+            </label>
+            <input
+              type="text"
+              required
+              minLength={6}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+              placeholder={t("At least 6 characters", "6 أحرف على الأقل")}
+            />
+            <p className="mt-1 text-xs text-muted-foreground">
+              {t(
+                "Share this with the trainee so they can sign in.",
+                "شارك هذه مع المتدرب لتسجيل الدخول.",
+              )}
+            </p>
+          </div>
+          <button
+            type="submit"
+            disabled={busy}
+            className="w-full rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60"
+          >
+            {busy ? t("Creating…", "جارٍ الإنشاء…") : t("Create Trainee", "إنشاء متدرب")}
+          </button>
+          {msg && (
+            <p className={`text-sm ${msg.kind === "ok" ? "text-green-600" : "text-destructive"}`}>
+              {msg.text}
+            </p>
+          )}
+        </form>
+      </div>
+
+      {/* Trainee list */}
+      <div>
+        <h2 className="mb-4 text-lg font-semibold text-foreground">
+          {t("Trainees", "المتدربون")}{" "}
+          <span className="text-sm font-normal text-muted-foreground">({trainees.length})</span>
+        </h2>
+        <div className="overflow-hidden rounded-xl border border-border bg-card">
+          {loading ? (
+            <p className="p-6 text-sm text-muted-foreground">{t("Loading…", "جارٍ التحميل…")}</p>
+          ) : trainees.length === 0 ? (
+            <p className="p-6 text-sm text-muted-foreground">
+              {t("No trainees yet. Create one on the left.", "لا يوجد متدربون بعد. أنشئ واحدًا على اليسار.")}
+            </p>
+          ) : (
+            <div className="divide-y divide-border">
+              {trainees.map((tr) => (
+                <div key={tr.id} className="flex items-center justify-between gap-4 p-4">
+                  <div>
+                    <p className="text-sm font-medium text-foreground">{tr.full_name || tr.email}</p>
+                    <p className="text-xs text-muted-foreground">{tr.email}</p>
+                  </div>
+                  <button
+                    onClick={() => handleDelete(tr.id)}
+                    className="rounded-lg border border-destructive/30 px-3 py-1 text-xs font-medium text-destructive hover:bg-destructive/10"
+                  >
+                    {t("Delete", "حذف")}
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
+    </div>
+  );
+}
+
+function NotifyTab() {
+  const { t } = useLang();
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const [url, setUrl] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [result, setResult] = useState<string | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+
+  async function handleSend(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setResult(null);
+    setErr(null);
+    try {
+      const res: any = await sendPushToTrainees({
+        data: { title: title.trim(), body: body.trim(), url: url.trim() || undefined },
+      });
+      setResult(
+        t(
+          `Sent to ${res.sent} device(s) across ${res.recipients} trainee(s). ${res.failed} failed.`,
+          `أُرسل إلى ${res.sent} جهاز عبر ${res.recipients} متدرب. فشل ${res.failed}.`,
+        ),
+      );
+      setTitle("");
+      setBody("");
+      setUrl("");
+    } catch (e: any) {
+      setErr(e?.message ?? "Failed to send notification.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="max-w-xl">
+      <h2 className="mb-2 text-lg font-semibold text-foreground">
+        {t("Send Push Notification to Trainees", "إرسال إشعار لكل المتدربين")}
+      </h2>
+      <p className="mb-4 text-sm text-muted-foreground">
+        {t(
+          "This sends a browser push notification to every trainee who has enabled notifications, and logs it in their in-app inbox.",
+          "يرسل هذا إشعار متصفح لكل متدرب فعّل الإشعارات، ويسجله في صندوق الوارد داخل التطبيق.",
+        )}
+      </p>
+      <form onSubmit={handleSend} className="space-y-4 rounded-xl border border-border bg-card p-5 shadow-sm">
+        <div>
+          <label className="mb-1 block text-sm font-medium text-foreground">{t("Title", "العنوان")}</label>
+          <input
+            type="text"
+            required
+            maxLength={120}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+            placeholder={t("e.g. New lesson available", "مثال: درس جديد متاح")}
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-sm font-medium text-foreground">{t("Message", "الرسالة")}</label>
+          <textarea
+            required
+            maxLength={500}
+            rows={3}
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+            className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+            placeholder={t("What do you want to tell your trainees?", "ماذا تريد أن تخبر متدربيك؟")}
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-sm font-medium text-foreground">
+            {t("Link (optional)", "رابط (اختياري)")}
+          </label>
+          <input
+            type="text"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+            placeholder="/dashboard/my-courses"
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={busy}
+          className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60"
+        >
+          {busy ? t("Sending…", "جارٍ الإرسال…") : t("Send to all trainees", "إرسال لكل المتدربين")}
+        </button>
+        {result && <p className="text-sm text-green-600">{result}</p>}
+        {err && <p className="text-sm text-destructive">{err}</p>}
+      </form>
     </div>
   );
 }
