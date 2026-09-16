@@ -6,6 +6,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { useCurriculum } from "@/hooks/use-curriculum";
 import { createTrainee, listTrainees, deleteTrainee } from "@/lib/trainees.functions";
 import { sendPushToTrainees } from "@/lib/push.functions";
+import {
+  issueAccessCode,
+  listDeviceBindings,
+  resetDeviceBinding,
+} from "@/lib/device.functions";
 
 export const Route = createFileRoute("/dashboard/admin-panel")({
   head: () => ({
@@ -25,7 +30,7 @@ interface UserRow {
   roles: string[];
 }
 
-type AdminTab = "overview" | "trainees" | "notify";
+type AdminTab = "overview" | "trainees" | "devices" | "notify";
 
 function AdminPanelPage() {
   const { t } = useLang();
@@ -105,6 +110,7 @@ function AdminPanelPage() {
   const tabs: { id: AdminTab; label: string; adminOnly?: boolean }[] = [
     { id: "overview", label: t("Overview", "نظرة عامة") },
     { id: "trainees", label: t("Trainees", "المتدربون"), adminOnly: true },
+    { id: "devices", label: t("Devices", "الأجهزة"), adminOnly: true },
     { id: "notify", label: t("Notifications", "الإشعارات"), adminOnly: true },
   ];
 
@@ -154,6 +160,8 @@ function AdminPanelPage() {
       )}
 
       {tab === "trainees" && isAdmin && <TraineesTab onChanged={loadStats} />}
+
+      {tab === "devices" && isAdmin && <DevicesTab />}
 
       {tab === "notify" && isAdmin && <NotifyTab />}
     </div>
@@ -279,6 +287,17 @@ function TraineesTab({ onChanged }: { onChanged: () => void }) {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<{ kind: "ok" | "err"; text: string } | null>(null);
+  const [codes, setCodes] = useState<Record<string, string>>({});
+
+  async function handleIssueCode(userId: string) {
+    setMsg(null);
+    try {
+      const res = await issueAccessCode({ data: { userId } });
+      setCodes((c) => ({ ...c, [userId]: res.code }));
+    } catch (e: any) {
+      setMsg({ kind: "err", text: e?.message ?? "Could not issue a code." });
+    }
+  }
 
   async function load() {
     setLoading(true);
@@ -418,13 +437,26 @@ function TraineesTab({ onChanged }: { onChanged: () => void }) {
                   <div>
                     <p className="text-sm font-medium text-foreground">{tr.full_name || tr.email}</p>
                     <p className="text-xs text-muted-foreground">{tr.email}</p>
+                    {codes[tr.id] && (
+                      <p className="mt-1 font-mono text-sm font-semibold tracking-widest text-primary">
+                        {codes[tr.id]}
+                      </p>
+                    )}
                   </div>
-                  <button
-                    onClick={() => handleDelete(tr.id)}
-                    className="rounded-lg border border-destructive/30 px-3 py-1 text-xs font-medium text-destructive hover:bg-destructive/10"
-                  >
-                    {t("Delete", "حذف")}
-                  </button>
+                  <div className="flex shrink-0 gap-2">
+                    <button
+                      onClick={() => handleIssueCode(tr.id)}
+                      className="rounded-lg border border-border px-3 py-1 text-xs font-medium text-foreground hover:bg-secondary"
+                    >
+                      {t("Get code", "إصدار رمز")}
+                    </button>
+                    <button
+                      onClick={() => handleDelete(tr.id)}
+                      className="rounded-lg border border-destructive/30 px-3 py-1 text-xs font-medium text-destructive hover:bg-destructive/10"
+                    >
+                      {t("Delete", "حذف")}
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -527,6 +559,130 @@ function NotifyTab() {
         {result && <p className="text-sm text-green-600">{result}</p>}
         {err && <p className="text-sm text-destructive">{err}</p>}
       </form>
+    </div>
+  );
+}
+
+interface DeviceBinding {
+  id: string;
+  userId: string;
+  email: string;
+  fullName: string | null;
+  label: string | null;
+  boundAt: string;
+  lastSeenAt: string;
+}
+
+function DevicesTab() {
+  const { t } = useLang();
+  const [bindings, setBindings] = useState<DeviceBinding[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState<string | null>(null);
+
+  async function load() {
+    setLoading(true);
+    setErr(null);
+    try {
+      const res = await listDeviceBindings();
+      setBindings(res.bindings as DeviceBinding[]);
+    } catch (e: any) {
+      setErr(e?.message ?? "Could not load device bindings.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    void load();
+  }, []);
+
+  async function handleReset(userId: string) {
+    if (
+      !window.confirm(
+        t(
+          "Release this trainee's device? They will be able to register a new device on their next sign-in.",
+          "هل تريد تحرير جهاز هذا المتدرب؟ سيتمكن من تسجيل جهاز جديد عند تسجيل الدخول التالي.",
+        ),
+      )
+    ) {
+      return;
+    }
+    try {
+      await resetDeviceBinding({ data: { userId } });
+      await load();
+    } catch (e: any) {
+      setErr(e?.message ?? "Could not reset that device.");
+    }
+  }
+
+  const fmt = (iso: string) => {
+    try {
+      return new Date(iso).toLocaleString();
+    } catch {
+      return iso;
+    }
+  };
+
+  return (
+    <div>
+      <div className="mb-4">
+        <h2 className="text-lg font-semibold text-foreground">
+          {t("Registered devices", "الأجهزة المسجلة")}
+        </h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          {t(
+            "Each trainee account locks to the first device it signs in from. Lesson content will not open anywhere else. Release a device if a trainee changes phone or computer.",
+            "يرتبط حساب كل متدرب بأول جهاز يسجل الدخول منه. لن يتم فتح محتوى الدروس على أي جهاز آخر. حرر الجهاز إذا غيّر المتدرب هاتفه أو حاسوبه.",
+          )}
+        </p>
+      </div>
+
+      {err && (
+        <p className="mb-4 rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2 text-sm text-destructive">
+          {err}
+        </p>
+      )}
+
+      <div className="overflow-hidden rounded-xl border border-border bg-card">
+        {loading ? (
+          <p className="p-6 text-sm text-muted-foreground">{t("Loading…", "جارٍ التحميل…")}</p>
+        ) : bindings.length === 0 ? (
+          <p className="p-6 text-sm text-muted-foreground">
+            {t(
+              "No devices registered yet. A device is recorded the first time a trainee signs in.",
+              "لا توجد أجهزة مسجلة بعد. يُسجل الجهاز عند أول تسجيل دخول للمتدرب.",
+            )}
+          </p>
+        ) : (
+          <div className="divide-y divide-border">
+            {bindings.map((b) => (
+              <div key={b.id} className="flex items-center justify-between gap-4 p-4">
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-medium text-foreground">
+                    {b.fullName || b.email}
+                  </p>
+                  <p className="truncate text-xs text-muted-foreground">{b.email}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    <span className="font-medium text-foreground">
+                      {b.label || t("Unknown device", "جهاز غير معروف")}
+                    </span>
+                    {" · "}
+                    {t("bound", "مرتبط")} {fmt(b.boundAt)}
+                    {" · "}
+                    {t("last seen", "آخر ظهور")} {fmt(b.lastSeenAt)}
+                  </p>
+                </div>
+                <button
+                  onClick={() => handleReset(b.userId)}
+                  className="shrink-0 rounded-lg border border-border px-3 py-1 text-xs font-medium text-foreground hover:bg-secondary"
+                >
+                  {t("Release device", "تحرير الجهاز")}
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
