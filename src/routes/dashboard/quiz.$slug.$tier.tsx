@@ -4,6 +4,7 @@ import { Protected } from "@/lib/auth";
 import { useLang } from "@/lib/language";
 import { useCurriculum } from "@/hooks/use-curriculum";
 import { useQuiz, useSubmitQuiz, type QuizResult } from "@/hooks/use-quiz";
+import { ProtectedContent } from "@/components/ProtectedContent";
 
 export const Route = createFileRoute("/dashboard/quiz/$slug/$tier")({
   head: () => ({
@@ -149,43 +150,45 @@ function QuizPage() {
         )}
       </p>
 
-      <div className="mt-8 space-y-6">
-        {questions.map((q, i) => (
-          <div key={q.id} className="overflow-hidden rounded-xl border border-border bg-card p-5">
-            <p className="font-medium text-foreground">
-              <span className="mr-2 font-mono text-xs text-muted-foreground">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              {t(q.question, q.question_ar)}
-            </p>
-            <div className="mt-4 space-y-2">
-              {q.options.map((opt) => {
-                const selected = answers[q.id] === opt.id;
-                return (
-                  <button
-                    key={opt.id}
-                    onClick={() => setAnswers((prev) => ({ ...prev, [q.id]: opt.id }))}
-                    className={`flex w-full items-center gap-3 rounded-lg border px-4 py-2.5 text-left text-sm transition-colors ${
-                      selected
-                        ? "border-primary bg-primary/5 text-foreground"
-                        : "border-border text-muted-foreground hover:border-primary/50"
-                    }`}
-                  >
-                    <span
-                      className={`flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full border-2 ${
-                        selected ? "border-primary bg-primary" : "border-input"
+      <ProtectedContent>
+        <div className="mt-8 space-y-6">
+          {questions.map((q, i) => (
+            <div key={q.id} className="overflow-hidden rounded-xl border border-border bg-card p-5">
+              <p className="font-medium text-foreground">
+                <span className="mr-2 font-mono text-xs text-muted-foreground">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                {t(q.question, q.question_ar)}
+              </p>
+              <div className="mt-4 space-y-2">
+                {q.options.map((opt) => {
+                  const selected = answers[q.id] === opt.id;
+                  return (
+                    <button
+                      key={opt.id}
+                      onClick={() => setAnswers((prev) => ({ ...prev, [q.id]: opt.id }))}
+                      className={`flex w-full items-center gap-3 rounded-lg border px-4 py-2.5 text-left text-sm transition-colors ${
+                        selected
+                          ? "border-primary bg-primary/5 text-foreground"
+                          : "border-border text-muted-foreground hover:border-primary/50"
                       }`}
                     >
-                      {selected && <span className="h-1.5 w-1.5 rounded-full bg-primary-foreground" />}
-                    </span>
-                    {t(opt.option_text, opt.option_text_ar)}
-                  </button>
-                );
-              })}
+                      <span
+                        className={`flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full border-2 ${
+                          selected ? "border-primary bg-primary" : "border-input"
+                        }`}
+                      >
+                        {selected && <span className="h-1.5 w-1.5 rounded-full bg-primary-foreground" />}
+                      </span>
+                      {t(opt.option_text, opt.option_text_ar)}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </ProtectedContent>
 
       <div className="mt-8 flex items-center justify-between">
         <p className="text-sm text-muted-foreground">

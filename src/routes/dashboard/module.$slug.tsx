@@ -3,6 +3,7 @@ import { Protected } from "@/lib/auth";
 import { useLang } from "@/lib/language";
 import { useCurriculum } from "@/hooks/use-curriculum";
 import { useEnrollments } from "@/hooks/use-enrollments";
+import { ProtectedContent } from "@/components/ProtectedContent";
 
 export const Route = createFileRoute("/dashboard/module/$slug")({
   head: () => ({
@@ -81,33 +82,41 @@ function ModulePage() {
         <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
           {t("Lessons", "الدروس")}
         </h2>
-        <ol className="mt-3 divide-y divide-border rounded-xl border border-border bg-card">
-          {mod.lessons.map((lesson, i) => (
-            <li key={lesson.id} className="p-4">
-              <div className="flex items-center gap-3">
-                <span className="font-mono text-xs text-muted-foreground">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className="text-sm text-foreground">{t(lesson.title, lesson.title_ar)}</span>
-              </div>
-              {lesson.content || lesson.content_ar ? (
-                <p className="mt-2 ml-8 text-sm leading-relaxed text-muted-foreground">
-                  {t(lesson.content ?? "", lesson.content_ar ?? "")}
-                </p>
-              ) : null}
-              {lesson.video_url && (
-                <a
-                  href={lesson.video_url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-2 ml-8 inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline"
-                >
-                  {t("Watch video ↗", "مشاهدة الفيديو ↗")}
-                </a>
-              )}
-            </li>
-          ))}
-        </ol>
+        <ProtectedContent>
+          <ol className="mt-3 divide-y divide-border rounded-xl border border-border bg-card">
+            {mod.lessons.map((lesson, i) => (
+              <li key={lesson.id} className="p-4">
+                <div className="flex items-center gap-3">
+                  <span className="font-mono text-xs text-muted-foreground">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-sm text-foreground">{t(lesson.title, lesson.title_ar)}</span>
+                </div>
+                {lesson.content || lesson.content_ar ? (
+                  <p className="mt-2 ml-8 text-sm leading-relaxed text-muted-foreground">
+                    {t(lesson.content ?? "", lesson.content_ar ?? "")}
+                  </p>
+                ) : null}
+                {lesson.video_url && (
+                  <a
+                    href={lesson.video_url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-2 ml-8 inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline"
+                  >
+                    {t("Watch video ↗", "مشاهدة الفيديو ↗")}
+                  </a>
+                )}
+              </li>
+            ))}
+          </ol>
+        </ProtectedContent>
+        <p className="mt-3 text-xs text-muted-foreground">
+          {t(
+            "This material is licensed to your account only. Each page is watermarked with your identity; sharing or redistributing it is traceable.",
+            "هذه المادة مرخصة لحسابك فقط. كل صفحة تحمل علامة مائية بهويتك؛ ومشاركتها أو إعادة توزيعها قابل للتتبع.",
+          )}
+        </p>
         {mod.external_url && (
           <a
             href={mod.external_url}
