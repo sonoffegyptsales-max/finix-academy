@@ -2,6 +2,8 @@ import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Protected } from "@/lib/auth";
 import { useLang } from "@/lib/language";
+import { LessonMediaEditor } from "@/components/LessonMediaEditor";
+import { useLessonMedia, type LessonMediaRow } from "@/hooks/use-lesson-media";
 import {
   useAuthoring,
   fetchModuleForAuthoring,
@@ -37,7 +39,18 @@ function ModuleEditorPage() {
   const [options, setOptions] = useState<QuizOptionRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTier, setActiveTier] = useState<"bronze" | "silver" | "gold">("bronze");
-  const [newLesson, setNewLesson] = useState({ title: "", title_ar: "", content: "", content_ar: "", video_url: "" });
+  const [newLesson, setNewLesson] = useState({ title: "", title_ar: "", content: "", content_ar: "" });
+  const [media, setMedia] = useState<LessonMediaRow[]>([]);
+  const { listForLessons } = useLessonMedia();
+
+  async function loadMedia(lessonRows: LessonRow[]) {
+    try {
+      const rows = await listForLessons(lessonRows.map((l) => l.id));
+      setMedia(rows);
+    } catch {
+      setMedia([]);
+    }
+  }
 
   async function load() {
     setLoading(true);
@@ -47,6 +60,7 @@ function ModuleEditorPage() {
     setQuizzes(data.quizzes);
     setQuestions(data.questions);
     setOptions(data.options);
+    await loadMedia(data.lessons);
     setLoading(false);
   }
 
@@ -63,11 +77,19 @@ function ModuleEditorPage() {
       title_ar: newLesson.title_ar || newLesson.title,
       content: newLesson.content || null,
       content_ar: newLesson.content_ar || null,
-      video_url: newLesson.video_url || null,
+      video_url: null,
       position: lessons.length + 1,
     });
-    setNewLesson({ title: "", title_ar: "", content: "", content_ar: "", video_url: "" });
+    setNewLesson({ title: "", title_ar: "", content: "", content_ar: "" });
     await load();
+  }
+
+  async function handleSaveLessonField(
+    id: string,
+    field: "title" | "title_ar" | "content" | "content_ar",
+    value: string,
+  ) {
+    await authoring.updateLesson(id, { [field]: value || null });
   }
 
   async function handleDeleteLesson(id: string) {
@@ -204,21 +226,55 @@ function ModuleEditorPage() {
       {/* Lessons */}
       <div className="mb-8 rounded-xl border border-border bg-card p-6">
         <h2 className="mb-4 text-lg font-semibold text-foreground">{t("Lessons", "الدروس")}</h2>
-        <div className="mb-4 divide-y divide-border">
-          {lessons.map((l) => (
-            <div key={l.id} className="flex items-center justify-between gap-4 py-3">
-              <div>
-                <p className="text-sm font-medium text-foreground">{l.title}</p>
-                <p className="text-xs text-muted-foreground" dir="rtl">
-                  {l.title_ar}
-                </p>
+        <div className="mb-4 space-y-4">
+          {lessons.map((l, i) => (
+            <div key={l.id} className="rounded-lg border border-border p-4">
+              <div className="mb-3 flex items-center justify-between">
+                <span className="font-mono text-xs text-muted-foreground">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <button
+                  onClick={() => handleDeleteLesson(l.id)}
+                  className="text-xs text-destructive hover:underline"
+                >
+                  {t("Delete lesson", "حذف الدرس")}
+                </button>
               </div>
-              <button
-                onClick={() => handleDeleteLesson(l.id)}
-                className="text-xs text-destructive hover:underline"
-              >
-                {t("Delete", "حذف")}
-              </button>
+              <div className="grid gap-2 sm:grid-cols-2">
+                <input
+                  defaultValue={l.title}
+                  onBlur={(e) => handleSaveLessonField(l.id, "title", e.target.value)}
+                  placeholder={t("Lesson title (English)", "عنوان الدرس (إنجليزي)")}
+                  className="rounded-lg border border-border bg-background px-3 py-2 text-sm"
+                />
+                <input
+                  dir="rtl"
+                  defaultValue={l.title_ar}
+                  onBlur={(e) => handleSaveLessonField(l.id, "title_ar", e.target.value)}
+                  placeholder={t("Lesson title (Arabic)", "عنوان الدرس (عربي)")}
+                  className="rounded-lg border border-border bg-background px-3 py-2 text-sm"
+                />
+                <textarea
+                  defaultValue={l.content ?? ""}
+                  onBlur={(e) => handleSaveLessonField(l.id, "content", e.target.value)}
+                  placeholder={t("Content (English)", "المحتوى (إنجليزي)")}
+                  rows={4}
+                  className="rounded-lg border border-border bg-background px-3 py-2 text-sm sm:col-span-2"
+                />
+                <textarea
+                  dir="rtl"
+                  defaultValue={l.content_ar ?? ""}
+                  onBlur={(e) => handleSaveLessonField(l.id, "content_ar", e.target.value)}
+                  placeholder={t("Content (Arabic)", "المحتوى (عربي)")}
+                  rows={4}
+                  className="rounded-lg border border-border bg-background px-3 py-2 text-sm sm:col-span-2"
+                />
+              </div>
+              <LessonMediaEditor
+                lessonId={l.id}
+                media={media.filter((m) => m.lesson_id === l.id)}
+                onChanged={() => void loadMedia(lessons)}
+              />
             </div>
           ))}
           {lessons.length === 0 && (
@@ -242,17 +298,11 @@ function ModuleEditorPage() {
               onChange={(e) => setNewLesson((f) => ({ ...f, title_ar: e.target.value }))}
               className="rounded-lg border border-border bg-background px-3 py-2 text-sm"
             />
-            <input
-              placeholder={t("Video URL (optional)", "رابط الفيديو (اختياري)")}
-              value={newLesson.video_url}
-              onChange={(e) => setNewLesson((f) => ({ ...f, video_url: e.target.value }))}
-              className="rounded-lg border border-border bg-background px-3 py-2 text-sm sm:col-span-2"
-            />
             <textarea
               placeholder={t("Content (English, optional)", "المحتوى (إنجليزي، اختياري)")}
               value={newLesson.content}
               onChange={(e) => setNewLesson((f) => ({ ...f, content: e.target.value }))}
-              rows={2}
+              rows={3}
               className="rounded-lg border border-border bg-background px-3 py-2 text-sm sm:col-span-2"
             />
             <textarea
@@ -260,7 +310,7 @@ function ModuleEditorPage() {
               placeholder={t("Content (Arabic, optional)", "المحتوى (عربي، اختياري)")}
               value={newLesson.content_ar}
               onChange={(e) => setNewLesson((f) => ({ ...f, content_ar: e.target.value }))}
-              rows={2}
+              rows={3}
               className="rounded-lg border border-border bg-background px-3 py-2 text-sm sm:col-span-2"
             />
           </div>
@@ -271,6 +321,12 @@ function ModuleEditorPage() {
           >
             {t("Add Lesson", "إضافة الدرس")}
           </button>
+          <p className="mt-2 text-xs text-muted-foreground">
+            {t(
+              "Create the lesson first, then upload its images, video and audio from the card above.",
+              "أنشئ الدرس أولًا، ثم ارفع صوره وفيديوهاته وملفاته الصوتية من البطاقة أعلاه.",
+            )}
+          </p>
         </div>
       </div>
 

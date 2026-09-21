@@ -42,7 +42,7 @@ function fallbackCurriculum(): { tracks: DbTrack[]; modules: CurriculumModule[] 
     title_ar: m.titleAr,
     summary: m.summary,
     summary_ar: m.summaryAr,
-    external_url: m.url,
+    external_url: null,
     position: i + 1,
     published: true,
     created_at: new Date().toISOString(),

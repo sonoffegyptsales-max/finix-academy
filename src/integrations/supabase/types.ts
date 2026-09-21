@@ -299,6 +299,39 @@ export type Database = {
         }
         Relationships: []
       }
+      lesson_media: {
+        Row: {
+          id: string
+          lesson_id: string
+          kind: string
+          storage_path: string
+          caption: string | null
+          caption_ar: string | null
+          position: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          lesson_id: string
+          kind: string
+          storage_path: string
+          caption?: string | null
+          caption_ar?: string | null
+          position?: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          lesson_id?: string
+          kind?: string
+          storage_path?: string
+          caption?: string | null
+          caption_ar?: string | null
+          position?: number
+          created_at?: string
+        }
+        Relationships: []
+      }
       quizzes: {
         Row: {
           id: string

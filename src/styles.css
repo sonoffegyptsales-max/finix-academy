@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Design system definition — matches smartacademy.onhercules.app theme.
+ * Design system definition — Finix Academy theme.
  *
  * Light theme: white background, blue primary (#3B82F6), slate-900 dark section.
  * Dark theme: slate-950 background.
@@ -201,6 +201,14 @@
 .finix-protected img {
   pointer-events: none;
   -webkit-user-drag: none;
+}
+
+/* Media players need pointer events so trainees can play/pause/seek.
+   Download is disabled per-element via controlsList="nodownload", and the
+   source is a short-lived signed URL, so allowing clicks costs nothing. */
+.finix-protected video,
+.finix-protected audio {
+  pointer-events: auto;
 }
 
 /* Kill the print / "Save as PDF" route for protected material. */

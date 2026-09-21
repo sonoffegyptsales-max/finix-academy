@@ -1,15 +1,13 @@
-/**
- * Finix Academy — Smart Home & Industrial Automation Training.
+/** Finix Academy — Smart Home & Industrial Automation Training.
  *
- * Real curriculum, mirrored from smartacademy.onhercules.app (captured Sep 2026):
- * 10 modules across 4 tracks, each module ending with Bronze / Silver / Gold
- * quizzes (80%+ passes earn the matching certification), plus a five-stage
- * site survey form and a technician KPI evaluation tool. Lesson playback stays
- * in the Finix Academy app — every module links out to it, like the Sonoff
- * Academy integration.
+ * Static fallback curriculum: 10 modules across 4 tracks, each module ending
+ * with Bronze / Silver / Gold quizzes. Lesson content lives in the Supabase
+ * `lessons` table; this file carries titles, structure and track metadata so
+ * the app can render a usable module list before migrations are applied.
+ * The old smartacademy.onhercules.app external links were removed — the module
+ * page now shows the full bilingual lesson content inline inside ProtectedContent
+ * instead of linking out to another app.
  */
-
-const BASE = "https://smartacademy.onhercules.app/en/courses";
 
 export type FinixTrackId =
   | "hardware-foundations"
@@ -26,8 +24,6 @@ export interface FinixModule {
   slug: string;
   code: string;
   track: FinixTrackId;
-  /** Lesson page inside the Finix Academy app. */
-  url: string;
   title: string;
   titleAr: string;
   summary: string;
@@ -85,7 +81,6 @@ export const finixModules: FinixModule[] = [
     slug: "electrical-fundamentals",
     code: "M01",
     track: "hardware-foundations",
-    url: `${BASE}/jn74pvjmdnpnydn1zqfhsb2nms8d3g4x`,
     title: "Electrical Fundamentals for Automation Engineers",
     titleAr: "أساسيات الكهرباء لمهندسي الأتمتة",
     summary:
@@ -119,7 +114,6 @@ export const finixModules: FinixModule[] = [
     slug: "protection-devices-control-components",
     code: "M02",
     track: "hardware-foundations",
-    url: `${BASE}/jn7fekepqa4nppv9q1pz4y7zdn8d2yy8`,
     title: "Protection Devices & Control Components",
     titleAr: "أجهزة الحماية ومكونات التحكم",
     summary:
@@ -149,7 +143,6 @@ export const finixModules: FinixModule[] = [
     slug: "alpha-control-platform",
     code: "M03",
     track: "hardware-foundations",
-    url: `${BASE}/jn7edk15e2c0es3v3nm5wtx6e98d2by4`,
     title: "Alpha Control Smart Automation Platform",
     titleAr: "منصة ألفا كنترول للأتمتة الذكية",
     summary:
@@ -167,7 +160,6 @@ export const finixModules: FinixModule[] = [
     slug: "network-fundamentals",
     code: "M04",
     track: "networking-protocols",
-    url: `${BASE}/jn73mhqkt4a76dctt5gpxsgadx8d37ed`,
     title: "Network Fundamentals for Smart Home Technicians",
     titleAr: "أساسيات الشبكات لفنيي المنازل الذكية",
     summary:
@@ -189,7 +181,6 @@ export const finixModules: FinixModule[] = [
     slug: "smart-home-wireless-protocols",
     code: "M05",
     track: "networking-protocols",
-    url: `${BASE}/jn73eszctb596rw1pbgbke2dex8d2t4b`,
     title: "Smart Home Wireless Protocols",
     titleAr: "بروتوكولات اللاسلكي في المنزل الذكي",
     summary:
@@ -219,7 +210,6 @@ export const finixModules: FinixModule[] = [
     slug: "team-roles-competencies",
     code: "M06",
     track: "team-project-management",
-    url: `${BASE}/jn71px6y6wnz5wa27k5phf99hd8d3p3x`,
     title: "Smart Home Team: Roles & Required Competencies",
     titleAr: "فريق المنزل الذكي: الأدوار والكفاءات المطلوبة",
     summary:
@@ -237,7 +227,6 @@ export const finixModules: FinixModule[] = [
     slug: "project-execution-after-sales",
     code: "M07",
     track: "team-project-management",
-    url: `${BASE}/jn7awefebx2xcxxp3e9xb4k4qx8d3e13`,
     title: "Project Execution: Installation Phases & After-Sales",
     titleAr: "تنفيذ المشروع: مراحل التركيب وما بعد البيع",
     summary:
@@ -255,7 +244,6 @@ export const finixModules: FinixModule[] = [
     slug: "kpi-performance-evaluation",
     code: "M08",
     track: "team-project-management",
-    url: `${BASE}/jn79ytg7wbsyybh33r4svd76h18d23tw`,
     title: "KPI & Performance Evaluation for Smart Home Technicians",
     titleAr: "مؤشرات الأداء وتقييم فنيي المنازل الذكية",
     summary:
@@ -273,7 +261,6 @@ export const finixModules: FinixModule[] = [
     slug: "site-survey-methodology",
     code: "M09",
     track: "survey-terminology-tools",
-    url: `${BASE}/jn7bczsf9qr4qcd24zh3rchbs18d3ba6`,
     title: "Site Survey Methodology",
     titleAr: "منهجية مسح الموقع",
     summary:
@@ -295,7 +282,6 @@ export const finixModules: FinixModule[] = [
     slug: "bilingual-device-room-terminology",
     code: "M10",
     track: "survey-terminology-tools",
-    url: `${BASE}/jn7935c2283t05h73rn4bmjyr18d27yz`,
     title: "Bilingual Device & Room Terminology",
     titleAr: "مصطلحات الأجهزة والغرف بالعربية والإنجليزية",
     summary:

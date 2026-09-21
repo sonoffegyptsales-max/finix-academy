@@ -1,9 +1,12 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { Protected } from "@/lib/auth";
 import { useLang } from "@/lib/language";
 import { useCurriculum } from "@/hooks/use-curriculum";
 import { useEnrollments } from "@/hooks/use-enrollments";
 import { ProtectedContent } from "@/components/ProtectedContent";
+import { LessonMedia } from "@/components/LessonMedia";
+import { useLessonMedia, type LessonMediaRow } from "@/hooks/use-lesson-media";
 
 export const Route = createFileRoute("/dashboard/module/$slug")({
   head: () => ({
@@ -22,6 +25,31 @@ function ModulePage() {
   const { tracks, modules, loading } = useCurriculum();
   const moduleIdBySlug = Object.fromEntries(modules.map((m) => [m.slug, m.id]));
   const { toggle, isComplete } = useEnrollments(moduleIdBySlug);
+  const { listForLessons } = useLessonMedia();
+  const [media, setMedia] = useState<LessonMediaRow[]>([]);
+
+  const mod = modules.find((m) => m.slug === slug);
+  const lessonIdKey = (mod?.lessons ?? []).map((l) => l.id).join(",");
+
+  useEffect(() => {
+    let active = true;
+    const ids = lessonIdKey ? lessonIdKey.split(",") : [];
+    if (ids.length === 0) {
+      setMedia([]);
+      return;
+    }
+    void listForLessons(ids)
+      .then((rows) => {
+        if (active) setMedia(rows);
+      })
+      .catch(() => {
+        if (active) setMedia([]);
+      });
+    return () => {
+      active = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lessonIdKey]);
 
   if (loading) {
     return (
@@ -31,7 +59,6 @@ function ModulePage() {
     );
   }
 
-  const mod = modules.find((m) => m.slug === slug);
   if (!mod) {
     return (
       <div className="mx-auto max-w-md px-6 py-24 text-center">
@@ -93,40 +120,15 @@ function ModulePage() {
                   <span className="text-sm text-foreground">{t(lesson.title, lesson.title_ar)}</span>
                 </div>
                 {lesson.content || lesson.content_ar ? (
-                  <p className="mt-2 ml-8 text-sm leading-relaxed text-muted-foreground">
+                  <p className="mt-2 ml-8 whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
                     {t(lesson.content ?? "", lesson.content_ar ?? "")}
                   </p>
                 ) : null}
-                {lesson.video_url && (
-                  <a
-                    href={lesson.video_url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-2 ml-8 inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline"
-                  >
-                    {t("Watch video ↗", "مشاهدة الفيديو ↗")}
-                  </a>
-                )}
+                <LessonMedia media={media.filter((m) => m.lesson_id === lesson.id)} />
               </li>
             ))}
           </ol>
         </ProtectedContent>
-        <p className="mt-3 text-xs text-muted-foreground">
-          {t(
-            "This material is licensed to your account only. Each page is watermarked with your identity; sharing or redistributing it is traceable.",
-            "هذه المادة مرخصة لحسابك فقط. كل صفحة تحمل علامة مائية بهويتك؛ ومشاركتها أو إعادة توزيعها قابل للتتبع.",
-          )}
-        </p>
-        {mod.external_url && (
-          <a
-            href={mod.external_url}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-3 inline-block rounded-lg border border-border px-5 py-2.5 text-sm font-medium text-foreground hover:bg-secondary transition-colors"
-          >
-            {t("Full lesson playback in Finix Academy app ↗", "تشغيل الدرس الكامل في تطبيق أكاديمية فينيكس ↗")}
-          </a>
-        )}
       </section>
 
       <section className="mt-8">
@@ -146,6 +148,13 @@ function ModulePage() {
           ))}
         </div>
       </section>
+
+      <p className="mt-6 text-xs text-muted-foreground">
+        {t(
+          "This material is licensed to your account only. Each page is watermarked with your identity; sharing or redistributing it is traceable.",
+          "هذه المادة مرخصة لحسابك فقط. كل صفحة تحمل علامة مائية بهويتك؛ ومشاركتها أو إعادة توزيعها قابل للتتبع.",
+        )}
+      </p>
 
       <div className="mt-8 flex flex-wrap items-center gap-3">
         <button
