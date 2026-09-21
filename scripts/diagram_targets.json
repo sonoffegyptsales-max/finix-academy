@@ -1,0 +1,162 @@
+[
+  {
+    "name": "f02-star-delta-connections",
+    "file": "f02-star-delta-connections.svg",
+    "lesson_id": "c7c13ea1-ef51-48a7-8989-0ff57cf793ec",
+    "caption": "Star and delta: in star each winding sees line voltage divided by 1.73, which is why star-delta starting reduces both current and torque to roughly a third.",
+    "caption_ar": "النجمة والدلتا: في النجمة يرى كل ملف جهد الخط مقسومًا على ١٫٧٣، ولهذا يخفض بدء النجمة دلتا التيار والعزم إلى نحو الثلث.",
+    "bytes": 4876
+  },
+  {
+    "name": "f04-trip-curve",
+    "file": "f04-trip-curve.svg",
+    "lesson_id": "fe86f1b6-464f-4bee-a943-d118e6d9c559",
+    "caption": "A breaker has two mechanisms: a slow thermal element for sustained overload and an instant magnetic element for short circuit.",
+    "caption_ar": "للقاطع آليتان: عنصر حراري بطيء للحمل الزائد المستمر وعنصر مغناطيسي لحظي للقصر.",
+    "bytes": 4523
+  },
+  {
+    "name": "f05-nat",
+    "file": "f05-nat.svg",
+    "lesson_id": "3a9e97a4-e89a-462d-a813-ffd0e6f9e477",
+    "caption": "NAT: every device holds a private address that repeats in millions of buildings, and the router translates them all onto one unique public address.",
+    "caption_ar": "NAT: يحمل كل جهاز عنوانًا خاصًا يتكرر في ملايين المباني، ويترجمها الراوتر جميعًا إلى عنوان عام واحد فريد.",
+    "bytes": 4990
+  },
+  {
+    "name": "f05-protocol-comparison",
+    "file": "f05-protocol-comparison.svg",
+    "lesson_id": "52bdd174-ab30-4e0f-8733-11d3e48ea07b",
+    "caption": "Protocol trade-offs: battery sensors need the low-power mesh radios, while cameras need Wi-Fi bandwidth -- most real installations use several.",
+    "caption_ar": "مقايضات البروتوكولات: حساسات البطاريات تحتاج راديو الشبكة منخفض الاستهلاك، والكاميرات تحتاج عرض نطاق Wi-Fi، وأغلب التركيبات الحقيقية تستخدم عدة بروتوكولات.",
+    "bytes": 8442
+  },
+  {
+    "name": "f06-zigbee-mesh",
+    "file": "f06-zigbee-mesh.svg",
+    "lesson_id": "d492cb5e-c412-4b4f-b3f7-3a25bcce4e10",
+    "caption": "Zigbee mesh: mains-powered routers carry traffic and provide alternate paths, while battery end devices only ever talk to their parent.",
+    "caption_ar": "شبكة زيجبي: الموجّهات المغذاة من الشبكة تحمل حركة البيانات وتوفر مسارات بديلة، أما أجهزة البطاريات الطرفية فتتحدث إلى أصلها فقط.",
+    "bytes": 4989
+  },
+  {
+    "name": "f07-alpha-modules",
+    "file": "f07-alpha-modules.svg",
+    "lesson_id": "82bf3204-7e2f-4b1a-9632-39bc71456409",
+    "caption": "Alpha Control expansion: one base unit plus the module the job actually needs -- digital I/O, analog I/O, or serial comms.",
+    "caption_ar": "توسعة Alpha Control: وحدة أساسية واحدة مع الوحدة التي يحتاجها العمل فعلًا — دخل/خرج رقمي أو تناظري أو اتصالات تسلسلية.",
+    "bytes": 5529
+  },
+  {
+    "name": "i01-latch-stop-priority",
+    "file": "i01-latch-stop-priority.svg",
+    "lesson_id": "bc8df72a-46d0-4748-a85d-1a757439dc59",
+    "caption": "Latch circuit: the auxiliary contact bypasses only START, while STOP and overload stay upstream so either can always break the hold.",
+    "caption_ar": "دائرة التثبيت: التلامس المساعد يتجاوز زر البدء فقط، بينما يبقى الإيقاف والحمل الزائد قبله ليستطيع أي منهما قطع التثبيت دائمًا.",
+    "bytes": 6000
+  },
+  {
+    "name": "i01-reversing-interlock",
+    "file": "i01-reversing-interlock.svg",
+    "lesson_id": "7f4eb767-3afe-45a2-92a2-bc505962b8e2",
+    "caption": "Mutual interlock: each direction's coil is fed through the other contactor's NC contact, so both can never energise together.",
+    "caption_ar": "التعشيق المتبادل: تُغذّى ملف كل اتجاه عبر التلامس المغلق للكونتاكتور الآخر، فلا يمكن تنشيطهما معًا أبدًا.",
+    "bytes": 6706
+  },
+  {
+    "name": "i02-starting-current",
+    "file": "i02-starting-current.svg",
+    "lesson_id": "90e3717d-ec4e-45aa-800c-4a1670493ba3",
+    "caption": "Starting current: direct-on-line draws roughly six times rated current until the motor approaches speed; reduced-voltage starting trades torque for a lower peak.",
+    "caption_ar": "تيار البدء: البدء المباشر يسحب نحو ستة أمثال التيار المقنن حتى يقارب المحرك سرعته، بينما البدء بجهد مخفّض يقايض العزم بذروة أقل.",
+    "bytes": 3678
+  },
+  {
+    "name": "i03-protection-layers",
+    "file": "i03-protection-layers.svg",
+    "lesson_id": "035cab60-53ef-45ff-8826-05592b158813",
+    "caption": "Short circuit and overload are different threats on different timescales, which is why a breaker and an overload relay are both required.",
+    "caption_ar": "القصر والحمل الزائد تهديدان مختلفان بمقياسين زمنيين مختلفين، ولذلك يلزم القاطع ومرحّل الحمل الزائد معًا.",
+    "bytes": 4636
+  },
+  {
+    "name": "i04-interval-oneshot-repeat",
+    "file": "i04-interval-oneshot-repeat.svg",
+    "lesson_id": "275e2058-47b7-41b3-9e09-9ec9d1b13a04",
+    "caption": "Interval, one-shot and repeat-cycle compared against the same input: only the one-shot is immune to how long the input stays present.",
+    "caption_ar": "مقارنة الفترة والنبضة الواحدة والدورة المتكررة على الدخل نفسه: النبضة الواحدة وحدها لا تتأثر بطول بقاء الدخل.",
+    "bytes": 5991
+  },
+  {
+    "name": "i04-on-off-delay",
+    "file": "i04-on-off-delay.svg",
+    "lesson_id": "8cbf2109-b632-4188-a35e-9b4a76e43d4f",
+    "caption": "ON-delay waits the set time before the output picks up; OFF-delay holds the output on for the set time after the input is removed.",
+    "caption_ar": "تأخير التشغيل ينتظر الزمن المضبوط قبل عمل الخرج، وتأخير الفصل يبقي الخرج عاملًا للزمن المضبوط بعد زوال الدخل.",
+    "bytes": 4382
+  },
+  {
+    "name": "i04-star-delta-timing",
+    "file": "i04-star-delta-timing.svg",
+    "lesson_id": "1b75b486-5c97-4821-8cd4-54c406d0f9f1",
+    "caption": "Star-delta sequence: the star contactor must fully open and an intentional dead time elapse before the delta contactor closes.",
+    "caption_ar": "تتابع النجمة دلتا: يجب أن يفتح كونتاكتور النجمة تمامًا وأن يمر زمن ميت مقصود قبل إغلاق كونتاكتور الدلتا.",
+    "bytes": 4591
+  },
+  {
+    "name": "i05-hysteresis",
+    "file": "i05-hysteresis.svg",
+    "lesson_id": "e37122e7-e8d1-4e90-857d-6a690b497a32",
+    "caption": "Hysteresis: separate cut-in and cut-out thresholds mean a level hovering at the setpoint cannot chatter the contact.",
+    "caption_ar": "الفجوة الفارقة: فصل عتبتي التشغيل والفصل يمنع اهتزاز التلامس حين يتأرجح المستوى عند نقطة الضبط.",
+    "bytes": 3829
+  },
+  {
+    "name": "i05-level-dryrun",
+    "file": "i05-level-dryrun.svg",
+    "lesson_id": "fa32cc2b-a851-4c90-af03-05b13bd46109",
+    "caption": "Level control: the roof tank probes create demand while the ground tank probe grants permission, so the pump can never run dry.",
+    "caption_ar": "التحكم في المستوى: مجسات الخزان العلوي تنشئ الطلب ومجس الخزان الأرضي يمنح الإذن، فلا تعمل المضخة جافة أبدًا.",
+    "bytes": 4965
+  },
+  {
+    "name": "i05-photocell",
+    "file": "i05-photocell.svg",
+    "lesson_id": "ff522b12-cc96-48c0-9af1-205ae02c143c",
+    "caption": "Photocell switching: the threshold decides dusk and dawn, while the delay stops a cloud or a passing headlight from cycling the lamp.",
+    "caption_ar": "التشغيل الضوئي: العتبة تحدد الغسق والفجر، والتأخير يمنع سحابة أو ضوء سيارة عابرة من تشغيل المصباح وإطفائه.",
+    "bytes": 3709
+  },
+  {
+    "name": "i05-pump-alternation",
+    "file": "i05-pump-alternation.svg",
+    "lesson_id": "4957a9d5-37ec-4594-a197-a237ecbd6069",
+    "caption": "Duty/standby alternation: swapping the lead pump every cycle shares wear and regularly proves the standby pump actually starts.",
+    "caption_ar": "تبادل المضخات: تبديل المضخة القائدة كل دورة يوزّع البلى ويثبت دوريًا أن المضخة الاحتياطية تعمل فعلًا.",
+    "bytes": 3798
+  },
+  {
+    "name": "i05-retrofit-architecture",
+    "file": "i05-retrofit-architecture.svg",
+    "lesson_id": "1dc66d6d-f7dc-4376-8846-d298fc492dd3",
+    "caption": "Retrofit doctrine: protection and switching stay hardwired exactly as designed, while only the low-power logic and signalling layer moves to Alpha Control.",
+    "caption_ar": "مبدأ التحديث: تبقى الحماية والتبديل موصولة سلكيًا كما صُممت تمامًا، وتنتقل طبقة المنطق والإشارة منخفضة القدرة وحدها إلى Alpha Control.",
+    "bytes": 7591
+  },
+  {
+    "name": "i06-voltage-window",
+    "file": "i06-voltage-window.svg",
+    "lesson_id": "35f79863-160b-4a44-9ef6-63c8dde35d06",
+    "caption": "A voltage monitoring relay trips outside a healthy window, with a deliberate delay so momentary dips do not stop the plant.",
+    "caption_ar": "يفصل مرحّل مراقبة الجهد خارج النطاق السليم، مع تأخير مقصود كي لا توقف الانخفاضات اللحظية المنشأة.",
+    "bytes": 3675
+  },
+  {
+    "name": "i07-fault-finding",
+    "file": "i07-fault-finding.svg",
+    "lesson_id": "aa69ca56-dd65-417e-ad60-cf559282f04f",
+    "caption": "Systematic fault-finding: each measurement should eliminate half the remaining possibilities, rather than testing components in the order they come to hand.",
+    "caption_ar": "التشخيص المنهجي: ينبغي أن يستبعد كل قياس نصف الاحتمالات المتبقية بدل فحص المكونات بترتيب وصول اليد إليها.",
+    "bytes": 6473
+  }
+]
