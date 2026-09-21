@@ -1,4 +1,5 @@
 import { Outlet, createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { useLang, LanguageToggle } from "@/lib/language";
 
@@ -7,6 +8,7 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 function DashboardLayout() {
+  const [navOpen, setNavOpen] = useState(false);
   const { user, signOut, loading, isAdmin, isTrainer, isStaff } = useAuth();
   const { t, isRTL } = useLang();
 
@@ -66,8 +68,21 @@ function DashboardLayout() {
 
   return (
     <div className="flex min-h-screen bg-background">
-      {/* Sidebar — matches target: dark slate-900 */}
-      <aside className="relative w-64 flex-shrink-0 bg-sidebar border-r border-sidebar-border">
+      {/* Mobile scrim — tapping outside closes the drawer. */}
+      {navOpen && (
+        <div
+          onClick={() => setNavOpen(false)}
+          className="fixed inset-0 z-30 bg-black/50 lg:hidden"
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Sidebar — off-canvas drawer under lg, fixed rail at lg and up. */}
+      <aside
+        className={`fixed inset-y-0 left-0 z-40 w-64 flex-shrink-0 overflow-y-auto bg-sidebar border-r border-sidebar-border transition-transform duration-200 lg:static lg:translate-x-0 ${
+          navOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
         {/* Logo */}
         <div className="flex h-16 items-center gap-2 border-b border-sidebar-border px-4">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
@@ -106,6 +121,7 @@ function DashboardLayout() {
               <a
                 key={item.to}
                 href={item.to}
+                onClick={() => setNavOpen(false)}
                 className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                   isActive
                     ? "bg-primary/10 text-sidebar-primary"
@@ -124,36 +140,41 @@ function DashboardLayout() {
       </aside>
 
       {/* Main content */}
-      <main className="flex flex-1 flex-col">
+      <main className="flex min-w-0 flex-1 flex-col">
         {/* Top bar */}
-        <div className="flex h-16 items-center justify-between border-b border-border bg-background px-6">
-          <h2 className="text-lg font-semibold text-foreground">
-            {isAdmin
-              ? t("Admin Dashboard", "لوحة تحكم الإدارة")
-              : isTrainer
-                ? t("Trainer Dashboard", "لوحة تحكم المدرب")
-                : t("My Dashboard", "لوحتي")}
-          </h2>
-          <div className="flex items-center gap-3">
+        <div className="flex h-16 items-center justify-between gap-2 border-b border-border bg-background px-4 sm:px-6">
+          <div className="flex min-w-0 items-center gap-2">
+            <button
+              onClick={() => setNavOpen(true)}
+              aria-label={t("Open menu", "فتح القائمة")}
+              className="-ml-1 rounded-lg p-2 text-muted-foreground hover:bg-secondary hover:text-foreground lg:hidden"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <path d="M3 6h18M3 12h18M3 18h18" />
+              </svg>
+            </button>
+            <h2 className="truncate text-base font-semibold text-foreground sm:text-lg">
+              {isAdmin
+                ? t("Admin Dashboard", "لوحة تحكم الإدارة")
+                : isTrainer
+                  ? t("Trainer Dashboard", "لوحة تحكم المدرب")
+                  : t("My Dashboard", "لوحتي")}
+            </h2>
+          </div>
+          <div className="flex items-center gap-2 sm:gap-3">
             <LanguageToggle />
-            <button className="relative rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
+            <button className="relative hidden rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors sm:block">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
                 <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
               </svg>
               <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-primary border-2 border-background" />
             </button>
-            <button className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground hover:bg-secondary transition-colors">
+            <button className="hidden items-center gap-2 rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground hover:bg-secondary transition-colors lg:flex">
               <span className="font-medium">{user.email?.split("@")[0] || "User"}</span>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="m6 9 6 6 6-6"/>
               </svg>
-            </button>
-            <button className="flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-              </svg>
-              Chat
             </button>
             <button
               onClick={() => {

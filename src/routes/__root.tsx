@@ -88,6 +88,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Professional training for smart home installers and automation engineers: 10 modules across 4 tracks, tiered certifications, KPI evaluations and site survey tools.",
       },
       { name: "author", content: "Finix Systems" },
+      { name: "theme-color", content: "#0B1120" },
+      { name: "mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+      { name: "apple-mobile-web-app-title", content: "Finix Academy" },
       { property: "og:title", content: "Finix Academy — Smart Home & Industrial Automation Training" },
       {
         property: "og:description",
@@ -105,6 +110,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "apple-touch-icon", href: "/icons/apple-touch-icon.png" },
     ],
   }),
   shellComponent: RootShell,
@@ -223,6 +230,15 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const location = useLocation();
   const inDashboard = location.pathname.startsWith("/dashboard");
+
+  // Register the service worker on load so the app is installable as a PWA.
+  // Push subscription still happens later, on explicit trainee opt-in.
+  useEffect(() => {
+    if (typeof window === "undefined" || !("serviceWorker" in navigator)) return;
+    navigator.serviceWorker.register("/sw.js").catch(() => {
+      /* non-fatal: the app works fine without the worker */
+    });
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
