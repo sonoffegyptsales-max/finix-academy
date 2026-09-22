@@ -11,6 +11,7 @@ import {
   listDeviceBindings,
   resetDeviceBinding,
 } from "@/lib/device.functions";
+import { BrandingTab } from "@/components/BrandingTab";
 
 export const Route = createFileRoute("/dashboard/admin-panel")({
   head: () => ({
@@ -30,7 +31,7 @@ interface UserRow {
   roles: string[];
 }
 
-type AdminTab = "overview" | "trainees" | "devices" | "notify";
+type AdminTab = "overview" | "trainees" | "devices" | "notify" | "branding";
 
 function AdminPanelPage() {
   const { t } = useLang();
@@ -112,6 +113,7 @@ function AdminPanelPage() {
     { id: "trainees", label: t("Trainees", "المتدربون"), adminOnly: true },
     { id: "devices", label: t("Devices", "الأجهزة"), adminOnly: true },
     { id: "notify", label: t("Notifications", "الإشعارات"), adminOnly: true },
+    { id: "branding", label: t("Branding", "الهوية البصرية"), adminOnly: true },
   ];
 
   return (
@@ -164,6 +166,8 @@ function AdminPanelPage() {
       {tab === "devices" && isAdmin && <DevicesTab />}
 
       {tab === "notify" && isAdmin && <NotifyTab />}
+
+      {tab === "branding" && isAdmin && <BrandingTab />}
     </div>
   );
 }

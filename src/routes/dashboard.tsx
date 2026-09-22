@@ -2,6 +2,7 @@ import { Outlet, createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { useLang, LanguageToggle } from "@/lib/language";
+import { useBranding } from "@/lib/branding";
 
 export const Route = createFileRoute("/dashboard")({
   component: DashboardLayout,
@@ -11,6 +12,7 @@ function DashboardLayout() {
   const [navOpen, setNavOpen] = useState(false);
   const { user, signOut, loading, isAdmin, isTrainer, isStaff } = useAuth();
   const { t, isRTL } = useLang();
+  const branding = useBranding();
 
   const roleLabel = isAdmin ? "Admin" : isTrainer ? "Trainer" : "Trainee";
   const roleBadgeColor = isAdmin
@@ -86,14 +88,20 @@ function DashboardLayout() {
           navOpen ? "translate-x-0" : "-translate-x-full rtl:translate-x-full"
         }`}
       >
-        {/* Logo */}
+        {/* Logo — served from the branding bucket so an admin upload takes
+            effect without a redeploy. */}
         <div className="flex h-16 items-center gap-2 border-b border-sidebar-border px-4">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
-              <polygon points="13 2 3 14 12 14 14 18 21 10 19 8 13 2"/>
-            </svg>
-          </div>
-          <div className="flex flex-col">
+          <img
+            src={branding.logoLight}
+            alt="Finix"
+            className="h-7 w-auto max-w-[150px] object-contain"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).style.display = "none";
+              const sib = e.currentTarget.nextElementSibling as HTMLElement | null;
+              if (sib) sib.style.display = "flex";
+            }}
+          />
+          <div className="hidden flex-col">
             <span className="text-sm font-semibold text-sidebar-foreground">Finix Academy</span>
             <span className="text-[10px] text-sidebar-accent-foreground">Finix Systems</span>
           </div>

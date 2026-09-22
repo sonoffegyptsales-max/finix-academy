@@ -15,6 +15,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider, useAuth } from "../lib/auth";
 import { LanguageProvider, useLang, LanguageToggle } from "../lib/language";
+import { useBranding } from "../lib/branding";
 
 function NotFoundComponent() {
   return (
@@ -139,15 +140,31 @@ function SiteHeader() {
   const navigate = useNavigate();
   const { t } = useLang();
   const location = useLocation();
+  const branding = useBranding();
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3">
         <Link
           to="/"
-          className="font-mono text-sm font-semibold tracking-tight text-foreground"
+          className="flex items-center gap-2 text-sm font-semibold tracking-tight text-foreground"
         >
-          FINIX<span className="text-primary">ACADEMY</span>
+          {/* Logo comes from the branding bucket so an admin can replace it
+              without a redeploy. The wordmark below is the fallback until the
+              image loads (or if the bucket is unreachable). */}
+          <img
+            src={branding.logo}
+            alt="Finix"
+            className="h-7 w-auto object-contain"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).style.display = "none";
+              const sib = e.currentTarget.nextElementSibling as HTMLElement | null;
+              if (sib) sib.style.display = "inline";
+            }}
+          />
+          <span className="hidden font-mono">
+            FINIX<span className="text-primary">ACADEMY</span>
+          </span>
         </Link>
 
         <nav className="flex items-center gap-5 text-sm text-muted-foreground">
@@ -238,6 +255,46 @@ function RootComponent() {
     navigator.serviceWorker.register("/sw.js").catch(() => {
       /* non-fatal: the app works fine without the worker */
     });
+  }, []);
+
+  // Point the favicon and apple-touch-icon at the branding bucket.
+  //
+  // The static <link> tags in `head` cannot know about an admin's upload, so
+  // they ship the bundled defaults and this effect repoints them once the
+  // current version stamp is known. Without it, replacing the icon in the
+  // admin panel would leave every browser tab on the old one until redeploy.
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const base = import.meta.env["VITE_SUPABASE_URL"];
+    if (!base) return;
+    const bucket = `${base}/storage/v1/object/public/branding`;
+
+    let cancelled = false;
+    fetch(`${bucket}/settings.json`, { cache: "no-cache" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => {
+        if (cancelled || !j) return;
+        const v = Number(j.version) || 0;
+        const q = v ? `?v=${v}` : "";
+        const set = (rel: string, href: string, type?: string) => {
+          let el = document.querySelector<HTMLLinkElement>(`link[rel="${rel}"]`);
+          if (!el) {
+            el = document.createElement("link");
+            el.rel = rel;
+            document.head.appendChild(el);
+          }
+          el.href = href;
+          if (type) el.type = type;
+        };
+        set("icon", `${bucket}/favicon.ico${q}`);
+        set("apple-touch-icon", `${bucket}/apple-touch-icon.png${q}`);
+      })
+      .catch(() => {
+        /* keep the bundled defaults */
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return (

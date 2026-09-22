@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { getDeviceId, describeDevice } from "@/lib/device";
 import { claimDevice, redeemAccessCode } from "@/lib/device.functions";
+import { useBranding } from "@/lib/branding";
 
 /**
  * Bind this browser to the account (or verify it is the bound one).
@@ -43,6 +44,7 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const branding = useBranding();
 
   const [mode, setMode] = useState<"code" | "password">("code");
   const [code, setCode] = useState("");
@@ -97,14 +99,19 @@ function AuthPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4 py-12">
       <div className="w-full max-w-md">
-        {/* Logo */}
-        <div className="mb-8 flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
-              <polygon points="13 2 3 14 12 14 14 18 21 10 19 8 13 2"/>
-            </svg>
-          </div>
-          <div>
+        {/* Logo — from the branding bucket, replaceable in the admin panel. */}
+        <div className="mb-8 flex items-center gap-3">
+          <img
+            src={branding.logo}
+            alt="Finix"
+            className="h-9 w-auto max-w-[190px] object-contain"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).style.display = "none";
+              const sib = e.currentTarget.nextElementSibling as HTMLElement | null;
+              if (sib) sib.style.display = "block";
+            }}
+          />
+          <div className="hidden">
             <h1 className="text-xl font-bold text-foreground">Finix Academy</h1>
             <p className="text-xs text-muted-foreground">Finix Systems</p>
           </div>
