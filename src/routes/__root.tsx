@@ -195,7 +195,7 @@ function SiteHeader() {
                   <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
                   <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
                 </svg>
-                <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-primary border-2 border-background" />
+                <span className="absolute -end-0.5 -top-0.5 h-2 w-2 rounded-full bg-primary border-2 border-background" />
               </button>
               <button className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground hover:bg-secondary transition-colors">
                 <span className="font-medium">{user.email?.split("@")[0] || "User"}</span>
@@ -250,7 +250,9 @@ function RootComponent() {
             {!inDashboard && (
               <footer className="border-t border-border bg-background px-6 py-6">
                 <div className="flex flex-col items-center gap-2 text-center text-xs text-muted-foreground">
-                  <p>© 2026 Finix Systems. All rights reserved.</p>
+                  {/* Latin-only line: force LTR so the © and the closing full
+                      stop are not reordered to the wrong end inside an RTL page. */}
+                  <p dir="ltr">© 2026 Finix Systems. All rights reserved.</p>
                 </div>
               </footer>
             )}

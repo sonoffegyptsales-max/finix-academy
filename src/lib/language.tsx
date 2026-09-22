@@ -43,6 +43,23 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   const isRTL = lang === "ar";
 
+  /**
+   * Drive the document's real direction and language.
+   *
+   * isRTL was computed here from the start but never applied to <html>, so
+   * choosing Arabic translated the words while the page stayed left-to-right:
+   * text hugged the left edge, sentences ended on the right, and punctuation
+   * landed on the wrong side. Setting dir on the document element lets the
+   * browser lay out every component RTL, and lets Tailwind's logical
+   * properties (ms-/me-/ps-/pe-, start/end) mirror automatically.
+   */
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const root = document.documentElement;
+    root.setAttribute("dir", isRTL ? "rtl" : "ltr");
+    root.setAttribute("lang", lang);
+  }, [isRTL, lang]);
+
   const t = useCallback((en: string, ar: string) => (lang === "ar" ? ar : en), [lang]);
 
   const value = useMemo(() => ({ lang, setLang, isRTL, t }), [lang, setLang, isRTL, t]);

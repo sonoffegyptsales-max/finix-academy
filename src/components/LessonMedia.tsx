@@ -16,7 +16,7 @@ export function LessonMedia({ media }: { media: LessonMediaRow[] }) {
   if (media.length === 0) return null;
 
   return (
-    <div className="mt-3 ml-8 space-y-4">
+    <div className="mt-3 ms-8 space-y-4">
       {media.map((m) => {
         const src = urls[m.id];
         const caption = t(m.caption ?? "", m.caption_ar ?? "");

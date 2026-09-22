@@ -32,8 +32,11 @@ function Landing() {
     { value: `${finixModules.length}`, label: t("Modules", "وحدة تدريبية") },
     { value: `${finixTracks.length}`, label: t("Tracks", "مسارات") },
     {
-      value: `${finixCertTiers.length}-${t("Tier", "مستويات")}`,
-      label: t("Certs", "اعتمادات"),
+      // Arabic gets a plain numeral, not "3-مستويات": mixing a Latin digit and
+      // hyphen into an Arabic run makes the bidi algorithm move the hyphen to
+      // the wrong side, which reads as a minus sign.
+      value: t(`${finixCertTiers.length}-${"Tier"}`, `${finixCertTiers.length}`),
+      label: t("Certs", "مستويات اعتماد"),
     },
     {
       value: `${finixSurveyStages.length}`,

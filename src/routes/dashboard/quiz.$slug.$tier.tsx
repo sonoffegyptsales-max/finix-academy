@@ -155,7 +155,7 @@ function QuizPage() {
           {questions.map((q, i) => (
             <div key={q.id} className="overflow-hidden rounded-xl border border-border bg-card p-5">
               <p className="font-medium text-foreground">
-                <span className="mr-2 font-mono text-xs text-muted-foreground">
+                <span className="me-2 font-mono text-xs text-muted-foreground">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 {t(q.question, q.question_ar)}
@@ -167,7 +167,7 @@ function QuizPage() {
                     <button
                       key={opt.id}
                       onClick={() => setAnswers((prev) => ({ ...prev, [q.id]: opt.id }))}
-                      className={`flex w-full items-center gap-3 rounded-lg border px-4 py-2.5 text-left text-sm transition-colors ${
+                      className={`flex w-full items-center gap-3 rounded-lg border px-4 py-2.5 text-start text-sm transition-colors ${
                         selected
                           ? "border-primary bg-primary/5 text-foreground"
                           : "border-border text-muted-foreground hover:border-primary/50"

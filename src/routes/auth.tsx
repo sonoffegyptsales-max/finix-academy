@@ -224,7 +224,8 @@ function AuthPage() {
         </div>
 
         <div className="mt-6 text-center text-xs text-muted-foreground">
-          <p>© 2026 Finix Systems. All rights reserved.</p>
+          {/* Latin-only line: force LTR inside an RTL page (see __root.tsx). */}
+          <p dir="ltr">© 2026 Finix Systems. All rights reserved.</p>
         </div>
       </div>
     </div>

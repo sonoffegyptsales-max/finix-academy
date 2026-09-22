@@ -194,7 +194,7 @@ function KpiEvaluatorPage() {
             <div className="flex items-center justify-between">
               <h2 className="text-base font-semibold text-foreground">
                 {t(group.title, group.titleAr)}
-                <span className="ml-2 text-sm font-normal text-muted-foreground">
+                <span className="ms-2 text-sm font-normal text-muted-foreground">
                   ({Math.round(group.weight * 100)}%)
                 </span>
               </h2>
@@ -250,7 +250,7 @@ function KpiEvaluatorPage() {
                 {t("Technical (60%) + Behavioral (40%)", "فني (٦٠٪) + سلوكي (٤٠٪)")}
               </p>
             </div>
-            <div className="text-right">
+            <div className="text-end">
               <p className="text-3xl font-bold text-foreground">
                 {scoredAll ? `${percent}%` : "—"}
               </p>
@@ -309,7 +309,7 @@ function KpiEvaluatorPage() {
                     <p className="text-sm font-medium text-foreground">
                       {entry.trainee_name}
                       {entry.project_name ? (
-                        <span className="ml-2 text-muted-foreground">· {entry.project_name}</span>
+                        <span className="ms-2 text-muted-foreground">· {entry.project_name}</span>
                       ) : null}
                     </p>
                     <p className="mt-1 text-xs text-muted-foreground">

@@ -77,10 +77,13 @@ function DashboardLayout() {
         />
       )}
 
-      {/* Sidebar — off-canvas drawer under lg, fixed rail at lg and up. */}
+      {/* Sidebar — off-canvas drawer under lg, fixed rail at lg and up.
+          Logical properties (start-0, border-e) mirror automatically in
+          Arabic, and rtl:translate-x-full flips the hidden position so the
+          drawer slides in from the right rather than off the wrong edge. */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-64 flex-shrink-0 overflow-y-auto bg-sidebar border-r border-sidebar-border transition-transform duration-200 lg:static lg:translate-x-0 ${
-          navOpen ? "translate-x-0" : "-translate-x-full"
+        className={`fixed inset-y-0 start-0 z-40 w-64 flex-shrink-0 overflow-y-auto bg-sidebar border-e border-sidebar-border transition-transform duration-200 lg:static lg:translate-x-0 ${
+          navOpen ? "translate-x-0" : "-translate-x-full rtl:translate-x-full"
         }`}
       >
         {/* Logo */}
@@ -131,7 +134,7 @@ function DashboardLayout() {
                 <NavIcon name={item.icon} className={isActive ? "text-primary" : "text-sidebar-accent-foreground"} />
                 <span className="truncate">{item.label}</span>
                 {isActive && (
-                  <span className="ml-auto h-1.5 w-1.5 rounded-full bg-primary" />
+                  <span className="ms-auto h-1.5 w-1.5 rounded-full bg-primary" />
                 )}
               </a>
             );
@@ -147,7 +150,7 @@ function DashboardLayout() {
             <button
               onClick={() => setNavOpen(true)}
               aria-label={t("Open menu", "فتح القائمة")}
-              className="-ml-1 rounded-lg p-2 text-muted-foreground hover:bg-secondary hover:text-foreground lg:hidden"
+              className="-ms-1 rounded-lg p-2 text-muted-foreground hover:bg-secondary hover:text-foreground lg:hidden"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <path d="M3 6h18M3 12h18M3 18h18" />
@@ -168,7 +171,7 @@ function DashboardLayout() {
                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
                 <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
               </svg>
-              <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-primary border-2 border-background" />
+              <span className="absolute -end-0.5 -top-0.5 h-2 w-2 rounded-full bg-primary border-2 border-background" />
             </button>
             <button className="hidden items-center gap-2 rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground hover:bg-secondary transition-colors lg:flex">
               <span className="font-medium">{user.email?.split("@")[0] || "User"}</span>

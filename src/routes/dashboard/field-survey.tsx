@@ -264,7 +264,7 @@ function FieldSurveyPage() {
                     <p className="text-sm font-medium text-foreground">
                       {entry.projectName}
                       {entry.clientName ? (
-                        <span className="ml-2 text-muted-foreground">· {entry.clientName}</span>
+                        <span className="ms-2 text-muted-foreground">· {entry.clientName}</span>
                       ) : null}
                     </p>
                     <p className="mt-1 text-xs text-muted-foreground">

@@ -166,7 +166,7 @@ function DashboardPage() {
       <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <a
           href="/dashboard/my-courses"
-          className="flex items-start gap-3 overflow-hidden rounded-xl border border-border bg-card p-5 text-left transition-colors hover:border-primary hover:bg-primary/5"
+          className="flex items-start gap-3 overflow-hidden rounded-xl border border-border bg-card p-5 text-start transition-colors hover:border-primary hover:bg-primary/5"
         >
           <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
             <StatIcon name="book" className="h-5 w-5" />
@@ -180,7 +180,7 @@ function DashboardPage() {
         </a>
         <a
           href="/dashboard/certifications"
-          className="flex items-start gap-3 overflow-hidden rounded-xl border border-border bg-card p-5 text-left transition-colors hover:border-primary hover:bg-primary/5"
+          className="flex items-start gap-3 overflow-hidden rounded-xl border border-border bg-card p-5 text-start transition-colors hover:border-primary hover:bg-primary/5"
         >
           <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-yellow-500/10 text-yellow-600">
             <StatIcon name="award" className="h-5 w-5" />
@@ -193,7 +193,7 @@ function DashboardPage() {
         {isStaff && (
           <a
             href="/dashboard/kpi-evaluator"
-            className="flex items-start gap-3 overflow-hidden rounded-xl border border-border bg-card p-5 text-left transition-colors hover:border-primary hover:bg-primary/5"
+            className="flex items-start gap-3 overflow-hidden rounded-xl border border-border bg-card p-5 text-start transition-colors hover:border-primary hover:bg-primary/5"
           >
             <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-green-500/10 text-green-600">
               <StatIcon name="chart" className="h-5 w-5" />
@@ -208,7 +208,7 @@ function DashboardPage() {
         )}
         <a
           href="/dashboard/field-survey"
-          className="flex items-start gap-3 overflow-hidden rounded-xl border border-border bg-card p-5 text-left transition-colors hover:border-primary hover:bg-primary/5"
+          className="flex items-start gap-3 overflow-hidden rounded-xl border border-border bg-card p-5 text-start transition-colors hover:border-primary hover:bg-primary/5"
         >
           <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-amber-500/10 text-amber-600">
             <StatIcon name="clipboard" className="h-5 w-5" />

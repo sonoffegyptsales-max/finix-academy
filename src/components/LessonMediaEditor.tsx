@@ -125,7 +125,7 @@ export function LessonMediaEditor({
         accept="image/*,video/*,audio/*"
         onChange={(e) => handleFiles(e.target.files)}
         disabled={uploading}
-        className="mt-2 block w-full text-xs file:mr-3 file:rounded-lg file:border-0 file:bg-primary file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-primary-foreground hover:file:opacity-90 disabled:opacity-50"
+        className="mt-2 block w-full text-xs file:me-3 file:rounded-lg file:border-0 file:bg-primary file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-primary-foreground hover:file:opacity-90 disabled:opacity-50"
       />
 
       <p className="mt-1.5 text-[11px] text-muted-foreground">

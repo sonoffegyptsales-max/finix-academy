@@ -225,3 +225,60 @@
     text-align: center;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Right-to-left support.
+
+   The document element carries dir="rtl" whenever Arabic is selected (see
+   LanguageProvider). Tailwind's logical utilities mirror themselves, so the
+   rules below only cover what logical properties cannot express.
+   --------------------------------------------------------------------------- */
+
+/* An Arabic font stack with sensible fallbacks. Noto Sans Arabic renders the
+   joined forms correctly; without an Arabic-capable face the browser may pick
+   a font that breaks shaping. */
+[dir="rtl"] {
+  font-family: "Noto Sans Arabic", "Segoe UI", "Tahoma", system-ui, sans-serif;
+}
+
+/* Arabic glyphs sit lower and need a little more room to breathe than Latin
+   at the same pixel size. */
+[dir="rtl"] body {
+  line-height: 1.85;
+}
+
+/* Lesson prose: keep long Arabic passages aligned to the right edge and let
+   the browser resolve embedded Latin terms (device names, IP addresses,
+   protocol names) with the bidi algorithm rather than forcing them. */
+[dir="rtl"] .whitespace-pre-line,
+[dir="rtl"] p,
+[dir="rtl"] li {
+  text-align: start;
+}
+
+/* Inputs and textareas inherit direction from the document, but an author
+   typing Arabic into a field that was rendered LTR gets a confusing caret.
+   unicode-bidi: plaintext picks the direction from the first strong character,
+   so a bilingual form behaves correctly in BOTH fields regardless of the
+   page language. */
+input[type="text"],
+input[type="search"],
+input:not([type]),
+textarea {
+  unicode-bidi: plaintext;
+}
+
+/* Numbers, dates and code stay left-to-right even inside Arabic text. */
+[dir="rtl"] code,
+[dir="rtl"] pre,
+[dir="rtl"] .font-mono,
+[dir="rtl"] [data-ltr] {
+  direction: ltr;
+  unicode-bidi: embed;
+  text-align: start;
+}
+
+/* Progress bars and other width-driven indicators fill from the correct edge. */
+[dir="rtl"] .origin-left {
+  transform-origin: right;
+}

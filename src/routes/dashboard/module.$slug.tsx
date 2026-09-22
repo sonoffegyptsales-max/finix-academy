@@ -120,7 +120,7 @@ function ModulePage() {
                   <span className="text-sm text-foreground">{t(lesson.title, lesson.title_ar)}</span>
                 </div>
                 {lesson.content || lesson.content_ar ? (
-                  <p className="mt-2 ml-8 whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
+                  <p className="mt-2 ms-8 whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
                     {t(lesson.content ?? "", lesson.content_ar ?? "")}
                   </p>
                 ) : null}
