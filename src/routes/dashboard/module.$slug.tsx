@@ -6,6 +6,7 @@ import { useCurriculum } from "@/hooks/use-curriculum";
 import { useEnrollments } from "@/hooks/use-enrollments";
 import { ProtectedContent } from "@/components/ProtectedContent";
 import { LessonMedia } from "@/components/LessonMedia";
+import { LessonContent } from "@/components/LessonContent";
 import { useLessonMedia, type LessonMediaRow } from "@/hooks/use-lesson-media";
 
 export const Route = createFileRoute("/dashboard/module/$slug")({
@@ -120,9 +121,9 @@ function ModulePage() {
                   <span className="text-sm text-foreground">{t(lesson.title, lesson.title_ar)}</span>
                 </div>
                 {lesson.content || lesson.content_ar ? (
-                  <p className="mt-2 ms-8 whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
+                  <LessonContent className="mt-1 ms-8">
                     {t(lesson.content ?? "", lesson.content_ar ?? "")}
-                  </p>
+                  </LessonContent>
                 ) : null}
                 <LessonMedia media={media.filter((m) => m.lesson_id === lesson.id)} />
               </li>
