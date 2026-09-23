@@ -80,12 +80,19 @@ function DashboardLayout() {
       )}
 
       {/* Sidebar — off-canvas drawer under lg, fixed rail at lg and up.
-          Logical properties (start-0, border-e) mirror automatically in
-          Arabic, and rtl:translate-x-full flips the hidden position so the
-          drawer slides in from the right rather than off the wrong edge. */}
+          Logical properties (start-0, border-e) mirror automatically in Arabic.
+
+          The transform is applied ONLY below lg (max-lg:). At lg the sidebar is
+          static, and an unconditional rtl:translate-x-full beat lg:translate-x-0
+          on specificity, translating the static sidebar a full 256px past the
+          right viewport edge. Main then ended at 1006px in a 1262px viewport,
+          leaving a blank band exactly the sidebar's width — the "white space on
+          the right" in Arabic. A drawer transform must never outlive the drawer. */}
       <aside
         className={`fixed inset-y-0 start-0 z-40 w-64 flex-shrink-0 overflow-y-auto bg-sidebar border-e border-sidebar-border transition-transform duration-200 lg:static lg:translate-x-0 ${
-          navOpen ? "translate-x-0" : "-translate-x-full rtl:translate-x-full"
+          navOpen
+            ? "translate-x-0"
+            : "max-lg:-translate-x-full max-lg:rtl:translate-x-full"
         }`}
       >
         {/* Logo — served from the branding bucket so an admin upload takes
