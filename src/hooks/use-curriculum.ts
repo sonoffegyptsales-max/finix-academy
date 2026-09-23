@@ -99,8 +99,23 @@ export function useCurriculum(includeUnpublished = false): CurriculumState {
         }
 
         const moduleIds = moduleRows.map((m) => m.id);
+
+        // Lesson BODIES are deliberately excluded here.
+        //
+        // This hook feeds seven pages, but only the single-module page renders
+        // lesson text. Selecting "*" pulled every body of all 22 modules on
+        // every dashboard load -- 550 KB of prose to draw a list of titles,
+        // which is the main reason lectures felt slow to open. The module page
+        // fetches the bodies it actually needs via useModuleLessons().
+        const LESSON_LIST_COLUMNS =
+          "id,module_id,position,title,title_ar,video_url,created_at,updated_at";
+
         const { data: lessonRows, error: lessonErr } = moduleIds.length
-          ? await supabase.from("lessons").select("*").in("module_id", moduleIds).order("position")
+          ? await supabase
+              .from("lessons")
+              .select(LESSON_LIST_COLUMNS)
+              .in("module_id", moduleIds)
+              .order("position")
           : { data: [] as DbLesson[], error: null };
 
         if (lessonErr) throw lessonErr;

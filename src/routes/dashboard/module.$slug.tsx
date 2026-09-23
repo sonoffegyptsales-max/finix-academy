@@ -8,6 +8,7 @@ import { ProtectedContent } from "@/components/ProtectedContent";
 import { LessonMedia } from "@/components/LessonMedia";
 import { LessonContent } from "@/components/LessonContent";
 import { useLessonMedia, type LessonMediaRow } from "@/hooks/use-lesson-media";
+import { useModuleLessonBodies } from "@/hooks/use-module-lesson-bodies";
 
 export const Route = createFileRoute("/dashboard/module/$slug")({
   head: () => ({
@@ -31,6 +32,9 @@ function ModulePage() {
 
   const mod = modules.find((m) => m.slug === slug);
   const lessonIdKey = (mod?.lessons ?? []).map((l) => l.id).join(",");
+
+  // Bodies are fetched for this module only — see use-module-lesson-bodies.
+  const { bodies } = useModuleLessonBodies(mod?.id);
 
   useEffect(() => {
     let active = true;
@@ -120,11 +124,13 @@ function ModulePage() {
                   </span>
                   <span className="text-sm text-foreground">{t(lesson.title, lesson.title_ar)}</span>
                 </div>
-                {lesson.content || lesson.content_ar ? (
-                  <LessonContent className="mt-1 ms-8">
-                    {t(lesson.content ?? "", lesson.content_ar ?? "")}
-                  </LessonContent>
-                ) : null}
+                {(() => {
+                  const body = bodies.get(lesson.id);
+                  const text = t(body?.content ?? "", body?.content_ar ?? "");
+                  return text.trim() ? (
+                    <LessonContent className="mt-1 ms-8">{text}</LessonContent>
+                  ) : null;
+                })()}
                 <LessonMedia media={media.filter((m) => m.lesson_id === lesson.id)} />
               </li>
             ))}
