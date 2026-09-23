@@ -42,21 +42,25 @@ export function LessonContent({
             <em className="italic">{children}</em>
           ),
 
-          // Numbered and bulleted lists. The reviewer asked for explicit
-          // numbering/lettering on enumerated items, so ordered lists show
-          // their markers rather than being flattened to plain paragraphs.
+          // Lists start flush at the line, with the marker as the first thing
+          // on the line — the reviewer asked for numbered points to begin at
+          // the start of the line rather than sitting in from it.
+          //
+          // `list-inside` puts the marker in the content flow instead of
+          // hanging it in the padding, so no indent is needed and nothing is
+          // left stranded in the margin when the page flips to RTL.
           ul: ({ children }: { children?: ReactNode }) => (
-            <ul className="mt-3 list-disc space-y-1.5 ps-6 text-muted-foreground marker:text-primary">
+            <ul className="mt-3 list-inside list-disc space-y-1.5 ps-0 text-muted-foreground marker:text-primary">
               {children}
             </ul>
           ),
           ol: ({ children }: { children?: ReactNode }) => (
-            <ol className="mt-3 list-decimal space-y-1.5 ps-6 text-muted-foreground marker:font-semibold marker:text-primary">
+            <ol className="mt-3 list-inside list-decimal space-y-1.5 ps-0 text-muted-foreground marker:font-semibold marker:text-primary">
               {children}
             </ol>
           ),
           li: ({ children }: { children?: ReactNode }) => (
-            <li className="ps-1">{children}</li>
+            <li className="ps-0">{children}</li>
           ),
 
           // Tables: the single biggest readability win. These were previously

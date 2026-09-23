@@ -52,7 +52,10 @@ def main() -> int:
     url = url.rstrip("/")
 
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    with open(os.path.join(root, "scripts", "diagram_targets.json"), encoding="utf-8") as f:
+    # Optional argument selects a different target manifest, so a second
+    # diagram set can reuse this uploader instead of being copy-pasted.
+    manifest = sys.argv[1] if len(sys.argv) > 1 else "diagram_targets.json"
+    with open(os.path.join(root, "scripts", manifest), encoding="utf-8") as f:
         targets = json.load(f)
 
     auth = ["-H", f"Authorization: Bearer {key}", "-H", f"apikey: {key}"]

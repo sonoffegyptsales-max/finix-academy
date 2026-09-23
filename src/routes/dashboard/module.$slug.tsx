@@ -128,7 +128,7 @@ function ModulePage() {
                   const body = bodies.get(lesson.id);
                   const text = t(body?.content ?? "", body?.content_ar ?? "");
                   return text.trim() ? (
-                    <LessonContent className="mt-1 ms-8">{text}</LessonContent>
+                    <LessonContent className="mt-1">{text}</LessonContent>
                   ) : null;
                 })()}
                 <LessonMedia media={media.filter((m) => m.lesson_id === lesson.id)} />

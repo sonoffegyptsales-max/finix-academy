@@ -56,8 +56,8 @@ TEMPLATE = """<!doctype html>
   h1.lesson {{ font-size: 16px; margin: 0 0 4px; }}
   .body p {{ margin: 12px 0; color: #475569; }}
   .body strong {{ font-weight: 600; color: #0f172a; }}
-  .body ul {{ margin: 12px 0; padding-inline-start: 26px; list-style: disc; }}
-  .body ol {{ margin: 12px 0; padding-inline-start: 26px; list-style: decimal; }}
+  .body ul {{ margin: 12px 0; padding-inline-start: 0; list-style: disc inside; }}
+  .body ol {{ margin: 12px 0; padding-inline-start: 0; list-style: decimal inside; }}
   .body li {{ margin: 6px 0; color: #475569; }}
   .body li::marker {{ color: #2563eb; font-weight: 600; }}
   .body table {{

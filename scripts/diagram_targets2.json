@@ -1,0 +1,107 @@
+[
+ {
+  "name": "m11-portfolio-decision",
+  "file": "m11-portfolio-decision.svg",
+  "lesson_id": "0cac31d9-271a-4afe-b583-4c85bfa227d9",
+  "caption": "Device selection runs on constraints, not preference: wiring access decides first, appearance second, convenience last.",
+  "caption_ar": "اختيار الجهاز يعتمد على القيود لا التفضيل: إتاحة التوصيل أولًا، ثم الشكل، ثم الراحة."
+ },
+ {
+  "name": "m11-protocol-decision",
+  "file": "m11-protocol-decision.svg",
+  "lesson_id": "0b64d103-84cc-45a7-8f4e-f621c06c13df",
+  "caption": "Protocol choice by consequence: device count, hub need, battery life, offline behaviour and cross-brand control.",
+  "caption_ar": "اختيار البروتوكول بالنتائج: عدد الأجهزة، الحاجة لبوابة، عمر البطارية، السلوك دون إنترنت، والتحكم بين العلامات."
+ },
+ {
+  "name": "m11-ewelink-paths",
+  "file": "m11-ewelink-paths.svg",
+  "lesson_id": "fec3280c-d47c-4b69-90a6-e05c61648e73",
+  "caption": "Two control paths: the cloud route fails with the internet, the local route keeps working — which is what the client actually feels.",
+  "caption_ar": "مساران للتحكم: السحابي يتعطل بانقطاع الإنترنت، والمحلي يستمر — وهو ما يشعر به العميل فعليًا."
+ },
+ {
+  "name": "m12-neutral-check",
+  "file": "m12-neutral-check.svg",
+  "lesson_id": "c09e7b10-810a-49bf-ac15-b4db2e083500",
+  "caption": "The neutral decides the product. Measure at the box before quoting — wire colour is not evidence in older installations.",
+  "caption_ar": "السلك المحايد يحدد المنتج. قِس في العلبة قبل التسعير — لون السلك ليس دليلًا في التمديدات القديمة."
+ },
+ {
+  "name": "m12-automation-anatomy",
+  "file": "m12-automation-anatomy.svg",
+  "lesson_id": "01938302-b182-4992-a51c-a07cc1e6c9ef",
+  "caption": "Trigger, condition, action, fallback. Skipping the condition makes it fire wrongly; skipping the fallback strands the client.",
+  "caption_ar": "المُشغّل والشرط والفعل والبديل. إهمال الشرط يجعلها تعمل خطأً، وإهمال البديل يترك العميل عالقًا."
+ },
+ {
+  "name": "m13-ha-paths",
+  "file": "m13-ha-paths.svg",
+  "lesson_id": "b76de319-41eb-40fa-8264-3ee645c9587c",
+  "caption": "Cloud, LAN or direct Zigbee. Each trades setup effort against how much of the chain can fail.",
+  "caption_ar": "سحابي أو محلي أو زيجبي مباشر. كل خيار يوازن بين جهد الإعداد وعدد نقاط الفشل في السلسلة."
+ },
+ {
+  "name": "m14-retrofit-terminals",
+  "file": "m14-retrofit-terminals.svg",
+  "lesson_id": "839bb3c5-2ccf-4172-9b50-b05e37fd14d9",
+  "caption": "Terminal mapping for a retrofit, with the four checks that prevent a destroyed device or a callback.",
+  "caption_ar": "خريطة الأطراف عند الاستبدال، مع أربع خطوات تمنع تلف الجهاز أو عودة العميل."
+ },
+ {
+  "name": "m14-dimmer-loads",
+  "file": "m14-dimmer-loads.svg",
+  "lesson_id": "9075ae13-2ba4-40ad-9519-a4a9dd0f6daf",
+  "caption": "Leading versus trailing edge, and the symptoms each mismatch produces — buzz, flicker and early driver failure.",
+  "caption_ar": "الحافة الأمامية مقابل الخلفية، وأعراض كل خطأ: طنين ووميض وتلف مبكر للمُشغّل."
+ },
+ {
+  "name": "m14-dongle-flash",
+  "file": "m14-dongle-flash.svg",
+  "lesson_id": "4dcb9c97-e744-42f9-9b47-0cc43042b621",
+  "caption": "Six ordered steps. The backup protects a failed write, and re-pairing is mandatory because the network key changes.",
+  "caption_ar": "ست خطوات مرتبة. النسخة الاحتياطية تحمي من فشل الكتابة، وإعادة الاقتران إلزامية لأن مفتاح الشبكة يتغير."
+ },
+ {
+  "name": "m15-mesh-diagnosis",
+  "file": "m15-mesh-diagnosis.svg",
+  "lesson_id": "0a561f59-af42-4f59-b582-69ce224b2a75",
+  "caption": "Each drop pattern points at a different cause. Battery devices never relay, so they add no coverage.",
+  "caption_ar": "كل نمط انقطاع يشير إلى سبب مختلف. أجهزة البطارية لا ترحّل، فلا تضيف تغطية."
+ },
+ {
+  "name": "m16-segmentation",
+  "file": "m16-segmentation.svg",
+  "lesson_id": "52a61e07-42d9-45d6-b8c3-638ca75f4faf",
+  "caption": "One-way trust: main reaches IoT, IoT reaches nothing. A compromised device is contained instead of being a doorway.",
+  "caption_ar": "ثقة باتجاه واحد: الرئيسية تصل للأجهزة والعكس ممنوع. الجهاز المخترق يُحتوى بدل أن يكون بابًا."
+ },
+ {
+  "name": "m17-troubleshoot-layers",
+  "file": "m17-troubleshoot-layers.svg",
+  "lesson_id": "c0468a0d-d67f-4263-bcde-9a766d73a1eb",
+  "caption": "Work outward from the load. Each layer must be proven before the next is blamed — most faults end at the first two.",
+  "caption_ar": "اعمل من الحمل للخارج. أثبت كل طبقة قبل اتهام التالية — معظم الأعطال تنتهي عند الأوليين."
+ },
+ {
+  "name": "f03-survey-phases",
+  "file": "f03-survey-phases.svg",
+  "lesson_id": "2514ad34-417e-40ab-b80f-8fa25a675b0a",
+  "caption": "Five phases in order. Quoting before measuring is the single most expensive sequencing error in the trade.",
+  "caption_ar": "خمس مراحل مرتبة. التسعير قبل القياس هو أغلى خطأ ترتيب في هذه المهنة."
+ },
+ {
+  "name": "f01-kpi-loop",
+  "file": "f01-kpi-loop.svg",
+  "lesson_id": "5f1efe41-3ff6-4677-9efe-d0cec8d3ca22",
+  "caption": "Evaluation only changes behaviour as a loop: observe, measure, feed back within the week, train on the gap.",
+  "caption_ar": "التقييم يغيّر السلوك كدورة: لاحظ، قِس، أعطِ التغذية الراجعة خلال الأسبوع، درّب على الفجوة."
+ },
+ {
+  "name": "f08-toolkit",
+  "file": "f08-toolkit.svg",
+  "lesson_id": "5589552b-09fd-47f8-bb4d-7cc87fb98f51",
+  "caption": "Tools grouped by what they prevent — injury, damage, callbacks — which is also the order to buy them in.",
+  "caption_ar": "الأدوات مرتبة حسب ما تمنعه: إصابة، تلف، عودة للموقع — وهو ترتيب الشراء أيضًا."
+ }
+]
