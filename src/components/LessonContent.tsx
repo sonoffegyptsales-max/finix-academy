@@ -42,25 +42,26 @@ export function LessonContent({
             <em className="italic">{children}</em>
           ),
 
-          // Lists start flush at the line, with the marker as the first thing
-          // on the line — the reviewer asked for numbered points to begin at
-          // the start of the line rather than sitting in from it.
+          // Lists use list-OUTSIDE with logical padding.
           //
-          // `list-inside` puts the marker in the content flow instead of
-          // hanging it in the padding, so no indent is needed and nothing is
-          // left stranded in the margin when the page flips to RTL.
+          // list-inside was tried first to make markers start at the line, but
+          // it makes the marker an inline box at the start of the item's own
+          // text flow: with a long Arabic paragraph the number ends up alone on
+          // its line and the text wraps underneath it. list-outside hangs the
+          // marker in the padding instead, giving a proper hanging indent, and
+          // ps-* is logical so it mirrors to the right edge under dir="rtl".
           ul: ({ children }: { children?: ReactNode }) => (
-            <ul className="mt-3 list-inside list-disc space-y-1.5 ps-0 text-muted-foreground marker:text-primary">
+            <ul className="mt-3 list-outside list-disc space-y-2 ps-5 text-muted-foreground marker:text-primary">
               {children}
             </ul>
           ),
           ol: ({ children }: { children?: ReactNode }) => (
-            <ol className="mt-3 list-inside list-decimal space-y-1.5 ps-0 text-muted-foreground marker:font-semibold marker:text-primary">
+            <ol className="mt-3 list-outside list-decimal space-y-2 ps-5 text-muted-foreground marker:font-semibold marker:text-primary">
               {children}
             </ol>
           ),
           li: ({ children }: { children?: ReactNode }) => (
-            <li className="ps-0">{children}</li>
+            <li className="ps-1">{children}</li>
           ),
 
           // Tables: the single biggest readability win. These were previously
