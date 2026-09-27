@@ -92,6 +92,9 @@ REWRITE_SIGNALS = {
         r"(?<![\w\u0621-\u064A])(?:لماذا|ماذا|عندما)"
         r"(?![\w\u0621-\u064A])"),
     "يجب أن": re.compile(r"(?<![\w\u0621-\u064A])يجب أ[نّ](?![\w\u0621-\u064A])"),
+    # ينبغي was found the same way لماذا was: by reading a deployed page, not
+    # by any audit. Egyptian says لازم / المفروض / ميصحش.
+    "ينبغي": re.compile(r"(?<![\w\u0621-\u064A])ينبغي(?![\w\u0621-\u064A])"),
     "long MSA sentence": re.compile(
         r"[^.!?\n]{150,}?" + MSA_MARKER + r"[^.!?\n]{0,150}[.!?]"),
 }
