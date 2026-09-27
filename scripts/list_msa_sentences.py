@@ -42,7 +42,11 @@ def strip_non_prose(text: str) -> str:
     return "\n".join(out)
 
 
-SPLIT = re.compile(r"(?<=[.!?:])\s+")
+# Split on sentence punctuation OR a blank line. Stripping tables leaves the
+# surrounding bold headings adjacent, and without the blank-line rule they glue
+# into one enormous pseudo-sentence that trips the length signal -- which is
+# why the F08 lessons kept reporting after the table fix.
+SPLIT = re.compile(r"(?<=[.!?:])\s+|\n\s*\n")
 
 
 def main() -> int:
