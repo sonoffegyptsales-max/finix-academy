@@ -54,6 +54,7 @@ def main() -> int:
     slug = sys.argv[1] if len(sys.argv) > 1 else "sonoff-ecosystem-fundamentals"
     out = sys.argv[2] if len(sys.argv) > 2 else "lesson.png"
     base = "https://finix-academy.vercel.app"
+    lang = sys.argv[sys.argv.index("--lang") + 1] if "--lang" in sys.argv else "ar"
     if "--base" in sys.argv:
         base = sys.argv[sys.argv.index("--base") + 1]
 
@@ -201,7 +202,7 @@ def main() -> int:
         "user": session.get("user", {}),
     })
     js(f"localStorage.setItem({json.dumps(sess_key)}, {json.dumps(sess_json)});"
-       f"localStorage.setItem('lang','ar');1")
+       f"localStorage.setItem('lang','{lang}');1")
     goto(f"{base}/dashboard/module/{slug}", 12)
 
     print("url     :", js("location.pathname"))

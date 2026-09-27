@@ -272,7 +272,20 @@ def d_star_delta_conn():
         b += txt(px + (0 if lab == "U1" else (-8 if px < cx else 8)), py + oy,
                  lab, 12, INK, "700", ax)
     b += dot(cx, cy, ACC, 4.5)
-    b += txt(cx - 14, cy + 22, "neutral point", 10.5, ACC, "600", "end")
+    # The star point is where U2, V2 and W2 are joined. Labelling only U1/V1/W1
+    # left the diagram half-told: a trainee comparing it with the delta side
+    # (which names both ends of every winding as U1/W2 etc.) cannot see WHICH
+    # ends form the star point, and that is the whole difference between the
+    # two connections.
+    #
+    # The label sits ABOVE-LEFT on a leader line, clear of all three legs. An
+    # earlier version placed it just below the star point, where it collided
+    # with the V1 and W1 legs and with the Arabic caption.
+    lx, ly = cx - 86, cy - 34
+    b += line(cx - 6, cy - 3, lx + 66, ly + 4, ACC, 1.0, "2 3")
+    b += txt(lx + 62, ly, "U2·V2·W2 joined", 10, ACC, "700", "end")
+    b += txt(lx + 62, ly + 13, "= neutral point", 10, ACC, "600", "end")
+    b += ar(lx + 62, ly + 27, "نقطة التعادل", 9.5, MUT, "end")
     b += txt(cx, cy + 96, "phase voltage = line / 1.73", 11.5, MUT, "500", "middle")
     # delta
     dx, dy, s = 470, 178, 76

@@ -5,7 +5,7 @@
     "lesson_id": "c7c13ea1-ef51-48a7-8989-0ff57cf793ec",
     "caption": "Star and delta: in star each winding sees line voltage divided by 1.73, which is why star-delta starting reduces both current and torque to roughly a third.",
     "caption_ar": "النجمة والدلتا: في النجمة يرى كل ملف جهد الخط مقسومًا على ١٫٧٣، ولهذا يخفض بدء النجمة دلتا التيار والعزم إلى نحو الثلث.",
-    "bytes": 4876
+    "bytes": 5397
   },
   {
     "name": "f04-trip-curve",

@@ -1,0 +1,845 @@
+{
+ "equations": [
+  {
+   "id": "bc8df72a-46d0-4748-a85d-1a757439dc59",
+   "tag": "I01 L2 · The Latch Circuit and Stop Priority",
+   "formulas": 0,
+   "worked": 2
+  },
+  {
+   "id": "61310d26-886e-40c2-9f34-bde256880ae6",
+   "tag": "I06 L1 · Supply Faults and What They Destroy",
+   "formulas": 0,
+   "worked": 2
+  },
+  {
+   "id": "9cfab0ce-6f45-4247-86e4-db1a08e46781",
+   "tag": "F02 L2 · Voltage, Current, Resistance & Power: The Core",
+   "formulas": 18,
+   "worked": 0
+  },
+  {
+   "id": "c7c13ea1-ef51-48a7-8989-0ff57cf793ec",
+   "tag": "F02 L4 · Three-Phase Power: Star vs Delta Connections",
+   "formulas": 34,
+   "worked": 4
+  },
+  {
+   "id": "364ee932-c563-4a4c-bcde-30447f743d60",
+   "tag": "F02 L3 · Cable Sizing: Matching Wire Gauge to Load",
+   "formulas": 8,
+   "worked": 3
+  },
+  {
+   "id": "9aef9385-949a-4a72-933d-4d473eb77e6b",
+   "tag": "F04 L4 · Contactors, Selector Switches & Overload Prote",
+   "formulas": 0,
+   "worked": 3
+  },
+  {
+   "id": "326f7bd1-77bc-4ad8-8ec0-dfa776d6b1bf",
+   "tag": "M11 L4 · Product Selection for Real-World Scenarios",
+   "formulas": 0,
+   "worked": 2
+  },
+  {
+   "id": "31b21586-c843-40fa-a0d8-56fe8915c2bf",
+   "tag": "F06 L4 · Automation vs. \"Just Smart\": Building Real Log",
+   "formulas": 0,
+   "worked": 2
+  },
+  {
+   "id": "275e2058-47b7-41b3-9e09-9ec9d1b13a04",
+   "tag": "I04 L3 · Interval, One-Shot and Repeat-Cycle Functions",
+   "formulas": 0,
+   "worked": 2
+  },
+  {
+   "id": "8cbf2109-b632-4188-a35e-9b4a76e43d4f",
+   "tag": "I04 L2 · ON-Delay and OFF-Delay: The Two Foundations",
+   "formulas": 0,
+   "worked": 3
+  },
+  {
+   "id": "ff522b12-cc96-48c0-9af1-205ae02c143c",
+   "tag": "I05 L2 · Photocell and Daylight Switching",
+   "formulas": 0,
+   "worked": 5
+  },
+  {
+   "id": "4957a9d5-37ec-4594-a197-a237ecbd6069",
+   "tag": "I05 L4 · Pump Alternation: Duty, Standby and Changeover",
+   "formulas": 0,
+   "worked": 2
+  },
+  {
+   "id": "f0d56220-e05e-4a3c-90db-83f54c1320cf",
+   "tag": "I01 L1 · Inside a Contactor",
+   "formulas": 0,
+   "worked": 1
+  }
+ ],
+ "table_lessons": [
+  {
+   "id": "fe86f1b6-464f-4bee-a943-d118e6d9c559",
+   "tag": "F04 L2 · Circuit Breakers: MCB, MCCB & ACB",
+   "pairs": 3,
+   "gloss_pairs": 18,
+   "table_rows": 0
+  },
+  {
+   "id": "44629965-2892-4acd-b7e6-dced00e35f9c",
+   "tag": "F08 L1 · Room & Space Terminology: A Bilingual Referenc",
+   "pairs": 17,
+   "gloss_pairs": 27,
+   "table_rows": 0
+  },
+  {
+   "id": "2514ad34-417e-40ab-b80f-8fa25a675b0a",
+   "tag": "F03 L1 · Site Survey Methodology: Phases & Objectives",
+   "pairs": 9,
+   "gloss_pairs": 7,
+   "table_rows": 0
+  },
+  {
+   "id": "c7c13ea1-ef51-48a7-8989-0ff57cf793ec",
+   "tag": "F02 L4 · Three-Phase Power: Star vs Delta Connections",
+   "pairs": 0,
+   "gloss_pairs": 18,
+   "table_rows": 0
+  },
+  {
+   "id": "9e0e9d8c-5dd2-448c-87a4-4ddb62688184",
+   "tag": "F04 L3 · Relays: Structure, Operation & Types",
+   "pairs": 3,
+   "gloss_pairs": 17,
+   "table_rows": 0
+  },
+  {
+   "id": "9aef9385-949a-4a72-933d-4d473eb77e6b",
+   "tag": "F04 L4 · Contactors, Selector Switches & Overload Prote",
+   "pairs": 4,
+   "gloss_pairs": 13,
+   "table_rows": 0
+  },
+  {
+   "id": "023e2483-0c45-43cf-899e-ac6ee0522bf8",
+   "tag": "F08 L2 · Device Terminology: Lighting, Switches, Outlet",
+   "pairs": 12,
+   "gloss_pairs": 37,
+   "table_rows": 0
+  },
+  {
+   "id": "5589552b-09fd-47f8-bb4d-7cc87fb98f51",
+   "tag": "F08 L3 · The Smart Home Technician's Field Toolkit",
+   "pairs": 5,
+   "gloss_pairs": 13,
+   "table_rows": 0
+  },
+  {
+   "id": "5f1efe41-3ff6-4677-9efe-d0cec8d3ca22",
+   "tag": "F01 L3 · Field Performance Evaluation Form & KPIs",
+   "pairs": 3,
+   "gloss_pairs": 13,
+   "table_rows": 0
+  }
+ ],
+ "english_gloss": [
+  {
+   "id": "8f519f32-ef0d-483c-8c23-b4c6e6ad7949",
+   "tag": "F03 L2 · Questions to Ask the Client During Survey",
+   "terms": [
+    "اللوحة"
+   ],
+   "count": 1
+  },
+  {
+   "id": "0cac31d9-271a-4afe-b583-4c85bfa227d9",
+   "tag": "M11 L1 · The SONOFF Product Portfolio: An Installer's M",
+   "terms": [
+    "المحايد"
+   ],
+   "count": 1
+  },
+  {
+   "id": "fe86f1b6-464f-4bee-a943-d118e6d9c559",
+   "tag": "F04 L2 · Circuit Breakers: MCB, MCCB & ACB",
+   "terms": [
+    "القاطع",
+    "التيار",
+    "اللوحة",
+    "التلامس"
+   ],
+   "count": 4
+  },
+  {
+   "id": "bc8df72a-46d0-4748-a85d-1a757439dc59",
+   "tag": "I01 L2 · The Latch Circuit and Stop Priority",
+   "terms": [
+    "الكونتاكتور",
+    "اللوحة",
+    "الملف",
+    "التلامس",
+    "التثبيت"
+   ],
+   "count": 5
+  },
+  {
+   "id": "7f4eb767-3afe-45a2-92a2-bc505962b8e2",
+   "tag": "I01 L3 · Interlocking, Reversing and Circuit Separation",
+   "terms": [
+    "التباطؤ",
+    "الكونتاكتور",
+    "المؤقت",
+    "الأطوار",
+    "اللوحة",
+    "الملف",
+    "التلامس",
+    "التعشيق"
+   ],
+   "count": 8
+  },
+  {
+   "id": "83cfa3d6-22d4-4c31-8ae5-64f2907a927c",
+   "tag": "M12 L2 · Advanced Device Configuration",
+   "terms": [
+    "الريليه"
+   ],
+   "count": 1
+  },
+  {
+   "id": "65be396b-f17c-451f-a5d1-4417a18bfdaa",
+   "tag": "I02 L2 · Star-Delta Starting in Practice",
+   "terms": [
+    "التباطؤ",
+    "الريليه",
+    "المؤقت",
+    "التردد",
+    "الأطوار",
+    "اللوحة",
+    "الملف",
+    "التعشيق"
+   ],
+   "count": 8
+  },
+  {
+   "id": "46ff4045-ab86-408f-b340-bb681e7aef49",
+   "tag": "I02 L3 · Two-Speed Motors, Soft Starters and Drives",
+   "terms": [
+    "الكونتاكتور",
+    "القدرة",
+    "التردد",
+    "الملف"
+   ],
+   "count": 4
+  },
+  {
+   "id": "b76de319-41eb-40fa-8264-3ee645c9587c",
+   "tag": "M13 L1 · Integrating SONOFF with Home Assistant",
+   "terms": [
+    "الحساس",
+    "القدرة"
+   ],
+   "count": 2
+  },
+  {
+   "id": "90e3717d-ec4e-45aa-800c-4a1670493ba3",
+   "tag": "I02 L1 · The Starting Current Problem",
+   "terms": [
+    "الأطوار",
+    "الملف"
+   ],
+   "count": 2
+  },
+  {
+   "id": "9ae332b0-2ba5-4b8c-b249-345955713baa",
+   "tag": "F03 L3 · Site Survey Forms: Room-by-Room & System-by-Sy",
+   "terms": [
+    "البوابة"
+   ],
+   "count": 1
+  },
+  {
+   "id": "1bcfc502-39ca-4348-8a12-c31837942842",
+   "tag": "F01 L2 · Technical Support & Commercial/Service Aspects",
+   "terms": [
+    "القدرة"
+   ],
+   "count": 1
+  },
+  {
+   "id": "9075ae13-2ba4-40ad-9519-a4a9dd0f6daf",
+   "tag": "M14 L2 · Configuring Dimmer Switches: Load Types & Curv",
+   "terms": [
+    "العتبة",
+    "القدرة",
+    "الطور",
+    "الملف"
+   ],
+   "count": 4
+  },
+  {
+   "id": "4dcb9c97-e744-42f9-9b47-0cc43042b621",
+   "tag": "M14 L5 · Flashing a Zigbee USB Coordinator (Dongle)",
+   "terms": [
+    "اللوحة"
+   ],
+   "count": 1
+  },
+  {
+   "id": "035cab60-53ef-45ff-8826-05592b158813",
+   "tag": "I03 L1 · Overload Versus Short Circuit: Two Different T",
+   "terms": [
+    "الكونتاكتور",
+    "الريليه",
+    "القدرة",
+    "الملف",
+    "التلامس"
+   ],
+   "count": 5
+  },
+  {
+   "id": "ca94a224-e06c-4493-8293-af953794217b",
+   "tag": "I03 L2 · Thermistors, Special Cases and Protection Coor",
+   "terms": [
+    "الكونتاكتور",
+    "الريليه",
+    "اللوحة",
+    "الملف",
+    "التثبيت"
+   ],
+   "count": 5
+  },
+  {
+   "id": "61310d26-886e-40c2-9f34-bde256880ae6",
+   "tag": "I06 L1 · Supply Faults and What They Destroy",
+   "terms": [
+    "الاستشعار",
+    "الكونتاكتور",
+    "القدرة",
+    "الأطوار",
+    "الملف"
+   ],
+   "count": 5
+  },
+  {
+   "id": "83ba56c9-05e9-4855-a962-08d47799a764",
+   "tag": "I07 L1 · Building a Panel That Can Be Maintained",
+   "terms": [
+    "الكونتاكتور",
+    "المؤقت",
+    "القدرة",
+    "المقاومة",
+    "اللوحة",
+    "التثبيت"
+   ],
+   "count": 6
+  },
+  {
+   "id": "aa69ca56-dd65-417e-ad60-cf559282f04f",
+   "tag": "I07 L2 · A Systematic Fault-Finding Method",
+   "terms": [
+    "الكونتاكتور",
+    "الريليه",
+    "المقاومة",
+    "الأطوار",
+    "اللوحة"
+   ],
+   "count": 5
+  },
+  {
+   "id": "1ff7c4b1-a422-4a87-b79f-d669eda9b4a5",
+   "tag": "F02 L1 · DC vs AC: Fundamentals Every Installer Needs",
+   "terms": [
+    "القدرة",
+    "التردد"
+   ],
+   "count": 2
+  },
+  {
+   "id": "2514ad34-417e-40ab-b80f-8fa25a675b0a",
+   "tag": "F03 L1 · Site Survey Methodology: Phases & Objectives",
+   "terms": [
+    "اللوحة"
+   ],
+   "count": 1
+  },
+  {
+   "id": "c7c13ea1-ef51-48a7-8989-0ff57cf793ec",
+   "tag": "F02 L4 · Three-Phase Power: Star vs Delta Connections",
+   "terms": [
+    "الأطوار",
+    "الملف"
+   ],
+   "count": 2
+  },
+  {
+   "id": "364ee932-c563-4a4c-bcde-30447f743d60",
+   "tag": "F02 L3 · Cable Sizing: Matching Wire Gauge to Load",
+   "terms": [
+    "التيار",
+    "القدرة"
+   ],
+   "count": 2
+  },
+  {
+   "id": "6b7c4fba-6189-495f-84fc-d82db7aec6ba",
+   "tag": "F04 L1 · Adapters, Power Supplies & Chargers: Key Diffe",
+   "terms": [
+    "المرحل",
+    "المقاومة"
+   ],
+   "count": 2
+  },
+  {
+   "id": "9e0e9d8c-5dd2-448c-87a4-4ddb62688184",
+   "tag": "F04 L3 · Relays: Structure, Operation & Types",
+   "terms": [
+    "الريليه"
+   ],
+   "count": 1
+  },
+  {
+   "id": "9aef9385-949a-4a72-933d-4d473eb77e6b",
+   "tag": "F04 L4 · Contactors, Selector Switches & Overload Prote",
+   "terms": [
+    "الكونتاكتور",
+    "الريليه",
+    "الحمل",
+    "القدرة",
+    "الأطوار",
+    "التلامس"
+   ],
+   "count": 6
+  },
+  {
+   "id": "35f79863-160b-4a44-9ef6-63c8dde35d06",
+   "tag": "I06 L2 · Phase-Sequence, Phase-Failure and Voltage Moni",
+   "terms": [
+    "الكونتاكتور",
+    "الريليه",
+    "الأطوار",
+    "الملف"
+   ],
+   "count": 4
+  },
+  {
+   "id": "070e8b32-7d08-4912-8f45-0bc6bb671eeb",
+   "tag": "I06 L3 · Smart Supply Monitoring: What Moves to the App",
+   "terms": [
+    "الاستشعار",
+    "الكونتاكتور",
+    "الريليه",
+    "القدرة",
+    "الأطوار",
+    "اللوحة",
+    "التلامس"
+   ],
+   "count": 7
+  },
+  {
+   "id": "fec3280c-d47c-4b69-90a6-e05c61648e73",
+   "tag": "M11 L3 · Working with the eWeLink Platform",
+   "terms": [
+    "المشهد"
+   ],
+   "count": 1
+  },
+  {
+   "id": "326f7bd1-77bc-4ad8-8ec0-dfa776d6b1bf",
+   "tag": "M11 L4 · Product Selection for Real-World Scenarios",
+   "terms": [
+    "الحمل",
+    "المقاومة",
+    "المحايد"
+   ],
+   "count": 3
+  },
+  {
+   "id": "d7de7275-954d-44a6-8f00-afa60e365d1d",
+   "tag": "F07 L1 · Alpha Control: What It Is and Why It Replaces ",
+   "terms": [
+    "الريليه",
+    "اللوحة"
+   ],
+   "count": 2
+  },
+  {
+   "id": "b500f1b4-e14d-4d16-a109-95a6b4171d31",
+   "tag": "F07 L2 · Protocols & Connectivity: Why Alpha Control Is",
+   "terms": [
+    "اللوحة"
+   ],
+   "count": 1
+  },
+  {
+   "id": "246d3281-ac32-44ac-aad7-50cd955d10d4",
+   "tag": "F07 L4 · Safety, Environmental Ratings & Installation C",
+   "terms": [
+    "الريليه",
+    "التيار",
+    "اللوحة"
+   ],
+   "count": 3
+  },
+  {
+   "id": "31b21586-c843-40fa-a0d8-56fe8915c2bf",
+   "tag": "F06 L4 · Automation vs. \"Just Smart\": Building Real Log",
+   "terms": [
+    "الأتمتة"
+   ],
+   "count": 1
+  },
+  {
+   "id": "275e2058-47b7-41b3-9e09-9ec9d1b13a04",
+   "tag": "I04 L3 · Interval, One-Shot and Repeat-Cycle Functions",
+   "terms": [
+    "المؤقت"
+   ],
+   "count": 1
+  },
+  {
+   "id": "d8f53440-2769-4e2a-b351-7af923df7725",
+   "tag": "I04 L4 · Reading a Timing Diagram and Setting a Real Ti",
+   "terms": [
+    "الكونتاكتور",
+    "المؤقت",
+    "اللوحة",
+    "الملف",
+    "التلامس"
+   ],
+   "count": 5
+  },
+  {
+   "id": "023e2483-0c45-43cf-899e-ac6ee0522bf8",
+   "tag": "F08 L2 · Device Terminology: Lighting, Switches, Outlet",
+   "terms": [
+    "المرحل"
+   ],
+   "count": 1
+  },
+  {
+   "id": "5589552b-09fd-47f8-bb4d-7cc87fb98f51",
+   "tag": "F08 L3 · The Smart Home Technician's Field Toolkit",
+   "terms": [
+    "الجهد",
+    "التثبيت"
+   ],
+   "count": 2
+  },
+  {
+   "id": "b4361bcd-26f1-4b73-8f9d-48e33a0c1fe3",
+   "tag": "I04 L1 · Time as a Control Variable",
+   "terms": [
+    "الريليه",
+    "المؤقت",
+    "اللوحة",
+    "التلامس"
+   ],
+   "count": 4
+  },
+  {
+   "id": "8cbf2109-b632-4188-a35e-9b4a76e43d4f",
+   "tag": "I04 L2 · ON-Delay and OFF-Delay: The Two Foundations",
+   "terms": [
+    "المؤقت",
+    "التلامس",
+    "التثبيت"
+   ],
+   "count": 3
+  },
+  {
+   "id": "1b75b486-5c97-4821-8cd4-54c406d0f9f1",
+   "tag": "I04 L5 · The Star-Delta Timing Sequence",
+   "terms": [
+    "الكونتاكتور",
+    "المؤقت",
+    "التردد",
+    "الأطوار",
+    "الملف",
+    "التلامس",
+    "التعشيق"
+   ],
+   "count": 7
+  },
+  {
+   "id": "4648ea4a-e5d0-40f0-b6fa-0aeaed9732d3",
+   "tag": "I04 L6 · From Timer Relay to Smart Scheduling: Where Ea",
+   "terms": [
+    "الريليه",
+    "المؤقت",
+    "اللوحة"
+   ],
+   "count": 3
+  },
+  {
+   "id": "e37122e7-e8d1-4e90-857d-6a690b497a32",
+   "tag": "I05 L1 · What a Sensing Relay Is and Why It Needs Hyste",
+   "terms": [
+    "الاستشعار",
+    "العتبة",
+    "الكونتاكتور",
+    "الريليه",
+    "المؤقت",
+    "الأطوار"
+   ],
+   "count": 6
+  },
+  {
+   "id": "ff522b12-cc96-48c0-9af1-205ae02c143c",
+   "tag": "I05 L2 · Photocell and Daylight Switching",
+   "terms": [
+    "العتبة",
+    "الكونتاكتور",
+    "الريليه",
+    "المؤقت",
+    "المقاومة"
+   ],
+   "count": 5
+  },
+  {
+   "id": "fa32cc2b-a851-4c90-af03-05b13bd46109",
+   "tag": "I05 L3 · Liquid Level Relays and Dry-Run Protection",
+   "terms": [
+    "الاستشعار",
+    "التباطؤ",
+    "الريليه"
+   ],
+   "count": 3
+  },
+  {
+   "id": "4957a9d5-37ec-4594-a197-a237ecbd6069",
+   "tag": "I05 L4 · Pump Alternation: Duty, Standby and Changeover",
+   "terms": [
+    "المؤقت",
+    "القدرة",
+    "التلامس",
+    "التعشيق"
+   ],
+   "count": 4
+  },
+  {
+   "id": "1dc66d6d-f7dc-4376-8846-d298fc492dd3",
+   "tag": "I05 L5 · From Sensing Relay to Smart Sensor: The Retrof",
+   "terms": [
+    "الاستشعار",
+    "المؤقت",
+    "التيار",
+    "اللوحة",
+    "التعشيق"
+   ],
+   "count": 5
+  },
+  {
+   "id": "f0d56220-e05e-4a3c-90db-83f54c1320cf",
+   "tag": "I01 L1 · Inside a Contactor",
+   "terms": [
+    "الكونتاكتور",
+    "الأطوار",
+    "الملف",
+    "التلامس"
+   ],
+   "count": 4
+  },
+  {
+   "id": "856d8d88-835e-48f9-998b-c67728c74f14",
+   "tag": "M12 L4 · Using SONOFF Planning Tools",
+   "terms": [
+    "التلامس"
+   ],
+   "count": 1
+  },
+  {
+   "id": "90d1610e-2dca-4946-a321-8b93d4e125fe",
+   "tag": "M17 L1 · Scene & Routine Design for Real Households",
+   "terms": [
+    "المشهد"
+   ],
+   "count": 1
+  },
+  {
+   "id": "e7830b6f-7b25-4d4d-9ff9-6cc35f62360b",
+   "tag": "M15 L3 · Energy Monitoring: Reading and Acting on Power",
+   "terms": [
+    "العتبة",
+    "الجهد",
+    "التيار",
+    "القدرة"
+   ],
+   "count": 4
+  },
+  {
+   "id": "5f1efe41-3ff6-4677-9efe-d0cec8d3ca22",
+   "tag": "F01 L3 · Field Performance Evaluation Form & KPIs",
+   "terms": [
+    "القدرة",
+    "اللوحة"
+   ],
+   "count": 2
+  },
+  {
+   "id": "3d8108c2-70ea-405c-97ea-60439876281b",
+   "tag": "F01 L1 · The 4 Core Roles in a Smart Home Team",
+   "terms": [
+    "القدرة"
+   ],
+   "count": 1
+  }
+ ],
+ "translationese": [
+  {
+   "id": "d492cb5e-c412-4b4f-b3f7-3a25bcce4e10",
+   "tag": "F06 L1 · How a Zigbee Mesh Actually Forms and Heals Its",
+   "signals": 4,
+   "ar_len": 1944
+  },
+  {
+   "id": "9ae332b0-2ba5-4b8c-b249-345955713baa",
+   "tag": "F03 L3 · Site Survey Forms: Room-by-Room & System-by-Sy",
+   "signals": 4,
+   "ar_len": 2167
+  },
+  {
+   "id": "035cab60-53ef-45ff-8826-05592b158813",
+   "tag": "I03 L1 · Overload Versus Short Circuit: Two Different T",
+   "signals": 3,
+   "ar_len": 4166
+  },
+  {
+   "id": "9aef9385-949a-4a72-933d-4d473eb77e6b",
+   "tag": "F04 L4 · Contactors, Selector Switches & Overload Prote",
+   "signals": 5,
+   "ar_len": 2783
+  },
+  {
+   "id": "0e01899c-90fc-4b0f-a6c2-1d9213f6fce0",
+   "tag": "F05 L2 · IP Addresses: How Every Device Gets Found",
+   "signals": 3,
+   "ar_len": 1350
+  },
+  {
+   "id": "3a9e97a4-e89a-462d-a813-ffd0e6f9e477",
+   "tag": "F05 L3 · Private vs Public IP, IP Classes, and How NAT ",
+   "signals": 3,
+   "ar_len": 1840
+  },
+  {
+   "id": "82bf3204-7e2f-4b1a-9632-39bc71456409",
+   "tag": "F07 L3 · The Three Expansion Modules & When to Use Each",
+   "signals": 5,
+   "ar_len": 2302
+  }
+ ],
+ "missing_figures": [
+  {
+   "id": "83cfa3d6-22d4-4c31-8ae5-64f2907a927c",
+   "tag": "M12 L2 · Advanced Device Configuration",
+   "circuit_mentions": 7
+  },
+  {
+   "id": "65be396b-f17c-451f-a5d1-4417a18bfdaa",
+   "tag": "I02 L2 · Star-Delta Starting in Practice",
+   "circuit_mentions": 51
+  },
+  {
+   "id": "46ff4045-ab86-408f-b340-bb681e7aef49",
+   "tag": "I02 L3 · Two-Speed Motors, Soft Starters and Drives",
+   "circuit_mentions": 35
+  },
+  {
+   "id": "73a9a8f7-c874-45fa-bcbf-717ab32ed97c",
+   "tag": "M14 L4 · Building a Smart Thermostat with a Multi-Funct",
+   "circuit_mentions": 21
+  },
+  {
+   "id": "ca94a224-e06c-4493-8293-af953794217b",
+   "tag": "I03 L2 · Thermistors, Special Cases and Protection Coor",
+   "circuit_mentions": 46
+  },
+  {
+   "id": "61310d26-886e-40c2-9f34-bde256880ae6",
+   "tag": "I06 L1 · Supply Faults and What They Destroy",
+   "circuit_mentions": 13
+  },
+  {
+   "id": "83ba56c9-05e9-4855-a962-08d47799a764",
+   "tag": "I07 L1 · Building a Panel That Can Be Maintained",
+   "circuit_mentions": 58
+  },
+  {
+   "id": "364ee932-c563-4a4c-bcde-30447f743d60",
+   "tag": "F02 L3 · Cable Sizing: Matching Wire Gauge to Load",
+   "circuit_mentions": 17
+  },
+  {
+   "id": "6b7c4fba-6189-495f-84fc-d82db7aec6ba",
+   "tag": "F04 L1 · Adapters, Power Supplies & Chargers: Key Diffe",
+   "circuit_mentions": 7
+  },
+  {
+   "id": "9e0e9d8c-5dd2-448c-87a4-4ddb62688184",
+   "tag": "F04 L3 · Relays: Structure, Operation & Types",
+   "circuit_mentions": 26
+  },
+  {
+   "id": "9aef9385-949a-4a72-933d-4d473eb77e6b",
+   "tag": "F04 L4 · Contactors, Selector Switches & Overload Prote",
+   "circuit_mentions": 34
+  },
+  {
+   "id": "070e8b32-7d08-4912-8f45-0bc6bb671eeb",
+   "tag": "I06 L3 · Smart Supply Monitoring: What Moves to the App",
+   "circuit_mentions": 29
+  },
+  {
+   "id": "326f7bd1-77bc-4ad8-8ec0-dfa776d6b1bf",
+   "tag": "M11 L4 · Product Selection for Real-World Scenarios",
+   "circuit_mentions": 11
+  },
+  {
+   "id": "d7de7275-954d-44a6-8f00-afa60e365d1d",
+   "tag": "F07 L1 · Alpha Control: What It Is and Why It Replaces ",
+   "circuit_mentions": 7
+  },
+  {
+   "id": "246d3281-ac32-44ac-aad7-50cd955d10d4",
+   "tag": "F07 L4 · Safety, Environmental Ratings & Installation C",
+   "circuit_mentions": 12
+  },
+  {
+   "id": "d8f53440-2769-4e2a-b351-7af923df7725",
+   "tag": "I04 L4 · Reading a Timing Diagram and Setting a Real Ti",
+   "circuit_mentions": 25
+  },
+  {
+   "id": "b4361bcd-26f1-4b73-8f9d-48e33a0c1fe3",
+   "tag": "I04 L1 · Time as a Control Variable",
+   "circuit_mentions": 26
+  },
+  {
+   "id": "4648ea4a-e5d0-40f0-b6fa-0aeaed9732d3",
+   "tag": "I04 L6 · From Timer Relay to Smart Scheduling: Where Ea",
+   "circuit_mentions": 21
+  },
+  {
+   "id": "f0d56220-e05e-4a3c-90db-83f54c1320cf",
+   "tag": "I01 L1 · Inside a Contactor",
+   "circuit_mentions": 65
+  },
+  {
+   "id": "856d8d88-835e-48f9-998b-c67728c74f14",
+   "tag": "M12 L4 · Using SONOFF Planning Tools",
+   "circuit_mentions": 11
+  },
+  {
+   "id": "f233f930-9948-41f8-b858-1ff582719d41",
+   "tag": "M12 L5 · Project Documentation & Handover",
+   "circuit_mentions": 7
+  },
+  {
+   "id": "e7830b6f-7b25-4d4d-9ff9-6cc35f62360b",
+   "tag": "M15 L3 · Energy Monitoring: Reading and Acting on Power",
+   "circuit_mentions": 7
+  }
+ ]
+}
