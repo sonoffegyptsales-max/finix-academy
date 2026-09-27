@@ -1,0 +1,107 @@
+[
+ {
+  "id": "0d2c411b-c889-4b7f-bc8a-18c73f206ff0",
+  "title": "Cross-Platform Integration Strategy",
+  "sentence": "و\"يتطلب سحابة eWeLink بلا بديل\" مخاطرة ينبغي أن تكون مرئية في مستند التسليم لا مفاجأة بعد ثلاث سنوات."
+ },
+ {
+  "id": "7f4eb767-3afe-45a2-92a2-bc505962b8e2",
+  "title": "Interlocking, Reversing and Circuit Sepa",
+  "sentence": "يقلل ذلك التداخل المحثّ في أسلاك التحكم، والأهم أنه يجعل اللوحة مقروءة — فالفني المتتبع لعطل تحكم لا ينبغي أن ينبش في كابلات القوى ليفعل ذلك."
+ },
+ {
+  "id": "83cfa3d6-22d4-4c31-8ae5-64f2907a927c",
+  "title": "Advanced Device Configuration",
+  "sentence": "- **مفصول.** الافتراضي الآمن لأي شيء فيه خطر — دفايات ومحركات وكل ما لا ينبغي أن يبدأ بلا مراقبة."
+ },
+ {
+  "id": "bc8df72a-46d0-4748-a85d-1a757439dc59",
+  "title": "The Latch Circuit and Stop Priority",
+  "sentence": "ونية التصميم بسيطة — ينبغي أن يستطيع أي جهاز وقائي إيقاف الماكينة بمفرده، دون اعتماد على جهاز آخر."
+ },
+ {
+  "id": "65be396b-f17c-451f-a5d1-4417a18bfdaa",
+  "title": "Star-Delta Starting in Practice",
+  "sentence": "فبادئ نجمة/دلتا يقلل الاندفاع *الابتدائي* بفعالية، لكن إن حدث الانتقال مبكرًا جدًا — قبل تسارع المحرك كما ينبغي — قد يكون اندفاع الانتقال شديدًا."
+ },
+ {
+  "id": "65be396b-f17c-451f-a5d1-4417a18bfdaa",
+  "title": "Star-Delta Starting in Practice",
+  "sentence": "وضبط الحمل الزائد على تيار الحمل الكامل *للخط* بينما يقيس تيار *الملف* سيضبط الحماية أعلى بكثير مما ينبغي، تاركًا المحرك بلا حماية فعليًا."
+ },
+ {
+  "id": "b6b8265e-6e13-4252-a889-b347cc5c09c8",
+  "title": "Deep Dive: The Matter Ecosystem",
+  "sentence": "**القيود الصادقة التي ينبغي ذكرها مقدمًا.**"
+ },
+ {
+  "id": "f67d458a-a6bb-48f8-b598-bc0485dd996a",
+  "title": "Integrating SONOFF with Homey",
+  "sentence": "فإن اعتمد جهاز حرج على تطبيق غير مصون فتلك مخاطرة ينبغي تسميتها في التسليم لا اكتشافها لاحقًا."
+ },
+ {
+  "id": "035cab60-53ef-45ff-8826-05592b158813",
+  "title": "Overload Versus Short Circuit: Two Diffe",
+  "sentence": "ولأغلب التطبيقات الصناعية، التصفير اليدوي هو الاختيار الصحيح، واختيار التلقائي ينبغي أن يكون قرارًا مقصودًا له سبب."
+ },
+ {
+  "id": "61310d26-886e-40c2-9f34-bde256880ae6",
+  "title": "Supply Faults and What They Destroy",
+  "sentence": "- **العتبات** ينبغي ضبطها من تحمل المعدات الموصولة، لا اعتباطًا."
+ },
+ {
+  "id": "ac05021a-c288-4962-92bc-85583f6d46a3",
+  "title": "Credential Hygiene: Passwords, PINs & Sh",
+  "sentence": "مستند التسليم ينبغي أن يذكر أي حسابات موجودة ومن يملكها ومن له وصول مشارك وأي رموز صُدرت لمن."
+ },
+ {
+  "id": "83ba56c9-05e9-4855-a962-08d47799a764",
+  "title": "Building a Panel That Can Be Maintained",
+  "sentence": "**ترقيم الأسلاك — أعلى العادات قيمة.** كل موصل ينبغي أن يحمل علامة عند طرفيه، ويجب أن يطابق الترقيم الرسم."
+ },
+ {
+  "id": "83ba56c9-05e9-4855-a962-08d47799a764",
+  "title": "Building a Panel That Can Be Maintained",
+  "sentence": "فالفني الممسك بالرسم ينبغي أن يجد أي سلك في اللوحة والعكس."
+ },
+ {
+  "id": "83ba56c9-05e9-4855-a962-08d47799a764",
+  "title": "Building a Panel That Can Be Maintained",
+  "sentence": "**توثيق ينفع فعلًا.** ينبغي أن تغادر اللوحة يديك ومعها:"
+ },
+ {
+  "id": "57bf27c8-eb68-438a-95e4-1531e516d9f2",
+  "title": "Integrating Thermostats & HVAC Control P",
+  "sentence": "تقرير كم نقطة تحكم يحتاج العقار وكيف ينبغي أن تترابط."
+ },
+ {
+  "id": "070e8b32-7d08-4912-8f45-0bc6bb671eeb",
+  "title": "Smart Supply Monitoring: What Moves to t",
+  "sentence": "وهذا غير قابل للتفاوض، والعميل الذي يطلب نقله إلى التطبيق يطلب شيئًا ينبغي أن ترفضه وتشرح سببه."
+ },
+ {
+  "id": "275e2058-47b7-41b3-9e09-9ec9d1b13a04",
+  "title": "Interval, One-Shot and Repeat-Cycle Func",
+  "sentence": "خلّاط متقطع ينبغي أن يترك المادة تستقر قبل أول تقليب."
+ },
+ {
+  "id": "4648ea4a-e5d0-40f0-b6fa-0aeaed9732d3",
+  "title": "From Timer Relay to Smart Scheduling: Wh",
+  "sentence": "نعم لما ينبغي التحكم به من الهاتف، ولا عمدًا لما يحمي معداته وموظفيه."
+ },
+ {
+  "id": "4957a9d5-37ec-4594-a197-a237ecbd6069",
+  "title": "Pump Alternation: Duty, Standby and Chan",
+  "sentence": "وعند كشف أي منهما، ينبغي أن يوقف المتحكم المضخة العاملة، ويشغّل الاحتياطية، و**يُطلق إنذارًا** — وهذا حرج."
+ },
+ {
+  "id": "8cbf2109-b632-4188-a35e-9b4a76e43d4f",
+  "title": "ON-Delay and OFF-Delay: The Two Foundati",
+  "sentence": "هل تحتاج المروحة لتأخير *بدئها*؟ لا — أثناء عمل الفرن ينبغي أن تكون المروحة تعمل أصلًا."
+ },
+ {
+  "id": "e7830b6f-7b25-4d4d-9ff9-6cc35f62360b",
+  "title": "Energy Monitoring: Reading and Acting on",
+  "sentence": "وليست قياسًا بدرجة الفوترة، ولا ينبغي تقديمها للعميل كمرجع فوترة أبدًا."
+ }
+]
