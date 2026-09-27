@@ -83,6 +83,26 @@ REWRITE_SIGNALS = {
 }
 
 
+def _prose_only(text: str) -> str:
+    """Drop markdown table rows and fenced blocks before measuring register.
+
+    A terminology table carries no sentence punctuation, so the whole table is
+    read as one enormous sentence and trips the length signal -- which reported
+    the F08 lessons that were deliberately converted INTO tables as needing a
+    rewrite.
+    """
+    out, in_fence = [], False
+    for line in text.splitlines():
+        s = line.strip()
+        if s.startswith("```"):
+            in_fence = not in_fence
+            continue
+        if in_fence or s.startswith("|"):
+            continue
+        out.append(line)
+    return "\n".join(out)
+
+
 def env() -> dict[str, str]:
     out = {}
     with open(".env", encoding="utf-8") as f:
@@ -114,7 +134,9 @@ def main() -> int:
     total_chars = 0
 
     for r in rows:
-        ar = r.get("content_ar") or ""
+        # Tables and fenced blocks are not prose -- see list_msa_sentences.
+        ar_raw = r.get("content_ar") or ""
+        ar = _prose_only(ar_raw)
         if not ar.strip():
             continue
         total_chars += len(ar)

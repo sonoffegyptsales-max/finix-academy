@@ -22,6 +22,26 @@ import sys
 sys.path.insert(0, "scripts")
 import measure_register as M  # noqa: E402
 
+# Markdown tables and fenced blocks are not prose. A terminology table has no
+# sentence punctuation, so the whole table arrives as one "sentence" and trips
+# the length signal -- reporting the two F08 lessons that were deliberately
+# CONVERTED into tables as needing a register rewrite.
+TABLE_OR_FENCE = re.compile(r"^\s*(\||```)", re.M)
+
+
+def strip_non_prose(text: str) -> str:
+    out, in_fence = [], False
+    for line in text.split("\n"):
+        s = line.strip()
+        if s.startswith("```"):
+            in_fence = not in_fence
+            continue
+        if in_fence or s.startswith("|"):
+            continue
+        out.append(line)
+    return "\n".join(out)
+
+
 SPLIT = re.compile(r"(?<=[.!?:])\s+")
 
 
@@ -29,7 +49,6 @@ def main() -> int:
     only = None
     if "--code" in sys.argv:
         only = sys.argv[sys.argv.index("--code") + 1].upper()
-
     e = M.env()
     url = (e.get("VITE_SUPABASE_URL") or e["SUPABASE_URL"]).rstrip("/")
     key = e["SUPABASE_SERVICE_ROLE_KEY"]
@@ -48,7 +67,7 @@ def main() -> int:
         code = mods.get(r["module_id"], "??")
         if only and code != only:
             continue
-        ar = r.get("content_ar") or ""
+        ar = strip_non_prose(r.get("content_ar") or "")
         if not ar.strip():
             continue
 
