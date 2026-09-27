@@ -50,6 +50,18 @@ MECHANICAL = {
 }
 
 # Structures that need authoring, not substitution.
+#
+# NOTE ON THE LENGTH SIGNAL: an earlier version counted any sentence over ~190
+# chars as translation-shaped. That fired on the client-APPROVED text, because
+# a long sentence in Egyptian colloquial is still Egyptian -- length measures
+# density, not register. It inflated the "needs rewriting" count and would have
+# sent me back to lessons that were already correct.
+#
+# A long sentence is only a signal when it ALSO carries an MSA marker, so the
+# length check is now paired with one.
+MSA_MARKER = (r"(?:الذي|التي|اللذان|حيث|إذ|بينما|كما أن|والذي|وقد|"
+              r"يتم|تتم|يُ[\u0621-\u064A]{2,}|تُ[\u0621-\u064A]{2,})")
+
 REWRITE_SIGNALS = {
     "أما … فـ": re.compile(r"\bأما\b[^.!?]{0,60}\bفـ?[يت]"),
     "بناءً على": re.compile(r"\bبناءً على\b"),
@@ -59,7 +71,15 @@ REWRITE_SIGNALS = {
     "في حين أن": re.compile(r"\bفي حين أن\b"),
     "على الرغم من أن": re.compile(r"\bعلى الرغم من أن\b"),
     "يمكن أن يكون": re.compile(r"\bيمكن أن (?:يكون|تكون)\b"),
-    "long subordinated sentence": re.compile(r"[^.!?\n]{190,}[.!?]"),
+    # الذي/التي are NOT translation tells on their own -- Egyptian speech uses
+    # them constantly. Including them pushed the count from 57 to 80 and would
+    # have sent me back into lessons that are already in register. Only the
+    # markers with no colloquial equivalent stay.
+    "MSA connective": re.compile(
+        r"(?<![\w\u0621-\u064A])(?:إذ|كما أن|لا سيما|حيثما|آنذاك)"
+        r"(?![\w\u0621-\u064A])"),
+    "long MSA sentence": re.compile(
+        r"[^.!?\n]{150,}?" + MSA_MARKER + r"[^.!?\n]{0,150}[.!?]"),
 }
 
 
