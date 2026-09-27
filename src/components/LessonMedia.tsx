@@ -1,5 +1,6 @@
 import { useLang } from "@/lib/language";
 import { useSignedMedia, type LessonMediaRow } from "@/hooks/use-lesson-media";
+import { isExternal } from "@/components/LessonResources";
 
 /**
  * Renders a lesson's images, video and audio inline.
@@ -11,13 +12,18 @@ import { useSignedMedia, type LessonMediaRow } from "@/hooks/use-lesson-media";
  */
 export function LessonMedia({ media }: { media: LessonMediaRow[] }) {
   const { t } = useLang();
-  const urls = useSignedMedia(media);
+  // External recommendations (kind 'video' whose storage_path is a URL) are
+  // rendered by LessonResources as links. They must be excluded here or each
+  // would become a <video src="https://youtube.com/watch?v=..."> that can
+  // never play, showing a broken player on the lesson.
+  const media_ = media.filter((m) => !isExternal(m));
+  const urls = useSignedMedia(media_);
 
-  if (media.length === 0) return null;
+  if (media_.length === 0) return null;
 
   return (
-    <div className="mt-3 ms-8 space-y-4">
-      {media.map((m) => {
+    <div className="mt-3 space-y-4">
+      {media_.map((m) => {
         const src = urls[m.id];
         const caption = t(m.caption ?? "", m.caption_ar ?? "");
 

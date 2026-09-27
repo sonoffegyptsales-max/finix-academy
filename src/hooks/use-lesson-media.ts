@@ -143,15 +143,39 @@ export function useSignedMedia(rows: LessonMediaRow[]) {
         if (active) setUrls({});
         return;
       }
-      const paths = rows.map((r) => r.storage_path);
+
+      // External resources (recommended videos) carry a full http(s) URL in
+      // storage_path instead of a bucket key. They must NOT be sent to
+      // createSignedUrls: the storage API would reject them and, because the
+      // call fails as a batch, every real image on the lesson would lose its
+      // URL too. Pass them straight through and sign only bucket objects.
+      const next: Record<string, string> = {};
+      const stored: LessonMediaRow[] = [];
+      for (const r of rows) {
+        if (/^https?:\/\//i.test(r.storage_path)) {
+          next[r.id] = r.storage_path;
+        } else {
+          stored.push(r);
+        }
+      }
+
+      if (stored.length === 0) {
+        if (active) setUrls(next);
+        return;
+      }
+
+      const paths = stored.map((r) => r.storage_path);
       const { data, error } = await supabase.storage
         .from(BUCKET)
         .createSignedUrls(paths, SIGNED_URL_TTL_SECONDS);
-      if (error || !data || !active) return;
+      if (error || !data || !active) {
+        // Still publish the external URLs even if signing failed.
+        if (active) setUrls(next);
+        return;
+      }
 
-      const next: Record<string, string> = {};
       data.forEach((entry, i) => {
-        if (entry.signedUrl) next[rows[i].id] = entry.signedUrl;
+        if (entry.signedUrl) next[stored[i].id] = entry.signedUrl;
       });
       setUrls(next);
     }

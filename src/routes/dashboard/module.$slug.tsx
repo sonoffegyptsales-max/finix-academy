@@ -7,6 +7,7 @@ import { useEnrollments } from "@/hooks/use-enrollments";
 import { ProtectedContent } from "@/components/ProtectedContent";
 import { LessonMedia } from "@/components/LessonMedia";
 import { LessonContent } from "@/components/LessonContent";
+import { LessonResources } from "@/components/LessonResources";
 import { useLessonMedia, type LessonMediaRow } from "@/hooks/use-lesson-media";
 import { useModuleLessonBodies } from "@/hooks/use-module-lesson-bodies";
 
@@ -132,6 +133,7 @@ function ModulePage() {
                   ) : null;
                 })()}
                 <LessonMedia media={media.filter((m) => m.lesson_id === lesson.id)} />
+                <LessonResources media={media.filter((m) => m.lesson_id === lesson.id)} />
               </li>
             ))}
           </ol>
