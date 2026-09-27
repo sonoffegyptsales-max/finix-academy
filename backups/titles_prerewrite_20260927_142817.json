@@ -1,0 +1,38 @@
+[
+ {
+  "table": "modules",
+  "id": "b583f24b-3833-40b1-a275-1aa7d302c799",
+  "title": "Timers & Timing Functions",
+  "title_ar": "المؤقتات ووظائف التوقيت"
+ },
+ {
+  "table": "modules",
+  "id": "a73dfb9c-b2fd-4968-8b61-faf0cb205d99",
+  "title": "Sensing Relays: Photocell, Level & Pump Alternation",
+  "title_ar": "ريليهات الاستشعار: الخلية الضوئية والمستوى وتبادل المضخات"
+ },
+ {
+  "table": "lessons",
+  "id": "fe86f1b6-464f-4bee-a943-d118e6d9c559",
+  "title": "Circuit Breakers: MCB, MCCB & ACB",
+  "title_ar": "قواطع الدوائر: MCB وMCCB وACB"
+ },
+ {
+  "table": "lessons",
+  "id": "7f4eb767-3afe-45a2-92a2-bc505962b8e2",
+  "title": "Interlocking, Reversing and Circuit Separation",
+  "title_ar": "التعشيق وعكس الاتجاه وفصل الدوائر"
+ },
+ {
+  "table": "lessons",
+  "id": "e37122e7-e8d1-4e90-857d-6a690b497a32",
+  "title": "What a Sensing Relay Is and Why It Needs Hysteresis",
+  "title_ar": "ما هو ريليه الاستشعار ولماذا يحتاج نطاق تباطؤ"
+ },
+ {
+  "table": "lessons",
+  "id": "1dc66d6d-f7dc-4376-8846-d298fc492dd3",
+  "title": "From Sensing Relay to Smart Sensor: The Retrofit Opportunity",
+  "title_ar": "من ريليه الاستشعار إلى الحساس الذكي: فرصة التحديث"
+ }
+]
