@@ -78,6 +78,20 @@ REWRITE_SIGNALS = {
     "MSA connective": re.compile(
         r"(?<![\w\u0621-\u064A])(?:إذ|كما أن|لا سيما|حيثما|آنذاك)"
         r"(?![\w\u0621-\u064A])"),
+    # MSA question words. Egyptian says ليه / إيه / لما. These were missed for
+    # three batches because they were never in the spec OR the detector -- I
+    # found لماذا only by READING a deployed screenshot, which is the same way
+    # title_ar and summary_ar were found. A tell absent from the detector is
+    # invisible no matter how many times the audit runs clean.
+    #
+    # Deliberately NOT script-swapped: لماذا sits in bold headings whose whole
+    # clause is MSA ("**لماذا يحدث ذلك.**"), so replacing the question word
+    # alone leaves a half-converted sentence -- the exact failure the earlier
+    # safe-swap pass produced. Measured here, fixed by hand.
+    "MSA question word": re.compile(
+        r"(?<![\w\u0621-\u064A])(?:لماذا|ماذا|عندما)"
+        r"(?![\w\u0621-\u064A])"),
+    "يجب أن": re.compile(r"(?<![\w\u0621-\u064A])يجب أ[نّ](?![\w\u0621-\u064A])"),
     "long MSA sentence": re.compile(
         r"[^.!?\n]{150,}?" + MSA_MARKER + r"[^.!?\n]{0,150}[.!?]"),
 }
