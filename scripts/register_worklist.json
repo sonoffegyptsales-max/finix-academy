@@ -1,0 +1,1147 @@
+[
+ {
+  "id": "01938302-b182-4992-a51c-a07cc1e6c9ef",
+  "title": "Automation Design Principles",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "- **الشرط** — ما يجب أن يكون صحيحًا أيضًا."
+ },
+ {
+  "id": "01938302-b182-4992-a51c-a07cc1e6c9ef",
+  "title": "Automation Design Principles",
+  "signals": [
+   "إنه / إن opener"
+  ],
+  "sentence": "إن كان أحد في البيت فقط."
+ },
+ {
+  "id": "01938302-b182-4992-a51c-a07cc1e6c9ef",
+  "title": "Automation Design Principles",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "كل شيء مؤتمت يجب أن يبقى قابلًا للتشغيل يدويًا."
+ },
+ {
+  "id": "01938302-b182-4992-a51c-a07cc1e6c9ef",
+  "title": "Automation Design Principles",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "المفتاح الجداري يجب أن يظل يعمل."
+ },
+ {
+  "id": "01938302-b182-4992-a51c-a07cc1e6c9ef",
+  "title": "Automation Design Principles",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "والعميل يجب أن يستطيع تجاوز أي أتمتة دون حذفها."
+ },
+ {
+  "id": "023e2483-0c45-43cf-899e-ac6ee0522bf8",
+  "title": "Device Terminology: Lighting, Switches, Outlets & Appliances",
+  "signals": [
+   "long MSA sentence"
+  ],
+  "sentence": "**قاعدة عملية:** سجّل دايمًا المصطلح الإنجليزي والعربي مع بعض في استمارة المعاينة لكل جهاز العميل عايز يأتمته — تصبح هذه المفردات اللغة المشتركة بين فريق المعاينة والمبرمج الذي يبني المشاهد والعميل الذي يراجع المقترح النهائي، لذا فإن سوء التطابق في هذه المرحلة هو السبب الجذري لأغلب لحظات \"هذا ليس ما قصدته\" عند التسليم."
+ },
+ {
+  "id": "035cab60-53ef-45ff-8826-05592b158813",
+  "title": "Overload Versus Short Circuit: Two Different Threats",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "يجب أن تتحمل الأحمال الزائدة القصيرة (فكل بدء حمل زائد) بينما تتصرف مع المستمرة."
+ },
+ {
+  "id": "035cab60-53ef-45ff-8826-05592b158813",
+  "title": "Overload Versus Short Circuit: Two Different Threats",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "يجب أن تقطع تيارًا هائلًا بأمان، ما يتطلب جهازًا بسعة قطع كافية."
+ },
+ {
+  "id": "035cab60-53ef-45ff-8826-05592b158813",
+  "title": "Overload Versus Short Circuit: Two Different Threats",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**لماذا لا يستطيع جهاز واحد أداء الاثنين جيدًا.** ريليه الحمل الزائد مصمم لقياس التسخين عبر الزمن؛ وليس لديه السرعة ولا سعة القطع لمقاطعة قصر."
+ },
+ {
+  "id": "035cab60-53ef-45ff-8826-05592b158813",
+  "title": "Overload Versus Short Circuit: Two Different Threats",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "**ضبط ريليه الحمل الزائد.** يُضبط على تيار الحمل الكامل للمحرك كما على لوحة الاسم — مع التحفظ الحرج من درس نجمة/دلتا بأنك يجب أن تعرف هل يقيس الريليه تيار الخط أم الملف."
+ },
+ {
+  "id": "070e8b32-7d08-4912-8f45-0bc6bb671eeb",
+  "title": "Smart Supply Monitoring: What Moves to the App and What Must Not",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "حماية التغذية أوضح حالة في هذا المسار كله لوظيفة يجب أن تبقى عتادية بينما ينتقل *إبلاغها* إلى البرمجيات."
+ },
+ {
+  "id": "070e8b32-7d08-4912-8f45-0bc6bb671eeb",
+  "title": "Smart Supply Monitoring: What Moves to the App and What Must Not",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "يجب أن يحرر ريليه فقد الطور (Phase) الكونتاكتور بلا شبكة ولا سحابة ولا تطبيق ولا تغذية لأي شيء سوى نفسه."
+ },
+ {
+  "id": "070e8b32-7d08-4912-8f45-0bc6bb671eeb",
+  "title": "Smart Supply Monitoring: What Moves to the App and What Must Not",
+  "signals": [
+   "أما … فـ"
+  ],
+  "sentence": "أما اللوحة المراقَبة فترسل إشعارًا لحظة تغيّر التلامس."
+ },
+ {
+  "id": "070e8b32-7d08-4912-8f45-0bc6bb671eeb",
+  "title": "Smart Supply Monitoring: What Moves to the App and What Must Not",
+  "signals": [
+   "long MSA sentence"
+  ],
+  "sentence": "تلامس عطل ريليه المراقبة يذهب لأحد مداخل التيار المتردد، واستشعار التيار يمر عبر وحدة التيار العالي، وتبلّغ اللوحة كلها عبر MQTT أو Modbus إلى لوحة معلومات — بينما تبقى كل وظيفة حمائية حيث كانت تمامًا، عتادية، في اللوحة، تعمل بلا شبكة."
+ },
+ {
+  "id": "0a561f59-af42-4f59-b582-69ce224b2a75",
+  "title": "Diagnosing Zigbee Mesh Network Problems",
+  "signals": [
+   "من حيث / وذلك"
+  ],
+  "sentence": "فالعملاء يريدون كثيرًا إرجاع حساس \"معطل\" يعمل تمامًا ولا يمكن سماعه فقط من حيث يجلس."
+ },
+ {
+  "id": "0b64d103-84cc-45a7-8f4e-f621c06c13df",
+  "title": "Communication Protocols: Wi-Fi, Zigbee 3.0 & Matter",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "**استخدم Zigbee لـ:** أي شيء فوق نحو اثني عشر جهازًا، وكل حساسات البطارية، وأي أتمتة يجب أن تنجو من انقطاع الإنترنت."
+ },
+ {
+  "id": "0cac31d9-271a-4afe-b583-4c85bfa227d9",
+  "title": "The SONOFF Product Portfolio: An Installer's Map",
+  "signals": [
+   "إنه / إن opener"
+  ],
+  "sentence": "إن كانت الجدران ستبقى مغلقة والعميل يريد أقل إزعاج، فأنت في نطاق وحدات DIY والمقابس الذكية، والعوامل المقيّدة هي مساحة العلبة الخلفية وتوافر المحايد."
+ },
+ {
+  "id": "0d2c411b-c889-4b7f-bc8a-18c73f206ff0",
+  "title": "Cross-Platform Integration Strategy",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "وهذا الدرس هو استراتيجية بناء ذلك وشرح لماذا يستحق الدفع."
+ },
+ {
+  "id": "0d2c411b-c889-4b7f-bc8a-18c73f206ff0",
+  "title": "Cross-Platform Integration Strategy",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "افصل كل تركيب لطبقات واسأل ماذا يحدث إن اختفت كل منها:"
+ },
+ {
+  "id": "0d2c411b-c889-4b7f-bc8a-18c73f206ff0",
+  "title": "Cross-Platform Integration Strategy",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "وهنا يجب أن يعيش أكبر قدر ممكن من المنطق."
+ },
+ {
+  "id": "0d2c411b-c889-4b7f-bc8a-18c73f206ff0",
+  "title": "Cross-Platform Integration Strategy",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "- **فضّل الأتمتة المحلية.** الإضاءة المشغّلة بالحركة يجب أن تعمل عند البوابة لا عبر السحابة."
+ },
+ {
+  "id": "0d2c411b-c889-4b7f-bc8a-18c73f206ff0",
+  "title": "Cross-Platform Integration Strategy",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "- **أبقِ المسار الفيزيائي دائمًا.** كل دائرة مؤتمتة يجب أن تبقى قابلة للتشغيل يدويًا."
+ },
+ {
+  "id": "0d2c411b-c889-4b7f-bc8a-18c73f206ff0",
+  "title": "Cross-Platform Integration Strategy",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "لكل نظام فرعي رئيسي، اكتب ماذا يحدث إن اختفى المورّد وما مسار الهجرة."
+ },
+ {
+  "id": "0d2c411b-c889-4b7f-bc8a-18c73f206ff0",
+  "title": "Cross-Platform Integration Strategy",
+  "signals": [
+   "من حيث / وذلك"
+  ],
+  "sentence": "وذلك اختيار مشروع."
+ },
+ {
+  "id": "1b75b486-5c97-4821-8cd4-54c406d0f9f1",
+  "title": "The Star-Delta Timing Sequence",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**لماذا يوجد التأخير.** المحرك الحثي ثلاثي الأطوار المبدوء مباشرة على الخط يسحب تيار اندفاع كبيرًا — أضعاف تيار تشغيله — ما يُجهد التغذية، ويُهبط الجهد (Voltage) على كل ما عداه على القضيب، ويصدم الآلات المُدارة ميكانيكيًا."
+ },
+ {
+  "id": "1b75b486-5c97-4821-8cd4-54c406d0f9f1",
+  "title": "The Star-Delta Timing Sequence",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**لماذا هذه وظيفة مؤقت عتادي — وهذه هي النقطة الهندسية المحورية.** الزمن الميت يُقاس بأجزاء من الألف من الثانية وصحته *حرجة للسلامة*:"
+ },
+ {
+  "id": "1d5833a1-8c2d-4ce6-b3b3-00b328d91850",
+  "title": "Customer Training: Handover That Actually Sticks",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**ماذا يفعلون حين يكون شيء خطأ.** خطوتا أو ثلاث الاسترداد التي تحل أغلب المشاكل ومتى يتصلون بك."
+ },
+ {
+  "id": "1d5833a1-8c2d-4ce6-b3b3-00b328d91850",
+  "title": "Customer Training: Handover That Actually Sticks",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "*ماذا لو توقف هذا عن العمل؟*"
+ },
+ {
+  "id": "1d5833a1-8c2d-4ce6-b3b3-00b328d91850",
+  "title": "Customer Training: Handover That Actually Sticks",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "**يجب أن يفعلوها لا أن يشاهدوها.**"
+ },
+ {
+  "id": "1d5833a1-8c2d-4ce6-b3b3-00b328d91850",
+  "title": "Customer Training: Handover That Actually Sticks",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "- **بنية الحسابات والشبكة** — من يملك ماذا وأي شبكة أي."
+ },
+ {
+  "id": "1dc66d6d-f7dc-4376-8846-d298fc492dd3",
+  "title": "From Sensing Relay to Smart Sensor: The Retrofit Opportunity",
+  "signals": [
+   "أما … فـ"
+  ],
+  "sentence": "أما المراقَبة فترسل إشعارًا لحظة حدوث ذلك، فيُصلَح العطل والتكرارية ما تزال قائمة بدل أن يُصلَح بعد أن يفقد المبنى ماءه."
+ },
+ {
+  "id": "1dc66d6d-f7dc-4376-8846-d298fc492dd3",
+  "title": "From Sensing Relay to Smart Sensor: The Retrofit Opportunity",
+  "signals": [
+   "إنه / إن opener"
+  ],
+  "sentence": "إن كان الفشل يدمّر معدات أو يعرّض أشخاصًا للخطر، تبقى الحماية عتادية."
+ },
+ {
+  "id": "1dc66d6d-f7dc-4376-8846-d298fc492dd3",
+  "title": "From Sensing Relay to Smart Sensor: The Retrofit Opportunity",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "يجب أن يكون القاطع (Breaker) تعشيقًا عتاديًا في اللوحة — قطب مستوى أو مفتاح ضغط موصَّل مباشرة في دائرة تحكم المضخة، قادرًا على إيقافها دون أي تدخل من شبكة إطلاقًا."
+ },
+ {
+  "id": "1dc66d6d-f7dc-4376-8846-d298fc492dd3",
+  "title": "From Sensing Relay to Smart Sensor: The Retrofit Opportunity",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "العتاد يوقف المضخة، والتطبيق يخبر العميل لماذا ومتى."
+ },
+ {
+  "id": "1dc66d6d-f7dc-4376-8846-d298fc492dd3",
+  "title": "From Sensing Relay to Smart Sensor: The Retrofit Opportunity",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**الصياغة المهنية.** العميل الذي يطلب \"مضخات ذكية\" يعني عادة أنه يريد أن يعرف ماذا تفعل مضخاته وأن يُخبَر حين يسوء شيء."
+ },
+ {
+  "id": "1ff7c4b1-a422-4a87-b79f-d669eda9b4a5",
+  "title": "DC vs AC: Fundamentals Every Installer Needs",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**لماذا لم يستبدل العالم التيار المتردد بالمستمر بالكامل حتى الآن:** ثلاثة أسباب أساسية."
+ },
+ {
+  "id": "246d3281-ac32-44ac-aad7-50cd955d10d4",
+  "title": "Safety, Environmental Ratings & Installation Considerations",
+  "signals": [
+   "long MSA sentence"
+  ],
+  "sentence": "**قائمة تحقق قبل التركيب أقدمها لأي فني لمشروع Alpha Control:** تأكد أن جهد الكهرباء الرئيسي بالموقع يقع ضمن 90-265 فولت متردد قبل الالتزام بتخطي محول جهد منفصل؛ تأكد أن إجمالي حمل الريليه المتصل لكل قناة لا يتجاوز 10 أمبير (وجّه أي حمل أعلى لوحدة التيار العالي بدلًا من ذلك)؛ تأكد أن درجة حرارة ورطوبة موقع التركيب المحيطة تقع ضمن المدى المصنَّف، خاصة للمواقع الخارجية أو غرف الميكانيكا؛ وتأكد أي من فتحات التوسعة الثلاث ستُملأ مسبقًا، لأن إضافة وحدة لاحقًا يعني إعادة فتح اللوحة."
+ },
+ {
+  "id": "275e2058-47b7-41b3-9e09-9ec9d1b13a04",
+  "title": "Interval, One-Shot and Repeat-Cycle Functions",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "اختر هذا عندما يجب ألا تعمل العملية لحظة تشغيلها:"
+ },
+ {
+  "id": "275e2058-47b7-41b3-9e09-9ec9d1b13a04",
+  "title": "Interval, One-Shot and Repeat-Cycle Functions",
+  "signals": [
+   "MSA question word",
+   "يجب أن"
+  ],
+  "sentence": "اختر هذا عندما يجب أن يكون الفعل الأول فوريًا:"
+ },
+ {
+  "id": "275e2058-47b7-41b3-9e09-9ec9d1b13a04",
+  "title": "Interval, One-Shot and Repeat-Cycle Functions",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "منارة تحذير يجب أن تومض لحظة ظهور الخطر، لا بعد فترة كاملة."
+ },
+ {
+  "id": "275e2058-47b7-41b3-9e09-9ec9d1b13a04",
+  "title": "Interval, One-Shot and Repeat-Cycle Functions",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "**مثال محلول — جرعة مؤقتة مع تطهير.** يجب أن يستقبل وعاء خلط جرعة إضافة لثانيتين كل خمس عشرة دقيقة أثناء تشغيل المصنع، ويجب تطهير خط الجرعات بالهواء لثانية واحدة بعد كل جرعة."
+ },
+ {
+  "id": "2e15ff9a-eaa8-46ef-91bf-5974a57b8367",
+  "title": "Multi-Gateway Deployments for Larger Properties",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "والمنطق العابر للبوابات يجب أن يعمل في طبقة فوقهما:"
+ },
+ {
+  "id": "2e15ff9a-eaa8-46ef-91bf-5974a57b8367",
+  "title": "Multi-Gateway Deployments for Larger Properties",
+  "signals": [
+   "MSA connective"
+  ],
+  "sentence": "**صمّم حول ذلك:** أبقِ كل أتمتة داخل منطقة واحدة حيثما أمكن."
+ },
+ {
+  "id": "31b21586-c843-40fa-a0d8-56fe8915c2bf",
+  "title": "Automation vs. \"Just Smart\": Building Real Logic, Not Just Remote Control",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "**الشرط (Condition)** (اختياري لكنه حاسم للأتمتة الجيدة) — فحص يجب أن يكون صحيحًا أيضًا لتنفيذ الإجراء، مثل \"فقط بعد غروب الشمس\" أو \"فقط إذا لم يكن أحد مسجلًا كموجود بالمنزل\"."
+ },
+ {
+  "id": "31b21586-c843-40fa-a0d8-56fe8915c2bf",
+  "title": "Automation vs. \"Just Smart\": Building Real Logic, Not Just Remote Control",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "مشاهد للحظات يريد العميل تفعيلها بوعي، وأتمتة لكل ما يجب أن يحدث بشكل صحيح في الخلفية."
+ },
+ {
+  "id": "326f7bd1-77bc-4ad8-8ec0-dfa776d6b1bf",
+  "title": "Product Selection for Real-World Scenarios",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "أغلب المفاتيح الجدارية الذكية تحتاج حيًا ومحايدًا وحملًا، لأن الإلكترونيات يجب أن تسحب طاقة باستمرار."
+ },
+ {
+  "id": "326f7bd1-77bc-4ad8-8ec0-dfa776d6b1bf",
+  "title": "Product Selection for Real-World Scenarios",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "يجب أن تكون اللمبة قابلة للتعتيم وأن يناسب الديمر نوع سائقها."
+ },
+ {
+  "id": "326f7bd1-77bc-4ad8-8ec0-dfa776d6b1bf",
+  "title": "Product Selection for Real-World Scenarios",
+  "signals": [
+   "إنه / إن opener"
+  ],
+  "sentence": "إن كان نعم فهو مقبس ذكي، مهما كان البديل أنيقًا."
+ },
+ {
+  "id": "326f7bd1-77bc-4ad8-8ec0-dfa776d6b1bf",
+  "title": "Product Selection for Real-World Scenarios",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "**الفحص ٥ — هل يجب أن يعمل هذا حين ينقطع الإنترنت؟**"
+ },
+ {
+  "id": "326f7bd1-77bc-4ad8-8ec0-dfa776d6b1bf",
+  "title": "Product Selection for Real-World Scenarios",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "كل ما يقارب السلامة، وكل ما على سلم أو مدخل، وكل ما يعتمد عليه العميل يوميًا يجب أن يستمر بالعمل دون اتصال."
+ },
+ {
+  "id": "35f79863-160b-4a44-9ef6-63c8dde35d06",
+  "title": "Phase-Sequence, Phase-Failure and Voltage Monitoring Relays",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**لماذا ريليه الحمل الزائد أداة خاطئة لهذه المهمة.** الحمل الزائد الحراري يقيس التيار (Current) ويكامله عبر الزمن."
+ },
+ {
+  "id": "35f79863-160b-4a44-9ef6-63c8dde35d06",
+  "title": "Phase-Sequence, Phase-Failure and Voltage Monitoring Relays",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "وإدراك أي وظيفة تفعل ماذا هو الفرق بين ضبطه صحيحًا وتركه على إعدادات المصنع:"
+ },
+ {
+  "id": "35f79863-160b-4a44-9ef6-63c8dde35d06",
+  "title": "Phase-Sequence, Phase-Failure and Voltage Monitoring Relays",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "**مسألة إعادة التعيين.** إعادة التعيين التلقائية تعيد تشغيل المحرك حين تتعافى التغذية — جيدة لمضخة غير مراقَبة يجب أن تستأنف، وخطرة لآلة قد يعمل عليها أحد."
+ },
+ {
+  "id": "364ee932-c563-4a4c-bcde-30447f743d60",
+  "title": "Cable Sizing: Matching Wire Gauge to Load",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "**القاعدة وراء ذلك:** يجب أن يكون تيار القاطع المقنن أعلى من تيار الحمل الفعلي بهامش أمان (25٪ على الأقل) حتى لا يفصل قبل أوانه — لكن سعة تحمل السلك يجب أن تكون أعلى من تيار القاطع (بنحو 20٪)، لأن القاطع وظيفته حماية السلك لا العكس."
+ },
+ {
+  "id": "3a9e97a4-e89a-462d-a813-ffd0e6f9e477",
+  "title": "Private vs Public IP, IP Classes, and How NAT Connects Them",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "عندما ترسل بريدًا، يكتب موظف الاستقبال (الراوتر) عنوان الفندق العام على المظروف لكنه يحتفظ بسجل يحدد أي غرفة أرسلته فعليًا."
+ },
+ {
+  "id": "3a9e97a4-e89a-462d-a813-ffd0e6f9e477",
+  "title": "Private vs Public IP, IP Classes, and How NAT Connects Them",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "عندما يصل رد موجه للفندق، يتحقق موظف الاستقبال من سجله ويوصّله لغرفتك تحديدًا — لا لأي ضيف آخر."
+ },
+ {
+  "id": "3d8108c2-70ea-405c-97ea-60439876281b",
+  "title": "The 4 Core Roles in a Smart Home Team",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "لكي ينجح الفريق، يجب أن توزّع المهام على أدوار محددة:"
+ },
+ {
+  "id": "3d8108c2-70ea-405c-97ea-60439876281b",
+  "title": "The 4 Core Roles in a Smart Home Team",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "يجب أن يعرف جيدًا أساسيات الكهرباء:"
+ },
+ {
+  "id": "44629965-2892-4acd-b7e6-dced00e35f9c",
+  "title": "Room & Space Terminology: A Bilingual Reference",
+  "signals": [
+   "long MSA sentence"
+  ],
+  "sentence": "**ليه ده مهم في المعاينة بالذات:** عند تعبئة استمارة معاينة الموقع غرفة بغرفة، استخدام هذه المفردات بالضبط — والتأكد من مطابقتها لما يسميه العميل فعليًا لكل مساحة — يمنع خللًا يجعل، مثلًا، \"غرفة الدراسة\" لدى العميل تُسجَّل كـ\"مكتب\" في النظام، ثم يصبح مشهد باسم \"Office Lights Off\" غير مفهوم له عند محاولة التحكم به صوتيًا."
+ },
+ {
+  "id": "4648ea4a-e5d0-40f0-b6fa-0aeaed9732d3",
+  "title": "From Timer Relay to Smart Scheduling: Where Each Belongs",
+  "signals": [
+   "أما … فـ"
+  ],
+  "sentence": "أما الجهاز الذكي فيبلّغ عن حالته وسجله عن بُعد، فيرى العميل أن المضخة عملت ليلة أمس دون أن يقود إلى الموقع."
+ },
+ {
+  "id": "4648ea4a-e5d0-40f0-b6fa-0aeaed9732d3",
+  "title": "From Timer Relay to Smart Scheduling: Where Each Belongs",
+  "signals": [
+   "أما … فـ"
+  ],
+  "sentence": "أما في تعشيق سلامة أو تحويل نجمة/دلتا فهو غير مقبول."
+ },
+ {
+  "id": "4648ea4a-e5d0-40f0-b6fa-0aeaed9732d3",
+  "title": "From Timer Relay to Smart Scheduling: Where Each Belongs",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "حالات محددة يجب أن تبقى عتادية:"
+ },
+ {
+  "id": "46ff4045-ab86-408f-b340-bb681e7aef49",
+  "title": "Two-Speed Motors, Soft Starters and Drives",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "- يجب أن يكون المحرك مناسبًا للعمل مع مغيّر؛ فتشغيل محرك قياسي باستمرار بسرعة منخفضة يقلل تبريده الذاتي، لأن أغلب المحركات تُبرَّد بمروحة على عمودها."
+ },
+ {
+  "id": "4957a9d5-37ec-4594-a197-a237ecbd6069",
+  "title": "Pump Alternation: Duty, Standby and Changeover",
+  "signals": [
+   "MSA question word",
+   "يجب أن"
+  ],
+  "sentence": "**لماذا مضختان، ولماذا يجب أن تتبادلا.** توجد المجموعة المزدوجة من أجل الإتاحة:"
+ },
+ {
+  "id": "4957a9d5-37ec-4594-a197-a237ecbd6069",
+  "title": "Pump Alternation: Duty, Standby and Changeover",
+  "signals": [
+   "إنه / إن opener"
+  ],
+  "sentence": "إن تعطلت مضخة، يبقى للمبنى ماء."
+ },
+ {
+  "id": "4957a9d5-37ec-4594-a197-a237ecbd6069",
+  "title": "Pump Alternation: Duty, Standby and Changeover",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "ولحدوث ذلك تلقائيًا، يجب أن يكتشف المتحكم العطل."
+ },
+ {
+  "id": "4b4a4388-0e41-4b13-899b-c7c7533c1e3d",
+  "title": "Security Camera Installation: Placement & Privacy Considerations",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "- **استخدم إخفاء الخصوصية** حيث يجب أن تغطي كاميرا منطقة نافعة لكن مجالها يقتطع حتمًا شيئًا لا ينبغي أن يراه."
+ },
+ {
+  "id": "4b4a4388-0e41-4b13-899b-c7c7533c1e3d",
+  "title": "Security Camera Installation: Placement & Privacy Considerations",
+  "signals": [
+   "long MSA sentence"
+  ],
+  "sentence": "**تحقق عند التسليم.** امشِ تغطية كل كاميرا والعميل يشاهد العرض الحي، وتأكد من الأداء الليلي بعد الظلام، وأن إشعارات الحركة تصل، وأن العميل يستطيع استرجاع اللقطات المسجلة بنفسه — فالأخيرة هي الوظيفة التي سيحتاجها في اللحظة الوحيدة التي تهم."
+ },
+ {
+  "id": "4dcb9c97-e744-42f9-9b47-0cc43042b621",
+  "title": "Flashing a Zigbee USB Coordinator (Dongle)",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**لماذا قد تعيد برمجة دونجل.**"
+ },
+ {
+  "id": "52a61e07-42d9-45d6-b8c3-638ca75f4faf",
+  "title": "Network Segmentation for Smart Home Devices",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "- **قواعد الجدار الناري يجب أن تسمح بالتدفقات المحددة** التي يحتاجها العميل فعلًا — الهاتف للبوابة والهاتف لبث الكاميرا — لا بكل شيء أو لا شيء."
+ },
+ {
+  "id": "52a61e07-42d9-45d6-b8c3-638ca75f4faf",
+  "title": "Network Segmentation for Smart Home Devices",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**ماذا تقسّم وماذا لا.**"
+ },
+ {
+  "id": "52bdd174-ab30-4e0f-8733-11d3e48ea07b",
+  "title": "Wireless Protocol Comparison: Wi-Fi, Zigbee, Thread & Z-Wave",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**قاعدة عملية أعطيها لكل فني جديد:** اختر Wi-Fi لأي شيء يحتاج نطاقًا عريضًا ومتصل بالكهرباء مباشرة؛ اختر Zigbee لمعظم المفاتيح والحساسات حيث تهم التكلفة وتنوع الأجهزة؛ اختر Z-Wave عندما تكون الموثوقية في بيئة راديوية مزدحمة هي الأهم (الأقفال، أجهزة الأمان)؛ واختر Thread عندما تبني لأجل المستقبل، لأنه البروتوكول الأساسي لمعيار Matter ويقلل الاعتماد المستقبلي على علامة تجارية واحدة لبوابة التحكم."
+ },
+ {
+  "id": "5f1efe41-3ff6-4677-9efe-d0cec8d3ca22",
+  "title": "Field Performance Evaluation Form & KPIs",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "يجب أن تكون لوحة الـDB والمفاتيح لوحة فنية."
+ },
+ {
+  "id": "61310d26-886e-40c2-9f34-bde256880ae6",
+  "title": "Supply Faults and What They Destroy",
+  "signals": [
+   "من حيث / وذلك"
+  ],
+  "sentence": "وذلك التيار (Current) يسبب تسخينًا."
+ },
+ {
+  "id": "65be396b-f17c-451f-a5d1-4417a18bfdaa",
+  "title": "Star-Delta Starting in Practice",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "**الشرط المسبق الذي يستبعد كثيرًا من المحركات.** لتعمل نجمة/دلتا، يجب أن يكون المحرك قادرًا على العمل **على دلتا** عند جهد التغذية."
+ },
+ {
+  "id": "65be396b-f17c-451f-a5d1-4417a18bfdaa",
+  "title": "Star-Delta Starting in Practice",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**لماذا تبتعد الممارسة الحديثة عنه.** لنجمة/دلتا قيود حقيقية:"
+ },
+ {
+  "id": "65be396b-f17c-451f-a5d1-4417a18bfdaa",
+  "title": "Star-Delta Starting in Practice",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "قادرًا على صيانة لوحات نجمة/دلتا العاملة بالفعل، وقادرًا على شرح لماذا ينبغي أن يكون بديلها على الأرجح بادئًا ناعمًا أو مغيّر تردد."
+ },
+ {
+  "id": "73a9a8f7-c874-45fa-bcbf-717ab32ed97c",
+  "title": "Building a Smart Thermostat with a Multi-Function Control Panel",
+  "signals": [
+   "MSA connective"
+  ],
+  "sentence": "فضّل سلك C حقيقيًا حيثما أمكن."
+ },
+ {
+  "id": "73a9a8f7-c874-45fa-bcbf-717ab32ed97c",
+  "title": "Building a Smart Thermostat with a Multi-Function Control Panel",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "التفاضل هو كم يجب أن تنحرف الحرارة عن نقطة الضبط قبل استجابة النظام."
+ },
+ {
+  "id": "7c4d2530-6f41-47b7-923f-77fb30e6e0db",
+  "title": "Integrating with Apple Home (HomeKit)",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "فجهاز الجسر يجب أن يعمل لتوجد تلك الأجهزة في Apple Home."
+ },
+ {
+  "id": "7c4d2530-6f41-47b7-923f-77fb30e6e0db",
+  "title": "Integrating with Apple Home (HomeKit)",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "وكما في حساب eWeLink، يجب أن يملكه العميل — لا تنشئه على معرّفك أبدًا."
+ },
+ {
+  "id": "7c4d2530-6f41-47b7-923f-77fb30e6e0db",
+  "title": "Integrating with Apple Home (HomeKit)",
+  "signals": [
+   "يجب أن",
+   "long MSA sentence"
+  ],
+  "sentence": "كل ملحق يظهر بالفئة والتحكمات الصحيحة؛ وكل ملحق في الغرفة الصحيحة؛ وSiri تتحكم بعينة منها صوتًا؛ والبوابة (Gateway) المقيمة موجودة وتظهر متصلة؛ والوصول عن بُعد يعمل من بيانات الجوال وWi-Fi معطل؛ وحيث يُستخدم جسر، أن العميل يفهم أن الجسر يجب أن يبقى مغذى."
+ },
+ {
+  "id": "7f4eb767-3afe-45a2-92a2-bc505962b8e2",
+  "title": "Interlocking, Reversing and Circuit Separation",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**لماذا يجب ألا يُغلقا معًا.** إن أُغلقا في آن واحد، قصّر التوصيل المتقاطع طورين مباشرة على بعضهما."
+ },
+ {
+  "id": "7f4eb767-3afe-45a2-92a2-bc505962b8e2",
+  "title": "Interlocking, Reversing and Circuit Separation",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**لماذا يهم هذا في تتبع الأعطال.** الفصل يتيح عزل المشكلة بسرعة."
+ },
+ {
+  "id": "7f4eb767-3afe-45a2-92a2-bc505962b8e2",
+  "title": "Interlocking, Reversing and Circuit Separation",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "**تحديد حجم محول التحكم.** يجب أن يغذي محول التحكم لا تيار إمساك كل ملف قد يُغذّى في آن واحد فحسب، بل **اندفاع** أكبر ملف ينسحب بينما الأخرى ممسكة أصلًا."
+ },
+ {
+  "id": "82bf3204-7e2f-4b1a-9632-39bc71456409",
+  "title": "The Three Expansion Modules & When to Use Each",
+  "signals": [
+   "long MSA sentence"
+  ],
+  "sentence": "**اختيار الوحدات لمشروع حقيقي — سيناريو محلول:** طابق تصنيع صغير يحتاج 3 محركات سيور ناقلة (كل منها يسحب أكثر من 10 أمبير بكثير — وحدة التيار العالي)، ونظام نداء عبر 4 مناطق (وحدة نظام الصوت)، وقفلًا تبادليًا للسلامة بحيث لا يعمل السير الناقل ومحرك باب منطقة التحميل في آن واحد أبدًا (وحدة القفل التبادلي)."
+ },
+ {
+  "id": "839bb3c5-2ccf-4172-9b50-b05e37fd14d9",
+  "title": "Smart Wall Sockets & Fusion Series Switches: Retrofit Wiring",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "قِس العمق المتاح خلف الوجه، وتذكر أن الموصّلات الموجودة يجب أن تنطوي خلف الوحدة."
+ },
+ {
+  "id": "839bb3c5-2ccf-4172-9b50-b05e37fd14d9",
+  "title": "Smart Wall Sockets & Fusion Series Switches: Retrofit Wiring",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "- **توازن الحمل يهم.** فالحمل المجمّع عبر كل المفاتيح يجب أن يبقى ضمن التصنيف الكلي للوحدة، وهو عادة أقل من مجموع تصنيفات كل مفتاح."
+ },
+ {
+  "id": "839bb3c5-2ccf-4172-9b50-b05e37fd14d9",
+  "title": "Smart Wall Sockets & Fusion Series Switches: Retrofit Wiring",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "**التشغيل الفيزيائي يجب أن ينجو.** تأكد بعد التركيب أن كل مفتاح ما يزال يبدّل يدويًا والشبكة معطلة."
+ },
+ {
+  "id": "83cfa3d6-22d4-4c31-8ae5-64f2907a927c",
+  "title": "Advanced Device Configuration",
+  "signals": [
+   "MSA question word",
+   "يجب أن"
+  ],
+  "sentence": "حين تعود الكهرباء بعد قطع، ماذا يجب أن يفعل الجهاز؟ ثلاثة خيارات:"
+ },
+ {
+  "id": "83cfa3d6-22d4-4c31-8ae5-64f2907a927c",
+  "title": "Advanced Device Configuration",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "- **موصول.** صحيح لأي شيء يجب أن يعمل دائمًا:"
+ },
+ {
+  "id": "83cfa3d6-22d4-4c31-8ae5-64f2907a927c",
+  "title": "Advanced Device Configuration",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "حين تجلس وحدة DIY خلف مفتاح ميكانيكي قائم، يجب أن تفهم الوحدة ما يفعله ذلك المفتاح."
+ },
+ {
+  "id": "856d8d88-835e-48f9-998b-c67728c74f14",
+  "title": "Using SONOFF Planning Tools",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "يجب أن تنتج جولة التخطيط أربعة أشياء:"
+ },
+ {
+  "id": "8cbf2109-b632-4188-a35e-9b4a76e43d4f",
+  "title": "ON-Delay and OFF-Delay: The Two Foundations",
+  "signals": [
+   "يجب أن",
+   "long MSA sentence"
+  ],
+  "sentence": "*استخدامات نموذجية:* مروحة شفط أو تبريد يجب أن تستمر بعد توقف المعدة الرئيسية، لإخراج الأبخرة أو إزالة الحرارة المتبقية؛ قفل حارس ماكينة يبقى مشتبكًا لثوانٍ بعد الإيقاف بينما تتباطأ حدافة حتى التوقف؛ إضاءة تبقى مضاءة قليلًا بعد انتهاء إشارة التحكم ليغادر المشغّل المنطقة."
+ },
+ {
+  "id": "8cbf2109-b632-4188-a35e-9b4a76e43d4f",
+  "title": "ON-Delay and OFF-Delay: The Two Foundations",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "يُستخدم هذا حيث يجب أن تتجاهل العملية تقلبات قصيرة في الاتجاهين — مثل تحكم في المستوى لا ينبغي أن يستجيب لسائل يتمايل فيلامس مجسًا للحظة، ولا لانكشاف المجس للحظة."
+ },
+ {
+  "id": "8f519f32-ef0d-483c-8c23-b4c6e6ad7949",
+  "title": "Questions to Ask the Client During Survey",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "- ما المسافة بين أبعد جهاز والبوابة (Gateway)؟ هل أحتاج مقويات إشارة (Repeaters) أو Mesh Wi-Fi؟\n- هل جدران المنزل خرسانية تعزل الإشارة؟\n- هل أحمال الإضاءة تتوافق مع الريلاي (Relay) الخاص بالمفاتيح؟\n- أين سأضع \"المخ\" (الكنترولر)؟ يجب أن يكون في مكان مركزي بعيدًا عن مصادر الأحمال العالية."
+ },
+ {
+  "id": "9075ae13-2ba4-40ad-9519-a4a9dd0f6daf",
+  "title": "Configuring Dimmer Switches: Load Types & Curve Settings",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**لماذا تعتيم LED صعب.**"
+ },
+ {
+  "id": "9075ae13-2ba4-40ad-9519-a4a9dd0f6daf",
+  "title": "Configuring Dimmer Switches: Load Types & Curve Settings",
+  "signals": [
+   "من حيث / وذلك"
+  ],
+  "sentence": "بل دائرة مشغّل تغذي شبه موصل، وذلك المشغّل يتوقع تغذية نظيفة."
+ },
+ {
+  "id": "9075ae13-2ba4-40ad-9519-a4a9dd0f6daf",
+  "title": "Configuring Dimmer Switches: Load Types & Curve Settings",
+  "signals": [
+   "MSA connective",
+   "يجب أن"
+  ],
+  "sentence": "وكل مصابيح دائرة معتّمة يجب أن تكون الموديل نفسه حيثما أمكن."
+ },
+ {
+  "id": "90d1610e-2dca-4946-a321-8b93d4e125fe",
+  "title": "Scene & Routine Design for Real Households",
+  "signals": [
+   "MSA question word",
+   "يجب أن"
+  ],
+  "sentence": "والطريقة الصحيحة سؤال ماذا تفعل العائلة فعلًا وفي أي لحظات يجب أن تتغير عدة أشياء دفعة."
+ },
+ {
+  "id": "90d1610e-2dca-4946-a321-8b93d4e125fe",
+  "title": "Scene & Routine Design for Real Households",
+  "signals": [
+   "أما … فـ"
+  ],
+  "sentence": "أما \"وضع الفيلم\" فيُعرض مرة ثم يُنسى إلا إن كانت الأسرة تشاهد أفلامًا بتلك الطريقة فعلًا."
+ },
+ {
+  "id": "90d1610e-2dca-4946-a321-8b93d4e125fe",
+  "title": "Scene & Routine Design for Real Households",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "فقائمة المشاهد المزدحمة أصعب استخدامًا من القصيرة، وكل مشهد غير مستخدم فوضى يجب أن يقرأ العميل بجانبها."
+ },
+ {
+  "id": "90d1610e-2dca-4946-a321-8b93d4e125fe",
+  "title": "Scene & Routine Design for Real Households",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "- **استخدم شروطًا لا مشغّلات فقط.** فالحركة في الممر يجب أن تضيئه *فقط إن* كان مظلمًا و*فقط إن* لم تكن الأسرة نائمة."
+ },
+ {
+  "id": "90d1610e-2dca-4946-a321-8b93d4e125fe",
+  "title": "Scene & Routine Design for Real Households",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "- **افشل لحالة عاقلة.** اسأل ماذا يحدث إن تعطلت البوابة (Gateway)."
+ },
+ {
+  "id": "90d1610e-2dca-4946-a321-8b93d4e125fe",
+  "title": "Scene & Routine Design for Real Households",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "فكل ما تحتاجه الأسرة ليلًا يجب أن يعمل يدويًا."
+ },
+ {
+  "id": "90e3717d-ec4e-45aa-800c-4a1670493ba3",
+  "title": "The Starting Current Problem",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**لماذا يحدث ذلك.** عند السكون لا يدور العضو الدوار، فلا يولّد القوة الدافعة العكسية التي تعارض جهد التغذية وتحد التيار (Current) عادة."
+ },
+ {
+  "id": "90e3717d-ec4e-45aa-800c-4a1670493ba3",
+  "title": "The Starting Current Problem",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**لماذا يبقى القصير الكبير مشكلة.** أربع عواقب منفصلة، وينبغي للمركّب الكفء أن يسميها جميعًا:"
+ },
+ {
+  "id": "90e3717d-ec4e-45aa-800c-4a1670493ba3",
+  "title": "The Starting Current Problem",
+  "signals": [
+   "MSA question word",
+   "يجب أن"
+  ],
+  "sentence": "وقبل اختيار طريقة بدء، يجب أن تعرف ماذا يُدير المحرك."
+ },
+ {
+  "id": "9aef9385-949a-4a72-933d-4d473eb77e6b",
+  "title": "Contactors, Selector Switches & Overload Protection",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "**اختيار الكونتاكتور:** تصنيف التيار/القدرة للحمل الذي سيعمل عليه؛ يجب أن يكون جهد الملف متوافقًا مع جهد دائرة التحكم؛ وعدد نقاط التلامس المساعدة المفتوحة والمغلقة المطلوبة."
+ },
+ {
+  "id": "aa69ca56-dd65-417e-ad60-cf559282f04f",
+  "title": "A Systematic Fault-Finding Method",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "واستبدال المكوّن دون سؤال *لماذا* تلف يعني أنه سيتلف ثانية، والفشل الثاني غالبًا أغلى من الأول."
+ },
+ {
+  "id": "aa69ca56-dd65-417e-ad60-cf559282f04f",
+  "title": "A Systematic Fault-Finding Method",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "فإن ظل حمل زائد يفصل، فالسؤال لماذا التيار (Current) مرتفع — محمل يتآكل، أو مروحة مسدودة، أو طور مفقود، أو عائق ميكانيكي — لا كيف تجعل الريليه يكف عن الشكوى."
+ },
+ {
+  "id": "ac05021a-c288-4962-92bc-85583f6d46a3",
+  "title": "Credential Hygiene: Passwords, PINs & Shared Access",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "**الحساب يجب أن يخص العميل.**"
+ },
+ {
+  "id": "ac05021a-c288-4962-92bc-85583f6d46a3",
+  "title": "Credential Hygiene: Passwords, PINs & Shared Access",
+  "signals": [
+   "MSA connective"
+  ],
+  "sentence": "أنشئ حساب المنصة باسم العميل على بريده وبحضوره حيثما أمكن."
+ },
+ {
+  "id": "afd9c824-5060-41fd-8417-b1ae537535ee",
+  "title": "Thread & Matter: Why the Industry Is Standardizing",
+  "signals": [
+   "من حيث / وذلك"
+  ],
+  "sentence": "جهاز Thread من حيث المبدأ تقدر توصّله على طول زي أي جهاز تاني على الإنترنت، من غير جسر مخصوص يترجم بياناته."
+ },
+ {
+  "id": "b4361bcd-26f1-4b73-8f9d-48e33a0c1fe3",
+  "title": "Time as a Control Variable",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**لماذا يوجد جهاز توقيت منفصل أصلًا.** ملف الكونتاكتور يستجيب خلال أجزاء من الألف من الثانية — وهذه وظيفته."
+ },
+ {
+  "id": "b4361bcd-26f1-4b73-8f9d-48e33a0c1fe3",
+  "title": "Time as a Control Variable",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**وظيفة التوقيت** — ماذا يفعل التأخير فعليًا."
+ },
+ {
+  "id": "b4361bcd-26f1-4b73-8f9d-48e33a0c1fe3",
+  "title": "Time as a Control Variable",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "يجب أن يغيّر الخرج حالته *بعد* زوال إشارة التحكم، ما يعني أن شيئًا ما يجب أن يظل يغذّي عنصر التوقيت أثناء التأخير."
+ },
+ {
+  "id": "b4361bcd-26f1-4b73-8f9d-48e33a0c1fe3",
+  "title": "Time as a Control Variable",
+  "signals": [
+   "MSA question word",
+   "يجب أن"
+  ],
+  "sentence": "عندما تحدد مواصفات مؤقت تأخير فصل، يجب أن تعرف أي نوع تشتري، لأن الاثنين يُوصَّلان بشكل مختلف تمامًا وغير قابلين للتبادل."
+ },
+ {
+  "id": "b500f1b4-e14d-4d16-a109-95a6b4171d31",
+  "title": "Protocols & Connectivity: Why Alpha Control Isn't Locked to One Platform",
+  "signals": [
+   "long MSA sentence"
+  ],
+  "sentence": "**الخلاصة العملية للفني:** لأن Alpha Control يدعم تحكمًا محليًا كاملًا عبر الشبكة المحلية/RS-485 بالإضافة إلى تحديثات سحابية OTA، فإنه يستمر بالعمل للتحكم الموقعي حتى لو انقطع اتصال إنترنت العميل — ميزة موثوقية حقيقية مقارنة بالأجهزة المعتمدة كليًا على السحابة، ونقطة بيع حقيقية عند تسعير مشروع صناعي حيث للتوقف تكلفة حقيقية."
+ },
+ {
+  "id": "b76de319-41eb-40fa-8264-3ee645c9587c",
+  "title": "Integrating SONOFF with Home Assistant",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**لماذا يطلبها العملاء.** تحكم محلي كامل، وبلا اعتماد على سحابة، وتعقيد أتمتة بلا حدود، والقدرة على دمج علامات ترفض أصلًا التحدث معًا."
+ },
+ {
+  "id": "bc8df72a-46d0-4748-a85d-1a757439dc59",
+  "title": "The Latch Circuit and Stop Priority",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "فإن أمسك أحدهم زر البدء مضغوطًا بينما يضغط آخر الإيقاف، يجب أن تتوقف الماكينة."
+ },
+ {
+  "id": "bc8df72a-46d0-4748-a85d-1a757439dc59",
+  "title": "The Latch Circuit and Stop Priority",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "فتلامس الإيقاف يجب أن يكون في الجزء المشترك من الدايرة، قبل نقطة التقاء زر البدء وتلامس التثبيت."
+ },
+ {
+  "id": "bc8df72a-46d0-4748-a85d-1a757439dc59",
+  "title": "The Latch Circuit and Stop Priority",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**لماذا زر الإيقاف مغلق طبيعيًا — وهذا يوقع الكثيرين.** يبدو معكوسًا."
+ },
+ {
+  "id": "bc8df72a-46d0-4748-a85d-1a757439dc59",
+  "title": "The Latch Circuit and Stop Priority",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "**مثال محلول — سير ناقل بإيقافات محلية وبعيدة.** يجب أن يبدأ سير ناقل من لوحة تحكم، وأن يمكن إيقافه من اللوحة ومن إيقافي طوارئ على امتداده، وأن يتوقف عند الحمل الزائد للمحرك."
+ },
+ {
+  "id": "c0468a0d-d67f-4263-bcde-9a766d73a1eb",
+  "title": "Systematic Troubleshooting: From Symptom to Root Cause",
+  "signals": [
+   "إنه / إن opener"
+  ],
+  "sentence": "إن فشلت عدة أجهزة فجد ما تتشاركه:"
+ },
+ {
+  "id": "d492cb5e-c412-4b4f-b3f7-3a25bcce4e10",
+  "title": "How a Zigbee Mesh Actually Forms and Heals Itself",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**لماذا يهم هذا في تخطيط التركيب:** حساس حركة يعمل بالبطارية على بعد 15 مترًا من المنسّق، مع ثلاثة مقابس ذكية متصلة بالكهرباء مركّبة بينهما، سيتصل بموثوقية شبه دائمة — كل مقبس يعمل كنقطة وسيطة تمرر الإشارة للأمام."
+ },
+ {
+  "id": "d58e0cab-d486-46fb-ae99-696dff439e72",
+  "title": "Firmware Update Policy for Deployed Installations",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**لماذا تهم التحديثات.**"
+ },
+ {
+  "id": "d58e0cab-d486-46fb-ae99-696dff439e72",
+  "title": "Firmware Update Policy for Deployed Installations",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**لماذا التحديث التلقائي الأعمى ليس كل الجواب.**"
+ },
+ {
+  "id": "d58e0cab-d486-46fb-ae99-696dff439e72",
+  "title": "Firmware Update Policy for Deployed Installations",
+  "signals": [
+   "أما … فـ"
+  ],
+  "sentence": "أما الوعد غير الرسمي بـ\"مراقبة التحديثات\" فينتج عملًا غير مدفوع يتوقف في النهاية، وهو أسوأ من عدم عرضه أصلًا."
+ },
+ {
+  "id": "d7de7275-954d-44a6-8f00-afa60e365d1d",
+  "title": "Alpha Control: What It Is and Why It Replaces a Wall of Controllers",
+  "signals": [
+   "long MSA sentence"
+  ],
+  "sentence": "**مواصفات أساسية يجب تذكرها عند تسعير مشروع:** مدى جهد الإدخال 90-265 فولت متردد (يعمل عبر أغلب معايير الكهرباء الإقليمية دون محول منفصل)، تصنيف الريليه 10 أمبير عند 250 فولت متردد لكل قناة للأحمال القياسية، يُغذّى الجهاز نفسه عبر مزود 12 فولت مستمر / 3 أمبير بموصل دائري (barrel jack)، واستهلاك الطاقة في وضع الاستعداد أقل من 2 واط — منخفض بما يكفي لجعل تركه يعمل دائمًا بلا تأثير يُذكر على فاتورة كهرباء العميل."
+ },
+ {
+  "id": "d8f53440-2769-4e2a-b351-7af923df7725",
+  "title": "Reading a Timing Diagram and Setting a Real Timer",
+  "signals": [
+   "إنه / إن opener"
+  ],
+  "sentence": "إن تغيّر الخرج بعد مسافة من الحافة **الصاعدة** فهو تأخير تشغيل."
+ },
+ {
+  "id": "e7830b6f-7b25-4d4d-9ff9-6cc35f62360b",
+  "title": "Energy Monitoring: Reading and Acting on Power Data",
+  "signals": [
+   "من حيث / وذلك"
+  ],
+  "sentence": "وذلك الرقم هو الذي يبرر التركيب."
+ },
+ {
+  "id": "f0d56220-e05e-4a3c-90db-83f54c1320cf",
+  "title": "Inside a Contactor",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "ويهم هذا عند تحديد حجم محول التحكم أو التلامسات التي تفصّل الملف — فعنصر التبديل يجب أن يتحمل الاندفاع لا تيار الإمساك فقط."
+ },
+ {
+  "id": "f67d458a-a6bb-48f8-b598-bc0485dd996a",
+  "title": "Integrating SONOFF with Homey",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "تبني Homey الأتمتة (Automation) كـ\"تدفقات\" مرئية ببنية عندما/و/إذن، تنطبق مباشرة على نموذج المشغّل/الشرط/الفعل من درس الأتمتة."
+ },
+ {
+  "id": "f67d458a-a6bb-48f8-b598-bc0485dd996a",
+  "title": "Integrating SONOFF with Homey",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "فالعميل الذي يستطيع تعديل أتمتته بأمان يولّد اتصالات دعم أقل بكثير ممن يجب أن يتصل بك لتغيير وقت."
+ },
+ {
+  "id": "fa32cc2b-a851-4c90-af03-05b13bd46109",
+  "title": "Liquid Level Relays and Dry-Run Protection",
+  "signals": [
+   "MSA question word"
+  ],
+  "sentence": "**لماذا تغذية الأقطاب متردد وليست مستمرًا أبدًا.** هذه التفصيلة تفصل من يفهم الجهاز عمّن يركّبه فقط."
+ },
+ {
+  "id": "fa32cc2b-a851-4c90-af03-05b13bd46109",
+  "title": "Liquid Level Relays and Dry-Run Protection",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "- قطب **المستوى المنخفض** عند المستوى الذي يجب أن يبدأ عنده الفعل."
+ },
+ {
+  "id": "fa32cc2b-a851-4c90-af03-05b13bd46109",
+  "title": "Liquid Level Relays and Dry-Run Protection",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "- قطب **المستوى المرتفع** عند المستوى الذي يجب أن يتوقف عنده."
+ },
+ {
+  "id": "fec3280c-d47c-4b69-90a6-e05c61648e73",
+  "title": "Working with the eWeLink Platform",
+  "signals": [
+   "إنه / إن opener"
+  ],
+  "sentence": "إن أقرنت كل جهاز تحت حسابك *أنت* وسلّمت العميل تسجيل دخول مشترك، فقد أنشأت اعتمادًا يضر الطرفين."
+ },
+ {
+  "id": "ff522b12-cc96-48c0-9af1-205ae02c143c",
+  "title": "Photocell and Daylight Switching",
+  "signals": [
+   "إنه / إن opener"
+  ],
+  "sentence": "إنه أبسط ريليه استشعار مفيد، وهو موجود في كل مكان — إنارة الشوارع، مداخل الكمبوندات، إضاءة الحدائق والواجهات، ساحات المخازن — ويُركَّب بشكل خاطئ باستمرار."
+ },
+ {
+  "id": "ff522b12-cc96-48c0-9af1-205ae02c143c",
+  "title": "Photocell and Daylight Switching",
+  "signals": [
+   "يجب أن"
+  ],
+  "sentence": "- **الفرق التفاضلي** — كما في الدرس السابق، يجب أن يختلف مستوى التشغيل عن الفصل."
+ },
+ {
+  "id": "ff522b12-cc96-48c0-9af1-205ae02c143c",
+  "title": "Photocell and Daylight Switching",
+  "signals": [
+   "أما … فـ"
+  ],
+  "sentence": "أما الخلية الضوئية فتستجيب للظروف الفعلية."
+ }
+]
