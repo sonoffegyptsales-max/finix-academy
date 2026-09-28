@@ -43,9 +43,9 @@
     "name": "f07-alpha-modules",
     "file": "f07-alpha-modules.svg",
     "lesson_id": "82bf3204-7e2f-4b1a-9632-39bc71456409",
-    "caption": "Alpha Control expansion: one base unit plus the module the job actually needs -- digital I/O, analog I/O, or serial comms.",
-    "caption_ar": "توسعة Alpha Control: وحدة أساسية واحدة مع الوحدة التي يحتاجها العمل فعلًا — دخل/خرج رقمي أو تناظري أو اتصالات تسلسلية.",
-    "bytes": 5529
+    "caption": "Alpha Control expansion: one Alpha Core (16 in / 16 out) plus up to three child boards -- High-Current (4x50A), Sound System (8 zones), Interlock (hardware fail-safe).",
+    "caption_ar": "توسعة Alpha Control: كور واحد (16 دخل / 16 خرج) ولحد 3 وحدات فرعية — تيار عالي (4×50 أمبير)، نظام صوت (8 مناطق)، وقفل تبادلي عتادي.",
+    "bytes": 5732
   },
   {
     "name": "i01-latch-stop-priority",

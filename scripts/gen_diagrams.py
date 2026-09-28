@@ -771,36 +771,42 @@ def d_trip_curve():
 
 # ================================================================== F07 L3
 def d_alpha_modules():
-    W, H = 660, 318
-    b = title_block(W, "Alpha Control expansion modules", "وحدات التوسعة في Alpha Control")
-    b += rect(28, 76, 168, 168, ACC, 1.9, 7, "#fff7f3")
-    b += txt(112, 108, "ALPHA", 14, ACC, "700", "middle")
-    b += txt(112, 128, "CONTROL", 14, ACC, "700", "middle")
-    b += txt(112, 156, "base unit", 11, MUT, "500", "middle")
-    b += ar(188, 176, "الوحدة الأساسية", 10.5, MUT)
-    b += txt(112, 206, "logic + scheduling", 10.5, MUT, "500", "middle")
-    b += txt(112, 224, "+ connectivity", 10.5, MUT, "500", "middle")
+    # CORRECTED: the first version labelled the three child boards as
+    # "Digital I/O / Analog I/O / Comms" -- generic PLC categories that are
+    # NOT Alpha Control's modules. F07 L3 (the lesson this diagram sits in)
+    # names the real ones: High-Current, Sound System, Interlock. A diagram
+    # contradicting the paragraph directly above it, on the flagship product.
+    W, H = 660, 340
+    b = title_block(W, "Alpha Control expansion modules", "وحدات التوسعة")
+    b += rect(28, 76, 168, 188, ACC, 1.9, 7, "#fff7f3")
+    b += txt(112, 106, "ALPHA CORE", 14, ACC, "700", "middle")
+    b += ar(154, 128, "الوحدة الأساسية", 10.5, MUT)
+    b += txt(112, 156, "16 AC inputs", 11, INK, "600", "middle")
+    b += txt(112, 174, "16 relay outputs", 11, INK, "600", "middle")
+    b += txt(112, 192, "10A @ 250V each", 10.5, MUT, "500", "middle")
+    b += txt(112, 216, "3 expansion slots", 10.5, ACC, "700", "middle")
+    b += txt(112, 234, "auto-detected", 10.5, MUT, "500", "middle")
     mods = [
-        ("Digital I/O", "دخل/خرج رقمي", "dry contacts, relays,", "buttons and status"),
-        ("Analog I/O", "دخل/خرج تناظري", "4-20 mA and 0-10 V,", "sensors and drives"),
-        ("Comms", "اتصالات", "RS-485 / Modbus to", "meters and inverters"),
+        ("High-Current", "تيار عالي", "4 ch x 50A (200A)", "motors, EV, pumps"),
+        ("Sound System", "نظام الصوت", "8 audio zones", "paging, multi-room"),
+        ("Interlock", "القفل التبادلي", "4 ch, hardware fail-safe", "reversing, doors"),
     ]
     for i, (en, arl, l1, l2) in enumerate(mods):
-        yy = 76 + i * 58
-        b += rect(268, yy, 214, 48, INK, 1.5, 6, FILL)
-        b += txt(280, yy + 20, en, 12, INK, "700")
-        b += txt(280, yy + 37, l1, 10.5, MUT, "500")
-        b += ar(636, yy + 20, arl, 11, MUT)
-        b += txt(492, yy + 37, l2, 10.5, MUT, "500")
-        b += line(196, 160, 268, yy + 24, ACC, 1.4)
-        b += dot(268, yy + 24, ACC, 3)
+        yy = 76 + i * 64
+        b += rect(268, yy, 214, 52, INK, 1.5, 6, FILL)
+        b += txt(280, yy + 21, en, 12, INK, "700")
+        b += txt(280, yy + 39, l1, 10.5, MUT, "500")
+        b += ar(636, yy + 21, arl, 11, MUT)
+        b += txt(492, yy + 39, l2, 10.5, MUT, "500")
+        b += line(196, 170, 268, yy + 26, ACC, 1.4)
+        b += dot(268, yy + 26, ACC, 3)
     b += note(W, H,
-              "Add only the module the job needs. The base unit is the same in every panel.",
-              "أضف الوحدة التي يحتاجها العمل فقط")
+              "Up to 3 child boards on one core -- no extra wiring, one firmware.",
+              "لحد 3 وحدات على كور واحد — من غير أسلاك زيادة، وفيرموير واحد")
     build("f07-alpha-modules", W, H, "Alpha Control expansion modules", b,
           "82bf3204-7e2f-4b1a-9632-39bc71456409",
-          "Alpha Control expansion: one base unit plus the module the job actually needs -- digital I/O, analog I/O, or serial comms.",
-          "توسعة Alpha Control: وحدة أساسية واحدة مع الوحدة التي يحتاجها العمل فعلًا — دخل/خرج رقمي أو تناظري أو اتصالات تسلسلية.")
+          "Alpha Control expansion: one Alpha Core (16 in / 16 out) plus up to three child boards -- High-Current (4x50A), Sound System (8 zones), Interlock (hardware fail-safe).",
+          "توسعة Alpha Control: كور واحد (16 دخل / 16 خرج) ولحد 3 وحدات فرعية — تيار عالي (4×50 أمبير)، نظام صوت (8 مناطق)، وقفل تبادلي عتادي.")
 
 
 # ================================================================== I07 L2
