@@ -1,12 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  finixCertTiers,
-  finixModules,
-  finixSurveyStages,
-  finixTracks,
-} from "@/content/finix";
+import { finixCertTiers } from "@/content/finix";
 import { useAuth } from "@/lib/auth";
 import { useLang } from "@/lib/language";
+import { useCatalogStats } from "@/hooks/use-catalog-stats";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -15,7 +11,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Professional training for smart home installers and automation engineers: 10 modules across 4 tracks, Bronze/Silver/Gold certifications, KPI evaluations and site survey tools.",
+          "Bilingual professional training for smart home installers and industrial control technicians: 22 modules across 3 tracks, Bronze/Silver/Gold certification, hands-on training on the Finix Alpha Control platform.",
       },
       { property: "og:title", content: "Finix Academy — Smart Home & Industrial Automation Training" },
       { property: "og:type", content: "website" },
@@ -27,22 +23,19 @@ export const Route = createFileRoute("/")({
 function Landing() {
   const { t } = useLang();
   const { user } = useAuth();
+  const live = useCatalogStats();
 
-  const stats = [
-    { value: `${finixModules.length}`, label: t("Modules", "وحدة تدريبية") },
-    { value: `${finixTracks.length}`, label: t("Tracks", "مسارات") },
-    {
-      // Arabic gets a plain numeral, not "3-مستويات": mixing a Latin digit and
-      // hyphen into an Arabic run makes the bidi algorithm move the hyphen to
-      // the wrong side, which reads as a minus sign.
-      value: t(`${finixCertTiers.length}-${"Tier"}`, `${finixCertTiers.length}`),
-      label: t("Certs", "مستويات اعتماد"),
-    },
-    {
-      value: `${finixSurveyStages.length}`,
-      label: t("Survey stages", "مراحل المسح"),
-    },
-  ];
+  // Live counts from the database. The old static source said 10 modules /
+  // 4 tracks -- the real curriculum is 22 / 3. Render nothing until real
+  // numbers arrive instead of flashing a wrong figure.
+  const stats = live
+    ? [
+        { value: `${live.tracks}`, label: t("Tracks", "مسارات") },
+        { value: `${live.modules}`, label: t("Modules", "وحدة تدريبية") },
+        { value: `${live.lessons}`, label: t("Lessons", "درس") },
+        { value: `${live.questions}`, label: t("Quiz questions", "سؤال تقييم") },
+      ]
+    : [];
 
   return (
     <div>
@@ -110,11 +103,14 @@ function Landing() {
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold text-foreground">
-                  {t("10 Modules", "١٠ وحدات")}
+                  {t("Alpha Control Hands-On", "تدريب عملي على Alpha Control")}
                 </h3>
               </div>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                {t("Structured curriculum across 4 tracks", "منهج منظم عبر ٤ مسارات")}
+                {t(
+                  "Train on Finix Systems' own stackable controller — 16 inputs, 16 relay outputs, High-Current, Sound and Interlock modules",
+                  "اتدرّب على كنترولر Finix Systems نفسه — 16 دخل و16 خرج ريليه، ووحدات التيار العالي والصوت والقفل التبادلي",
+                )}
               </p>
             </div>
 
@@ -128,11 +124,11 @@ function Landing() {
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold text-foreground">
-                  {t("3-Tier Certs", "٣ مستويات اعتماد")}
+                  {t(`${finixCertTiers.length}-Tier Certification`, "شهادة بثلاث مستويات")}
                 </h3>
               </div>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                {t("Bronze, Silver & Gold certifications", "اعتمادات برونزي وفضي وذهبي")}
+                {t("Bronze, Silver & Gold on every module", "برونزي وفضي وذهبي في كل وحدة")}
               </p>
             </div>
 
