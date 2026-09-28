@@ -21,7 +21,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Landing() {
-  const { t } = useLang();
+  const { t, isRTL } = useLang();
   const { user } = useAuth();
   const live = useCatalogStats();
 
@@ -42,10 +42,20 @@ function Landing() {
       {/* Hero — light background, matches target public page */}
       <section className="relative border-b border-border bg-background">
         <div className="mx-auto max-w-5xl px-6 py-24 md:py-32">
-          {/* uppercase + wide tracking is for Latin only: letter-spacing on
-              Arabic pulls apart the joined glyphs and the line renders as
-              disconnected letters. rtl: resets both. */}
-          <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground rtl:font-sans rtl:normal-case rtl:tracking-normal rtl:text-sm">
+          {/* The Latin styling (mono font, uppercase, 0.3em tracking) is kept
+              for English only. It must not be merely OVERRIDDEN under rtl:
+              the global rule [dir=rtl] .font-mono forces direction:ltr (meant
+              for code/IPs), which pinned this Arabic tagline to the LEFT edge
+              while every other line sat right. So the class is not applied
+              at all in Arabic. Letter-spacing also pulls joined Arabic glyphs
+              apart into disconnected letters. */}
+          <p
+            className={
+              isRTL
+                ? "text-sm text-muted-foreground"
+                : "font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground"
+            }
+          >
             {t("Smart Home & Industrial Automation", "المنازل الذكية والأتمتة الصناعية")}
           </p>
           <h1 className="mt-5 text-5xl font-bold leading-tight tracking-tight text-foreground md:text-6xl">
