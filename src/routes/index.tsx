@@ -42,7 +42,10 @@ function Landing() {
       {/* Hero — light background, matches target public page */}
       <section className="relative border-b border-border bg-background">
         <div className="mx-auto max-w-5xl px-6 py-24 md:py-32">
-          <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">
+          {/* uppercase + wide tracking is for Latin only: letter-spacing on
+              Arabic pulls apart the joined glyphs and the line renders as
+              disconnected letters. rtl: resets both. */}
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground rtl:font-sans rtl:normal-case rtl:tracking-normal rtl:text-sm">
             {t("Smart Home & Industrial Automation", "المنازل الذكية والأتمتة الصناعية")}
           </p>
           <h1 className="mt-5 text-5xl font-bold leading-tight tracking-tight text-foreground md:text-6xl">

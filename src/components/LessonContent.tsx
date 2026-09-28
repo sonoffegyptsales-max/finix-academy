@@ -150,7 +150,7 @@ export function LessonContent({
                 >
                   <div className="flex items-center gap-2 border-b border-border/60 px-3 py-1.5">
                     <span
-                      className={`text-[11px] font-bold uppercase tracking-wide ${
+                      className={`text-[11px] font-bold uppercase tracking-wide rtl:normal-case rtl:tracking-normal rtl:text-xs ${
                         isFormula ? "text-primary" : "text-amber-600"
                       }`}
                     >

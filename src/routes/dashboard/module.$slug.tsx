@@ -112,7 +112,7 @@ function ModulePage() {
       </p>
 
       <section className="mt-8">
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground rtl:normal-case rtl:tracking-normal">
           {t("Lessons", "الدروس")}
         </h2>
         <ProtectedContent>
@@ -141,7 +141,7 @@ function ModulePage() {
       </section>
 
       <section className="mt-8">
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground rtl:normal-case rtl:tracking-normal">
           {t("Quizzes", "الاختبارات")}
         </h2>
         <div className="mt-3 flex flex-wrap gap-3">
