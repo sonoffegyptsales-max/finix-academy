@@ -11,7 +11,32 @@ export const Route = createFileRoute("/dashboard/")({
 
 function NotificationBanner() {
   const { t } = useLang();
-  const { status, busy, error, supported, subscribe, unsubscribe } = usePushNotifications();
+  const { status, busy, error, supported, needsInstall, subscribe, unsubscribe } =
+    usePushNotifications();
+
+  // iOS Safari tab: push exists only after "Add to Home Screen" (iOS 16.4+).
+  // Silence here is what got reported as "notifications blocked on mobile" --
+  // show the actual instruction instead of nothing.
+  if (!supported && needsInstall) {
+    return (
+      <div className="mb-6 flex items-center gap-3 rounded-xl border border-amber-500/30 bg-amber-500/5 px-5 py-3">
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-500/10 text-amber-600">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v12"/><path d="m8 7 4-4 4 4"/><rect width="16" height="12" x="4" y="9" rx="2"/></svg>
+        </span>
+        <div>
+          <p className="text-sm font-medium text-foreground">
+            {t("Install the app to get notifications", "ثبّت التطبيق عشان توصلك الإشعارات")}
+          </p>
+          <p className="text-xs text-muted-foreground">
+            {t(
+              "On iPhone/iPad: tap Share, then \"Add to Home Screen\", then open Finix Academy from the home screen and enable notifications here.",
+              "على الآيفون/الآيباد: دوس على زرار المشاركة، وبعدين \"إضافة إلى الشاشة الرئيسية\"، وافتح Finix Academy من الشاشة الرئيسية وفعّل الإشعارات من هنا.",
+            )}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   if (!supported) return null;
 
@@ -50,8 +75,8 @@ function NotificationBanner() {
           <p className="text-xs text-muted-foreground">
             {status === "denied"
               ? t(
-                  "Notifications are blocked in your browser settings.",
-                  "الإشعارات محظورة في إعدادات متصفحك.",
+                  "Notifications are blocked for this site. On Android Chrome: tap the lock icon in the address bar → Permissions → Notifications → Allow, then reload.",
+                  "الإشعارات محظورة للموقع ده. على أندرويد كروم: دوس على أيقونة القفل في شريط العنوان ← الأذونات ← الإشعارات ← سماح، وبعدين اعمل تحديث للصفحة.",
                 )
               : t(
                   "Get notified about new lessons and announcements.",

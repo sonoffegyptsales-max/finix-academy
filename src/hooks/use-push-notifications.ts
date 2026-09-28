@@ -14,10 +14,27 @@ function urlBase64ToUint8Array(base64String: string): Uint8Array {
 
 type PushStatus = "unsupported" | "default" | "granted" | "denied" | "subscribed";
 
+/** iOS Safari only exposes PushManager once the site is INSTALLED to the
+ * home screen (iOS 16.4+). In a normal Safari tab push is simply absent, so
+ * without this flag the UI shows a generic "unsupported" (or nothing) and
+ * the user reports "notifications are blocked on my phone". */
+function iosNeedsInstall(): boolean {
+  if (typeof window === "undefined") return false;
+  const ua = navigator.userAgent;
+  const isIOS =
+    /iPad|iPhone|iPod/.test(ua) ||
+    (ua.includes("Mac") && "ontouchend" in document);
+  const standalone =
+    window.matchMedia?.("(display-mode: standalone)").matches ||
+    (navigator as any).standalone === true;
+  return isIOS && !standalone && !("PushManager" in window);
+}
+
 export function usePushNotifications() {
   const [status, setStatus] = useState<PushStatus>("default");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const needsInstall = iosNeedsInstall();
 
   const supported =
     typeof window !== "undefined" &&
@@ -101,5 +118,5 @@ export function usePushNotifications() {
     }
   }, [supported]);
 
-  return { status, busy, error, supported, subscribe, unsubscribe };
+  return { status, busy, error, supported, needsInstall, subscribe, unsubscribe };
 }
