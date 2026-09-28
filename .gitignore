@@ -37,3 +37,9 @@ dist-ssr
 .vercel
 .env*
 .tmp_*.json
+
+# Commercial planning docs (pricing, margins) never belong in this PUBLIC repo
+docs/COURSE_PLAN.md
+docs/LAB_CURRICULUM.md
+docs/*PROPOSAL*
+*.pdf
