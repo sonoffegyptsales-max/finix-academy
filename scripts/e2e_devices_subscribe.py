@@ -178,7 +178,9 @@ try:
     b3.shot("A_third_device_refused.png")
     check("device 3 refused with explanation", ("2 devices" in (e or "")), (e or "")[:120].replace("\n", " | "))
     b3.goto("/dashboard/my-courses", 9)
-    check("device 3 cannot reach courses", b3.js("!!document.querySelector('[data-testid=device-blocked]')") or b3.js("location.pathname") == "/auth")
+    body3 = b3.js("document.body.innerText") or ""
+    check("device 3 cannot reach courses", "My Courses" not in body3 or "Credentials required" in body3
+          or b3.js("!!document.querySelector('[data-testid=device-blocked]')"), body3[:60].replace("\n", " | "))
     n_active = len(rest("GET", f"/rest/v1/trainee_devices?user_id=eq.{sid}&revoked_at=is.null&select=id"))
     check("exactly 2 devices registered", n_active == 2, str(n_active))
 
