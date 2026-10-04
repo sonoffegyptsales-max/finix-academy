@@ -230,12 +230,20 @@ function SiteHeader() {
               </button>
             </div>
           ) : (
+            <>
+            <Link
+              to="/enroll"
+              className="rounded-lg border border-primary/40 px-4 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 transition-colors"
+            >
+              {t("Enroll", "اشترك")}
+            </Link>
             <Link
               to="/auth"
               className="rounded-lg bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
             >
               {t("Sign in", "تسجيل الدخول")}
             </Link>
+            </>
           )}
         </nav>
       </div>

@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as EnrollRouteImport } from './routes/enroll'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardAdminPanelRouteImport } from './routes/dashboard/admin-panel'
 import { Route as DashboardCertificationsRouteImport } from './routes/dashboard/certifications'
@@ -36,6 +37,11 @@ const AuthRoute = AuthRouteImport.update({
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnrollRoute = EnrollRouteImport.update({
+  id: '/enroll',
+  path: '/enroll',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/enroll': typeof EnrollRoute
   '/dashboard/admin-panel': typeof DashboardAdminPanelRoute
   '/dashboard/certifications': typeof DashboardCertificationsRoute
   '/dashboard/field-survey': typeof DashboardFieldSurveyRoute
@@ -108,6 +115,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/enroll': typeof EnrollRoute
   '/dashboard/admin-panel': typeof DashboardAdminPanelRoute
   '/dashboard/certifications': typeof DashboardCertificationsRoute
   '/dashboard/field-survey': typeof DashboardFieldSurveyRoute
@@ -124,6 +132,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/enroll': typeof EnrollRoute
   '/dashboard/admin-panel': typeof DashboardAdminPanelRoute
   '/dashboard/certifications': typeof DashboardCertificationsRoute
   '/dashboard/field-survey': typeof DashboardFieldSurveyRoute
@@ -141,6 +150,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/dashboard'
+    | '/enroll'
     | '/dashboard/admin-panel'
     | '/dashboard/certifications'
     | '/dashboard/field-survey'
@@ -155,6 +165,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/enroll'
     | '/dashboard/admin-panel'
     | '/dashboard/certifications'
     | '/dashboard/field-survey'
@@ -170,6 +181,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/dashboard'
+    | '/enroll'
     | '/dashboard/admin-panel'
     | '/dashboard/certifications'
     | '/dashboard/field-survey'
@@ -186,6 +198,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
   DashboardRoute: typeof DashboardRouteWithChildren
+  EnrollRoute: typeof EnrollRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -209,6 +222,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/enroll': {
+      id: '/enroll'
+      path: '/enroll'
+      fullPath: '/enroll'
+      preLoaderRoute: typeof EnrollRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard/': {
@@ -318,6 +338,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
   DashboardRoute: DashboardRouteWithChildren,
+  EnrollRoute: EnrollRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

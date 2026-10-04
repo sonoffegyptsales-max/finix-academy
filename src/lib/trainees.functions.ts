@@ -131,3 +131,69 @@ export const deleteTrainee = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+
+// Readable passwords: no 0/O/1/l/I, grouped so they can be read over the phone.
+const PW_ALPHABET = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+export function readablePassword(): string {
+  const bytes = crypto.getRandomValues(new Uint8Array(12));
+  const chars = Array.from(bytes, (b) => PW_ALPHABET[b % PW_ALPHABET.length]).join("");
+  return `${chars.slice(0, 4)}-${chars.slice(4, 8)}-${chars.slice(8, 12)}`;
+}
+
+/**
+ * Admin-only: open a trainee's sign-in details.
+ *
+ * The access code is stored as-is, so it can always be shown. The password
+ * is stored ONLY as a one-way hash by Supabase Auth -- it cannot be shown by
+ * anyone. To give a trainee a password, use resetTraineePassword.
+ */
+export const getTraineeCredentials = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) => z.object({ userId: z.string().uuid() }).parse(data))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    const admin = serviceClient();
+    const [{ data: prof }, { data: codeRow }, { data: authUser }] = await Promise.all([
+      admin.from("profiles").select("email, full_name").eq("id", data.userId).maybeSingle(),
+      (admin as any)
+        .from("access_codes")
+        .select("code, expires_at, last_used_at, created_at")
+        .eq("user_id", data.userId)
+        .is("revoked_at", null)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle(),
+      admin.auth.admin.getUserById(data.userId),
+    ]);
+    const u = authUser?.user;
+    const expired = codeRow?.expires_at ? new Date(codeRow.expires_at) < new Date() : false;
+    return {
+      email: prof?.email ?? u?.email ?? "",
+      fullName: prof?.full_name ?? null,
+      phone: (u?.user_metadata as any)?.phone ?? null,
+      code: codeRow && !expired ? (codeRow.code as string) : null,
+      codeExpiresAt: codeRow?.expires_at ?? null,
+      codeLastUsedAt: codeRow?.last_used_at ?? null,
+      lastSignInAt: u?.last_sign_in_at ?? null,
+    };
+  });
+
+/**
+ * Admin-only: set a NEW password for a trainee and return it once so the
+ * admin can send it. The previous password stops working immediately.
+ */
+export const resetTraineePassword = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) => z.object({ userId: z.string().uuid() }).parse(data))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    const admin = serviceClient();
+    const { data: isAdminRow } = await admin
+      .from("user_roles").select("role").eq("user_id", data.userId).eq("role", "admin").maybeSingle();
+    if (isAdminRow) throw new Error("Administrator passwords cannot be reset here.");
+    const password = readablePassword();
+    const { error } = await admin.auth.admin.updateUserById(data.userId, { password });
+    if (error) throw new Error(error.message);
+    return { ok: true, password };
+  });

@@ -10,6 +10,8 @@ import { LessonContent } from "@/components/LessonContent";
 import { LessonResources } from "@/components/LessonResources";
 import { useLessonMedia, type LessonMediaRow } from "@/hooks/use-lesson-media";
 import { useModuleLessonBodies } from "@/hooks/use-module-lesson-bodies";
+import { useModuleAccess } from "@/hooks/use-module-access";
+import { LockedNotice } from "@/components/LockedNotice";
 
 export const Route = createFileRoute("/dashboard/module/$slug")({
   head: () => ({
@@ -29,6 +31,7 @@ function ModulePage() {
   const moduleIdBySlug = Object.fromEntries(modules.map((m) => [m.slug, m.id]));
   const { toggle, isComplete } = useEnrollments(moduleIdBySlug);
   const { listForLessons } = useLessonMedia();
+  const { canOpen, loading: accessLoading } = useModuleAccess();
   const [media, setMedia] = useState<LessonMediaRow[]>([]);
 
   const mod = modules.find((m) => m.slug === slug);
@@ -57,7 +60,7 @@ function ModulePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lessonIdKey]);
 
-  if (loading) {
+  if (loading || accessLoading) {
     return (
       <div className="mx-auto max-w-3xl px-6 py-20 text-center text-sm text-muted-foreground">
         {t("Loading…", "جارٍ التحميل…")}
@@ -83,6 +86,7 @@ function ModulePage() {
   const prev = modules[index - 1];
   const next = modules[index + 1];
   const done = isComplete(mod.slug);
+  const open = canOpen(mod.id);
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-14">
@@ -111,6 +115,12 @@ function ModulePage() {
         {t(mod.summary, mod.summary_ar)}
       </p>
 
+      {!open ? (
+        <div className="mt-8">
+          <LockedNotice />
+        </div>
+      ) : (
+      <>
       <section className="mt-8">
         <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground rtl:normal-case rtl:tracking-normal">
           {t("Lessons", "الدروس")}
@@ -185,6 +195,8 @@ function ModulePage() {
           {t("Check your certification progress →", "تحقق من تقدم الاعتماد ←")}
         </Link>
       </div>
+      </>
+      )}
 
       <nav className="mt-12 flex justify-between border-t border-border pt-6 text-sm">
         {prev ? (

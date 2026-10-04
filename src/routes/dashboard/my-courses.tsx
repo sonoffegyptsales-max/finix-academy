@@ -3,6 +3,8 @@ import { Protected } from "@/lib/auth";
 import { useLang } from "@/lib/language";
 import { useCurriculum } from "@/hooks/use-curriculum";
 import { useEnrollments } from "@/hooks/use-enrollments";
+import { useModuleAccess, useLessonCounts } from "@/hooks/use-module-access";
+import { LockBadge } from "@/components/LockedNotice";
 
 export const Route = createFileRoute("/dashboard/my-courses")({
   head: () => ({
@@ -27,8 +29,10 @@ function MyCoursesPage() {
   const { tracks, modules, loading, usingFallback } = useCurriculum();
   const moduleIdBySlug = Object.fromEntries(modules.map((m) => [m.slug, m.id]));
   const { completed, toggle } = useEnrollments(moduleIdBySlug);
+  const { canOpen, unlockedCount, loading: accessLoading } = useModuleAccess();
+  const lessonCounts = useLessonCounts();
 
-  if (loading) {
+  if (loading || accessLoading) {
     return (
       <div className="p-6 text-center text-sm text-muted-foreground">
         {t("Loading courses…", "جارٍ تحميل الدورات…")}
@@ -49,6 +53,21 @@ function MyCoursesPage() {
           {completed.length} / {modules.length} {t("complete", "مكتملة")}
         </span>
       </div>
+
+      {unlockedCount === 0 && (
+        <div className="mb-6 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
+          <p className="font-semibold">{t("Your modules are locked for now", "الوحدات مقفولة لحد دلوقتي")}</p>
+          <p className="mt-1">
+            {t(
+              "Your trainer will open modules as your group progresses. To get access right away, buy a package and pay with InstaPay.",
+              "المدرب هيفتح الوحدات مع تقدّم مجموعتك. ولو عايز تبدأ على طول، اختار باقة وادفع بانستاباي.",
+            )}
+          </p>
+          <Link to="/enroll" className="mt-3 inline-flex rounded-lg bg-amber-600 px-4 py-2 font-medium text-white hover:bg-amber-700">
+            {t("See packages and prices", "شوف الباقات والأسعار")}
+          </Link>
+        </div>
+      )}
 
       {usingFallback && (
         <div className="mb-6 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-xs text-amber-800">
@@ -81,6 +100,7 @@ function MyCoursesPage() {
             <div className="grid gap-4 md:grid-cols-2">
               {trackModules.map((mod) => {
                 const done = completed.includes(mod.slug);
+                const open = canOpen(mod.id);
                 return (
                   <div
                     key={mod.slug}
@@ -92,10 +112,12 @@ function MyCoursesPage() {
                       <div className="flex items-center gap-2">
                         <span className="font-mono text-xs text-muted-foreground">{mod.code}</span>
                         <span className="rounded-full border border-border bg-secondary px-2 py-0.5 text-[11px] text-muted-foreground">
-                          {mod.lessons.length} {t("lessons", "دروس")}
+                          {lessonCounts.get(mod.id) ?? mod.lessons.length} {t("lessons", "دروس")}
                         </span>
                       </div>
-                      {done ? (
+                      {!open ? (
+                        <LockBadge />
+                      ) : done ? (
                         <span className="rounded-full bg-green-500/10 px-2.5 py-0.5 text-[11px] font-medium text-green-700">
                           ✓ {t("Complete", "مكتملة")}
                         </span>
@@ -112,6 +134,11 @@ function MyCoursesPage() {
                       {t(mod.summary, mod.summary_ar)}
                     </p>
 
+                    {!open ? (
+                      <p className="mt-4 text-xs text-muted-foreground">
+                        {t("Opens when your trainer unlocks it or your payment is confirmed.", "بتتفتح لما المدرب يفتحها أو الدفع يتأكد.")}
+                      </p>
+                    ) : (
                     <div className="mt-4 flex flex-wrap items-center gap-2">
                       <Link
                         to="/dashboard/module/$slug"
@@ -131,6 +158,7 @@ function MyCoursesPage() {
                         </Link>
                       ))}
                     </div>
+                    )}
                   </div>
                 );
               })}

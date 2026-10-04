@@ -12,6 +12,8 @@ import {
   resetDeviceBinding,
 } from "@/lib/device.functions";
 import { BrandingTab } from "@/components/BrandingTab";
+import { AccessTab, PricingTab, RequestsTab } from "@/components/AccessAdminTabs";
+import { CredentialsPanel } from "@/components/CredentialsPanel";
 
 export const Route = createFileRoute("/dashboard/admin-panel")({
   head: () => ({
@@ -31,7 +33,7 @@ interface UserRow {
   roles: string[];
 }
 
-type AdminTab = "overview" | "trainees" | "devices" | "notify" | "branding";
+type AdminTab = "overview" | "requests" | "access" | "pricing" | "trainees" | "devices" | "notify" | "branding";
 
 function AdminPanelPage() {
   const { t } = useLang();
@@ -110,6 +112,9 @@ function AdminPanelPage() {
 
   const tabs: { id: AdminTab; label: string; adminOnly?: boolean }[] = [
     { id: "overview", label: t("Overview", "نظرة عامة") },
+    { id: "requests", label: t("Payment requests", "طلبات الدفع"), adminOnly: true },
+    { id: "access", label: t("Module access", "فتح الوحدات") },
+    { id: "pricing", label: t("Pricing & InstaPay", "الأسعار وانستاباي"), adminOnly: true },
     { id: "trainees", label: t("Trainees", "المتدربون"), adminOnly: true },
     { id: "devices", label: t("Devices", "الأجهزة"), adminOnly: true },
     { id: "notify", label: t("Notifications", "الإشعارات"), adminOnly: true },
@@ -133,14 +138,14 @@ function AdminPanelPage() {
       </div>
 
       {/* Tab bar */}
-      <div className="mb-6 flex gap-1 border-b border-border">
+      <div className="mb-6 flex gap-1 overflow-x-auto border-b border-border">
         {tabs
           .filter((tb) => !tb.adminOnly || isAdmin)
           .map((tb) => (
             <button
               key={tb.id}
               onClick={() => setTab(tb.id)}
-              className={`-mb-px border-b-2 px-4 py-2 text-sm font-medium transition-colors ${
+              className={`-mb-px shrink-0 whitespace-nowrap border-b-2 px-4 py-2 text-sm font-medium transition-colors ${
                 tab === tb.id
                   ? "border-primary text-primary"
                   : "border-transparent text-muted-foreground hover:text-foreground"
@@ -160,6 +165,12 @@ function AdminPanelPage() {
           users={users}
         />
       )}
+
+      {tab === "requests" && isAdmin && <RequestsTab />}
+
+      {tab === "access" && <AccessTab />}
+
+      {tab === "pricing" && isAdmin && <PricingTab />}
 
       {tab === "trainees" && isAdmin && <TraineesTab onChanged={loadStats} />}
 
@@ -292,6 +303,7 @@ function TraineesTab({ onChanged }: { onChanged: () => void }) {
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<{ kind: "ok" | "err"; text: string } | null>(null);
   const [codes, setCodes] = useState<Record<string, string>>({});
+  const [openCreds, setOpenCreds] = useState<string | null>(null);
 
   async function handleIssueCode(userId: string) {
     setMsg(null);
@@ -437,8 +449,9 @@ function TraineesTab({ onChanged }: { onChanged: () => void }) {
           ) : (
             <div className="divide-y divide-border">
               {trainees.map((tr) => (
-                <div key={tr.id} className="flex items-center justify-between gap-4 p-4">
-                  <div>
+                <div key={tr.id} className="p-4">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="min-w-0">
                     <p className="text-sm font-medium text-foreground">{tr.full_name || tr.email}</p>
                     <p className="text-xs text-muted-foreground">{tr.email}</p>
                     {codes[tr.id] && (
@@ -447,7 +460,13 @@ function TraineesTab({ onChanged }: { onChanged: () => void }) {
                       </p>
                     )}
                   </div>
-                  <div className="flex shrink-0 gap-2">
+                  <div className="flex shrink-0 flex-wrap justify-end gap-2">
+                    <button
+                      onClick={() => setOpenCreds(openCreds === tr.id ? null : tr.id)}
+                      className="rounded-lg border border-primary/40 px-3 py-1 text-xs font-medium text-primary hover:bg-primary/10"
+                    >
+                      {t("Login details", "بيانات الدخول")}
+                    </button>
                     <button
                       onClick={() => handleIssueCode(tr.id)}
                       className="rounded-lg border border-border px-3 py-1 text-xs font-medium text-foreground hover:bg-secondary"
@@ -461,6 +480,8 @@ function TraineesTab({ onChanged }: { onChanged: () => void }) {
                       {t("Delete", "حذف")}
                     </button>
                   </div>
+                </div>
+                {openCreds === tr.id && <CredentialsPanel userId={tr.id} onClose={() => setOpenCreds(null)} />}
                 </div>
               ))}
             </div>

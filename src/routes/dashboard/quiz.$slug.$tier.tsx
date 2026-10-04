@@ -5,6 +5,8 @@ import { useLang } from "@/lib/language";
 import { useCurriculum } from "@/hooks/use-curriculum";
 import { useQuiz, useSubmitQuiz, type QuizResult } from "@/hooks/use-quiz";
 import { ProtectedContent } from "@/components/ProtectedContent";
+import { useModuleAccess } from "@/hooks/use-module-access";
+import { LockedNotice } from "@/components/LockedNotice";
 
 export const Route = createFileRoute("/dashboard/quiz/$slug/$tier")({
   head: () => ({
@@ -27,11 +29,20 @@ function QuizPage() {
     tier as "bronze" | "silver" | "gold",
   );
   const { submit, submitting } = useSubmitQuiz();
+  const { canOpen, loading: accessLoading } = useModuleAccess();
 
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [result, setResult] = useState<QuizResult | null>(null);
 
-  if (curriculumLoading || loading) {
+  if (!curriculumLoading && !accessLoading && mod && !canOpen(mod.id)) {
+    return (
+      <div className="mx-auto max-w-xl px-6 py-16">
+        <LockedNotice />
+      </div>
+    );
+  }
+
+  if (curriculumLoading || loading || accessLoading) {
     return (
       <div className="mx-auto max-w-2xl px-6 py-20 text-center text-sm text-muted-foreground">
         {t("Loading quiz…", "جارٍ تحميل الاختبار…")}
