@@ -171,6 +171,7 @@ try:
     b3 = Browser("third", 9343); browsers.append(b3)
     p, e = b3.code_login(code)
     b3.shot("A_third_device_refused.png")
+    check("device 3 stays on sign-in page (no silent redirect)", p == "/auth", p)
     if p != "/auth":  # signed in, then the dashboard gate must stop it
         b3.wait("!!document.querySelector('[data-testid=device-blocked]')", 20)
         e = b3.js("(document.querySelector('[data-testid=device-blocked]')||{}).innerText||''") or e
@@ -192,61 +193,64 @@ try:
     aid, aemail, apw = make_user("admin", "Device Admin")
     created.append(aid)
     tok = rest("POST", "/auth/v1/token?grant_type=password", {"email": aemail, "password": apw}, key=ANON)
-    b3.goto("/", 4)
-    b3.js("localStorage.clear(); 1")
+    b4 = Browser("admin", 9344); browsers.append(b4)
+    b4.goto("/", 4)
     sess = json.dumps({"access_token": tok["access_token"], "refresh_token": tok["refresh_token"],
                        "expires_at": int(time.time()) + int(tok["expires_in"]), "expires_in": tok["expires_in"],
                        "token_type": "bearer", "user": tok["user"]})
-    b3.js(f"localStorage.setItem({json.dumps(SESS_KEY)}, {json.dumps(sess)}); localStorage.setItem('lang','en'); 1")
-    b3.goto("/dashboard/admin-panel", 10)
-    b3.js("window.confirm = () => true; 1")
-    b3.js("[...document.querySelectorAll('button')].find(b=>b.innerText.trim()==='Devices').click()")
-    grp = b3.wait(f"(() => {{ const d=[...document.querySelectorAll('div.p-4')].find(x=>x.innerText.includes({json.dumps(semail)})); return d ? d.innerText : null }})()", 25)
-    b3.shot("A_admin_devices.png")
+    b4.js(f"localStorage.setItem({json.dumps(SESS_KEY)}, {json.dumps(sess)}); localStorage.setItem('lang','en'); 1")
+    b4.goto("/dashboard/admin-panel", 10)
+    b4.js("window.confirm = () => true; 1")
+    b4.js("[...document.querySelectorAll('button')].find(b=>b.innerText.trim()==='Devices').click()")
+    grp = b4.wait(f"(() => {{ const d=[...document.querySelectorAll('div.p-4')].find(x=>x.innerText.includes({json.dumps(semail)})); return d ? d.innerText : null }})()", 25)
+    b4.shot("A_admin_devices.png")
     check("admin sees the student with 2/2 devices", grp and "2/2" in grp, (grp or "")[:120].replace("\n", " | "))
-    b3.js(f"""(() => {{ const d=[...document.querySelectorAll('div.p-4')].find(x=>x.innerText.includes({json.dumps(semail)}));
+    b4.js(f"""(() => {{ const d=[...document.querySelectorAll('div.p-4')].find(x=>x.innerText.includes({json.dumps(semail)}));
         [...d.querySelectorAll('button')].find(b=>b.innerText.includes('Free this slot')).click(); }})()""")
-    after = b3.wait(f"(() => {{ const d=[...document.querySelectorAll('div.p-4')].find(x=>x.innerText.includes({json.dumps(semail)})); return d && d.innerText.includes('1/2') ? d.innerText : null }})()", 25)
+    after = b4.wait(f"(() => {{ const d=[...document.querySelectorAll('div.p-4')].find(x=>x.innerText.includes({json.dumps(semail)})); return d && d.innerText.includes('1/2') ? d.innerText : null }})()", 25)
     check("freeing one slot leaves 1/2", bool(after))
     b3.js("localStorage.clear(); 1")
     p, e = b3.code_login(code)
+    # Admin freed the most recent slot (device 2), so device 2 must now be refused.
+    b2.goto("/dashboard/my-courses", 10)
+    check("freed device (2) is now refused", b2.js("!!document.querySelector('[data-testid=device-blocked]')"))
     check("device 3 signs in after a slot is freed", p.startswith("/dashboard"), p + (" " + e if e else ""))
 
     # ---------------------------------------------------------------- B. subscribe inside
-    b2.js("localStorage.setItem('lang','en');1")
-    b2.goto(f"/dashboard/subscribe?track={t2}", 10)
-    txt = b2.js("document.body.innerText") or ""
-    b2.shot("B_subscribe_page.png")
+    S = b3  # device 3 is now a registered device
+    S.js("localStorage.setItem('lang','en');1")
+    S.goto(f"/dashboard/subscribe?track={t2}", 10)
+    txt = S.js("document.body.innerText") or ""
+    S.shot("B_subscribe_page.png")
     check("Subscribe page loads for the student", "Subscribe to more courses" in txt)
-    check("sidebar has Subscribe entry", b2.js("!![...document.querySelectorAll('a')].find(a=>a.getAttribute('href')==='/dashboard/subscribe')"))
+    check("sidebar has Subscribe entry", S.js("!![...document.querySelectorAll('a')].find(a=>a.getAttribute('href')==='/dashboard/subscribe')"))
     t1name = tracks[0]["name"]
     check("owned track shown as enrolled", "Enrolled — all modules open" in txt)
-    preselected = b2.js("!!document.querySelector('button[aria-pressed=true]')")
+    preselected = S.js("!!document.querySelector('button[aria-pressed=true]')")
     check("track from the link is preselected", preselected)
-    b2.set("input[name=reference]", ref)
-    b2.set("input[name=phone]", "01000000001")
-    b2.js("document.querySelector('form button[type=submit]').click()")
-    ok = b2.wait("document.body.innerText.includes('Request received')", 30)
-    check("student request submitted", bool(ok), b2.js("(document.querySelector('form .text-destructive')||{}).innerText||''") or "")
+    S.set("input[name=reference]", ref)
+    S.set("input[name=phone]", "01000000001")
+    S.js("document.querySelector('form button[type=submit]').click()")
+    ok = S.wait("document.body.innerText.includes('Request received')", 30)
+    check("student request submitted", bool(ok), S.js("(document.querySelector('form .text-destructive')||{}).innerText||''") or "")
     req = rest("GET", f"/rest/v1/access_requests?instapay_reference=eq.{ref}&select=id,user_id,email,track_id,amount_egp,full_name")
     check("request tied to this account + chosen track", req and req[0]["user_id"] == sid and req[0]["track_id"] == t2 and req[0]["email"] == semail,
           json.dumps(req)[:140])
-    b2.goto("/dashboard/subscribe", 9)
-    check("request shows 'Under review' to the student", "Under review" in (b2.js("document.body.innerText") or ""))
+    S.goto("/dashboard/subscribe", 9)
+    check("request shows 'Under review' to the student", "Under review" in (S.js("document.body.innerText") or ""))
 
     # approve through the admin UI
-    b3.js(f"localStorage.setItem({json.dumps(SESS_KEY)}, {json.dumps(sess)}); 1")
-    b3.goto("/dashboard/admin-panel", 10)
-    b3.js("window.confirm = () => true; 1")
-    b3.js("[...document.querySelectorAll('button')].find(b=>b.innerText.includes('Payment requests')).click()")
-    b3.wait(f"document.body.innerText.includes({json.dumps(ref)})", 25)
-    b3.js(f"""(() => {{ const c=[...document.querySelectorAll('div.rounded-xl')].find(d=>d.innerText.includes({json.dumps(ref)}) && d.querySelector('button'));
+    b4.goto("/dashboard/admin-panel", 10)
+    b4.js("window.confirm = () => true; 1")
+    b4.js("[...document.querySelectorAll('button')].find(b=>b.innerText.includes('Payment requests')).click()")
+    b4.wait(f"document.body.innerText.includes({json.dumps(ref)})", 25)
+    b4.js(f"""(() => {{ const c=[...document.querySelectorAll('div.rounded-xl')].find(d=>d.innerText.includes({json.dumps(ref)}) && d.querySelector('button'));
         [...c.querySelectorAll('button')].find(x=>x.innerText.includes('Approve')).click(); }})()""")
-    box = b3.wait("(() => { const g=document.querySelector('[data-testid=issued-credentials]'); return g ? g.innerText : null })()", 40)
-    b3.shot("B_admin_approved_upgrade.png")
-    shown_code = b3.js("(document.querySelector('[data-k=code]')||{}).innerText")
+    box = b4.wait("(() => { const g=document.querySelector('[data-testid=issued-credentials]'); return g ? g.innerText : null })()", 40)
+    b4.shot("B_admin_approved_upgrade.png")
+    shown_code = b4.js("(document.querySelector('[data-k=code]')||{}).innerText")
     check("approval keeps the student's existing code", shown_code == code, f"{shown_code} vs {code}")
-    check("existing account, no new password", box and "Existing account" in box and not b3.js("!!document.querySelector('[data-k=password]')"))
+    check("existing account, no new password", box and "Existing account" in box and not b4.js("!!document.querySelector('[data-k=password]')"))
     acc_t2 = rest("GET", f"/rest/v1/module_access?user_id=eq.{sid}&revoked_at=is.null&select=module_id")
     t2_ids = {m["id"] for m in mods if m["track_id"] == t2}
     t3_ids = {m["id"] for m in mods if m["track_id"] == tracks[2]["id"]}
@@ -256,13 +260,13 @@ try:
 
     # the student's existing session on device 2 (laptop) now opens Track 2
     t2_slug = next(m["slug"] for m in mods if m["track_id"] == t2)
-    b2.goto(f"/dashboard/module/{t2_slug}", 10)
-    body = b2.js("document.body.innerText") or ""
-    b2.shot("B_track2_open.png")
+    S.goto(f"/dashboard/module/{t2_slug}", 10)
+    body = S.js("document.body.innerText") or ""
+    S.shot("B_track2_open.png")
     check("student opens the newly bought track (no re-login)", "This module is locked" not in body and len(body) > 2500, f"body {len(body)}")
-    b2.goto("/dashboard/subscribe", 9)
-    check("subscribe page now shows only the remaining track", "Enrolled — all modules open" in (b2.js("document.body.innerText") or "")
-          and (b2.js("document.body.innerText") or "").count("Enrolled — all modules open") == 2)
+    S.goto("/dashboard/subscribe", 9)
+    check("subscribe page now shows only the remaining track", "Enrolled — all modules open" in (S.js("document.body.innerText") or "")
+          and (S.js("document.body.innerText") or "").count("Enrolled — all modules open") == 2)
 finally:
     for b in browsers:
         b.close()

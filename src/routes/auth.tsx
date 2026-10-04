@@ -53,9 +53,12 @@ function AuthPage() {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
+  // Only auto-redirect an ALREADY signed-in visitor. During a sign-in the
+  // device check must finish first; redirecting on the auth event raced it
+  // and a refused device landed on the dashboard signed out, unexplained.
   useEffect(() => {
-    if (user) void navigate({ to: "/dashboard" });
-  }, [user, navigate]);
+    if (user && !busy) void navigate({ to: "/dashboard" });
+  }, [user, busy, navigate]);
 
   async function onSignIn(e: React.FormEvent) {
     e.preventDefault();
