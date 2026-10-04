@@ -30,6 +30,9 @@ export function RequestsTab() {
   const [err, setErr] = useState<string | null>(null);
   const [issued, setIssued] = useState<Record<string, { code: string; password: string | null; email: string; phone: string; fullName: string; created: boolean; unlocked: number }>>({});
   const [openCreds, setOpenCreds] = useState<string | null>(null);
+  // The approval result must survive the list refresh: the request leaves the
+  // "Pending" filter the moment it is approved, and the password is shown once.
+  const [lastIssued, setLastIssued] = useState<string | null>(null);
 
   const load = async () => {
     setLoading(true);
@@ -59,6 +62,7 @@ export function RequestsTab() {
     try {
       const res = await approveAccessRequest({ data: { requestId: r.id, note: "" } });
       setIssued((m) => ({ ...m, [r.id]: res }));
+      setLastIssued(r.id);
       await load();
     } catch (e) {
       setErr(errText(e));
@@ -97,6 +101,59 @@ export function RequestsTab() {
     return `https://wa.me/${intl}?text=${encodeURIComponent(msg)}`;
   };
 
+  const issuedBox = (id: string) => {
+    const iss = issued[id];
+    if (!iss) return null;
+    return (
+      <div className="mb-4 rounded-xl border-2 border-green-400 bg-green-50 p-4 text-sm text-green-900" data-testid="issued-credentials">
+        <div className="flex items-start justify-between gap-3">
+          <p className="font-semibold">
+            ✓ {t("Approved", "تم القبول")} — {iss.fullName}
+          </p>
+          <button onClick={() => setLastIssued(null)} className="text-xs text-green-800 hover:underline">
+            {t("Done — hide", "تمام — إخفاء")}
+          </button>
+        </div>
+        <p className="mt-1">
+          {iss.created ? t("Account created. ", "تم إنشاء الحساب. ") : t("Existing account. ", "حساب موجود. ")}
+          {t(`${iss.unlocked} modules unlocked.`, `تم فتح ${iss.unlocked} وحدة.`)}
+        </p>
+        <p className="mt-2">
+          {t("Access code", "كود الدخول")}: <span className="select-all font-mono text-base font-bold" dir="ltr" data-k="code">{iss.code}</span>
+        </p>
+        <p className="mt-1">
+          {t("Email", "الإيميل")}: <span className="select-all font-mono" dir="ltr" data-k="email">{iss.email}</span>
+        </p>
+        {iss.password ? (
+          <p className="mt-1">
+            {t("Password", "كلمة السر")}: <span className="select-all font-mono text-base font-bold" dir="ltr" data-k="password">{iss.password}</span>
+            <span className="ms-2 text-xs text-amber-700">{t("(shown once — send it now)", "(بتظهر مرة واحدة — ابعتها دلوقتي)")}</span>
+          </p>
+        ) : (
+          <p className="mt-1 text-xs">
+            {t("Existing account: password unchanged (use Login details to set a new one).", "حساب موجود: كلمة السر زي ما هي (من بيانات الدخول تقدر تعمل واحدة جديدة).")}
+          </p>
+        )}
+        <div className="mt-3 flex flex-wrap gap-2">
+          <a
+            href={waLink(iss)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex rounded-lg bg-green-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-green-700"
+          >
+            {t("Send on WhatsApp", "ابعت على واتساب")}
+          </a>
+          <button
+            onClick={() => void navigator.clipboard?.writeText(credentialsMessage(iss.fullName, iss.email, iss.code, iss.password))}
+            className="rounded-lg border border-green-600 px-3 py-1.5 text-xs font-medium text-green-800 hover:bg-green-100"
+          >
+            {t("Copy message", "نسخ الرسالة")}
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   const statusPill = (s: string) =>
     ({
       pending: "bg-amber-100 text-amber-800",
@@ -124,6 +181,8 @@ export function RequestsTab() {
       </div>
 
       {err && <p className="mb-4 rounded-lg bg-destructive/10 px-4 py-2 text-sm text-destructive">{err}</p>}
+
+      {lastIssued && issuedBox(lastIssued)}
 
       {loading ? (
         <p className="text-sm text-muted-foreground">{t("Loading…", "جارٍ التحميل…")}</p>
@@ -203,37 +262,6 @@ export function RequestsTab() {
                   </div>
                 )}
 
-                {iss && (
-                  <div className="mt-3 rounded-lg border border-green-300 bg-green-50 p-3 text-sm text-green-900">
-                    <p>
-                      {iss.created ? t("Account created. ", "تم إنشاء الحساب. ") : t("Existing account. ", "حساب موجود. ")}
-                      {t(`${iss.unlocked} modules unlocked.`, `تم فتح ${iss.unlocked} وحدة.`)}
-                    </p>
-                    <p className="mt-1">
-                      {t("Access code", "كود الدخول")}: <span className="select-all font-mono text-base font-bold" dir="ltr">{iss.code}</span>
-                    </p>
-                    <p className="mt-1">
-                      {t("Email", "الإيميل")}: <span className="select-all font-mono" dir="ltr">{iss.email}</span>
-                    </p>
-                    {iss.password ? (
-                      <p className="mt-1">
-                        {t("Password", "كلمة السر")}: <span className="select-all font-mono text-base font-bold" dir="ltr">{iss.password}</span>
-                      </p>
-                    ) : (
-                      <p className="mt-1 text-xs">
-                        {t("Existing account: password unchanged (use Login details to set a new one).", "حساب موجود: كلمة السر زي ما هي (من بيانات الدخول تقدر تعمل واحدة جديدة).")}
-                      </p>
-                    )}
-                    <a
-                      href={waLink(iss)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-2 inline-flex rounded-lg bg-green-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-green-700"
-                    >
-                      {t("Send code on WhatsApp", "ابعت الكود على واتساب")}
-                    </a>
-                  </div>
-                )}
               </div>
             );
           })}

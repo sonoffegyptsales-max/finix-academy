@@ -213,14 +213,15 @@ try:
     # approve the card containing our reference
     js(f"""(() => {{ const card=[...document.querySelectorAll('div.rounded-xl')].find(d=>d.innerText.includes({json.dumps(reference)}) && d.querySelector('button'));
         const b=[...card.querySelectorAll('button')].find(x=>x.innerText.includes('Approve')); b.click(); return true; }})()""")
-    got = wait_for("(() => { const g=document.querySelector('.bg-green-50'); return g && g.innerText.includes('Access code') ? g.innerText : null })()", 40)
+    got = wait_for("(() => { const g=document.querySelector('[data-testid=issued-credentials]'); return g && g.innerText.includes('Access code') ? g.innerText : null })()", 40)
+    check("credentials stay visible after list refresh", js("!!document.querySelector('[data-testid=issued-credentials]')"))
     shot("4_admin_approved.png")
     check("approval shows credentials", bool(got), (got or "")[:160].replace("\n", " | "))
-    code = js("(() => { const g=document.querySelector('.bg-green-50'); const s=[...g.querySelectorAll('span.font-mono')]; return s[0]&&s[0].innerText.trim(); })()")
-    password = js("(() => { const g=document.querySelector('.bg-green-50'); const s=[...g.querySelectorAll('span.font-mono')]; return s[2]&&s[2].innerText.trim(); })()")
+    code = js("(document.querySelector('[data-k=code]')||{}).innerText")
+    password = js("(document.querySelector('[data-k=password]')||{}).innerText")
     check("access code format", bool(code) and len(code) == 9 and code[4] == "-", code or "")
     check("password issued", bool(password) and len(password) == 14, "(hidden)")
-    check("WhatsApp hand-off link", js("!!document.querySelector('.bg-green-50 a[href^=\"https://wa.me/201000000000\"]')"))
+    check("WhatsApp hand-off link", js("!!document.querySelector('[data-testid=issued-credentials] a[href^=\"https://wa.me/201000000000\"]')"))
 
     prof_row = rest("GET", f"/rest/v1/profiles?email=eq.{buyer_email}&select=id")
     buyer_uid = prof_row[0]["id"] if prof_row else None
