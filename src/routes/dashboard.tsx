@@ -3,10 +3,19 @@ import { useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { useLang, LanguageToggle } from "@/lib/language";
 import { useBranding } from "@/lib/branding";
+import { DeviceGate } from "@/components/DeviceGate";
 
 export const Route = createFileRoute("/dashboard")({
-  component: DashboardLayout,
+  component: GatedDashboard,
 });
+
+function GatedDashboard() {
+  return (
+    <DeviceGate>
+      <DashboardLayout />
+    </DeviceGate>
+  );
+}
 
 function DashboardLayout() {
   const [navOpen, setNavOpen] = useState(false);
