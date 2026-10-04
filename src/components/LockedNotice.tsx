@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useLang } from "@/lib/language";
 
 /** Shown in place of lessons/quizzes when the trainee has no access yet. */
-export function LockedNotice({ compact = false }: { compact?: boolean }) {
+export function LockedNotice({ compact = false, trackId }: { compact?: boolean; trackId?: string | null | undefined }) {
   const { t } = useLang();
   return (
     <div
@@ -23,10 +23,11 @@ export function LockedNotice({ compact = false }: { compact?: boolean }) {
             )}
           </p>
           <Link
-            to="/enroll"
+            to="/dashboard/subscribe"
+            search={trackId ? ({ track: trackId } as any) : ({} as any)}
             className="mt-3 inline-flex rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-700"
           >
-            {t("Buy access with InstaPay", "اشترك وادفع بانستاباي")}
+            {t("Subscribe to this course", "اشترك في الكورس ده")}
           </Link>
         </div>
       </div>

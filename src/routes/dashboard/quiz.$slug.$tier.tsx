@@ -37,7 +37,7 @@ function QuizPage() {
   if (!curriculumLoading && !accessLoading && mod && !canOpen(mod.id)) {
     return (
       <div className="mx-auto max-w-xl px-6 py-16">
-        <LockedNotice />
+        <LockedNotice trackId={mod.track_id} />
       </div>
     );
   }

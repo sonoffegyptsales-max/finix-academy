@@ -63,7 +63,7 @@ function MyCoursesPage() {
               "المدرب هيفتح الوحدات مع تقدّم مجموعتك. ولو عايز تبدأ على طول، اختار باقة وادفع بانستاباي.",
             )}
           </p>
-          <Link to="/enroll" className="mt-3 inline-flex rounded-lg bg-amber-600 px-4 py-2 font-medium text-white hover:bg-amber-700">
+          <Link to="/dashboard/subscribe" className="mt-3 inline-flex rounded-lg bg-amber-600 px-4 py-2 font-medium text-white hover:bg-amber-700">
             {t("See packages and prices", "شوف الباقات والأسعار")}
           </Link>
         </div>
@@ -135,9 +135,18 @@ function MyCoursesPage() {
                     </p>
 
                     {!open ? (
-                      <p className="mt-4 text-xs text-muted-foreground">
-                        {t("Opens when your trainer unlocks it or your payment is confirmed.", "بتتفتح لما المدرب يفتحها أو الدفع يتأكد.")}
-                      </p>
+                      <div className="mt-4 flex flex-wrap items-center gap-3">
+                        <Link
+                          to="/dashboard/subscribe"
+                          search={{ track: mod.track_id } as any}
+                          className="rounded-lg border border-amber-400 px-3 py-1.5 text-xs font-medium text-amber-800 hover:bg-amber-50"
+                        >
+                          {t("Subscribe", "اشترك")}
+                        </Link>
+                        <span className="text-xs text-muted-foreground">
+                          {t("or wait for your trainer to open it", "أو استنى المدرب يفتحها")}
+                        </span>
+                      </div>
                     ) : (
                     <div className="mt-4 flex flex-wrap items-center gap-2">
                       <Link

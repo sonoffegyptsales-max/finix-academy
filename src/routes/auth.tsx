@@ -21,7 +21,7 @@ async function runDeviceCheck(): Promise<string | null> {
 
   if (res.status === "blocked") {
     await supabase.auth.signOut();
-    return `This account is already registered to another device (${res.boundLabel}). Lessons can only be opened there. Ask your administrator to reset your device if you have changed phone or computer.`;
+    return `This account is already used on ${res.max} devices (${res.boundLabel}), the maximum allowed. Sign in from one of them, or ask the academy to free a device if you changed phone or computer. — الحساب ده مستخدم على ${res.max} أجهزة بالفعل، وده الحد الأقصى. ادخل من واحد منهم، أو اطلب من الأكاديمية تفضّي جهاز لو غيّرت موبايلك أو الكمبيوتر.`;
   }
   return null;
 }

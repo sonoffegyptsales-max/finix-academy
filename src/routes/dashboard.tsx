@@ -25,6 +25,9 @@ function DashboardLayout() {
     { to: "/dashboard", label: t("Dashboard", "لوحة التحكم"), icon: "dashboard" },
     { to: "/dashboard/my-courses", label: t("My Courses", "دوراتي"), icon: "courses" },
     { to: "/dashboard/certifications", label: t("Certifications", "اعتمادات"), icon: "certs" },
+    ...(!isStaff
+      ? [{ to: "/dashboard/subscribe", label: t("Subscribe to courses", "اشترك في كورسات"), icon: "subscribe" }]
+      : []),
     { to: "/dashboard/field-survey", label: t("Field Survey", "مسح الموقع"), icon: "survey" },
     ...(isStaff
       ? [{ to: "/dashboard/kpi-evaluator", label: t("KPI Evaluator", "تقييم الأداء"), icon: "kpi" }]
@@ -274,6 +277,14 @@ function NavIcon({ name, className }: { name: string; className?: string }) {
         <svg {...iconProps} className={className}>
           <path d="M12 20h9"/>
           <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+        </svg>
+      );
+    case "subscribe":
+      return (
+        <svg {...iconProps} className={className}>
+          <rect x="2" y="5" width="20" height="14" rx="2"/>
+          <path d="M2 10h20"/>
+          <path d="M6 15h4"/>
         </svg>
       );
     case "admin":

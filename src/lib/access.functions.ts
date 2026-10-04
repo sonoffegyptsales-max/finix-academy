@@ -150,6 +150,105 @@ export const setModuleAccess = createServerFn({ method: "POST" })
 
 const MAX_PROOF_BYTES = 4 * 1024 * 1024;
 
+const proofSchema = z
+  .object({
+    base64: z.string().max(Math.ceil((MAX_PROOF_BYTES * 4) / 3) + 16),
+    type: z.enum(["image/jpeg", "image/png", "image/webp"]),
+  })
+  .nullable();
+
+const paymentFields = {
+  packageId: z.string().uuid(),
+  trackId: z.string().max(80).nullable(),
+  reference: z.string().trim().min(4).max(80),
+  senderName: z.string().trim().max(120).default(""),
+  note: z.string().trim().max(500).default(""),
+  proof: proofSchema,
+};
+
+type RequestInput = {
+  userId: string | null;
+  fullName: string;
+  phone: string;
+  email: string;
+  packageId: string;
+  trackId: string | null;
+  reference: string;
+  senderName: string;
+  note: string;
+  proof: { base64: string; type: "image/jpeg" | "image/png" | "image/webp" } | null;
+};
+
+/** Validate the package, store the screenshot, insert the request, notify admins. */
+async function createRequest(admin: any, r: RequestInput) {
+  const email = r.email.toLowerCase();
+  const { data: pkg } = await admin
+    .from("course_packages")
+    .select("id, price_egp, scope, active")
+    .eq("id", r.packageId)
+    .maybeSingle();
+  if (!pkg || !pkg.active) throw new Error("That package is not available.");
+  if (pkg.scope === "track") {
+    const { data: tr } = await admin.from("tracks").select("id").eq("id", r.trackId ?? "").maybeSingle();
+    if (!tr) throw new Error("Choose a track for this package.");
+  }
+
+  // Simple flood guard: max 3 open requests per e-mail.
+  const { count } = await admin
+    .from("access_requests")
+    .select("id", { count: "exact", head: true })
+    .eq("email", email)
+    .eq("status", "pending");
+  if ((count ?? 0) >= 3) throw new Error("You already have requests under review. We will contact you shortly.");
+
+  let proofPath: string | null = null;
+  if (r.proof) {
+    const bytes = Buffer.from(r.proof.base64, "base64");
+    if (bytes.length > MAX_PROOF_BYTES) throw new Error("Screenshot is larger than 4 MB.");
+    const ext = r.proof.type.split("/")[1];
+    proofPath = `${new Date().toISOString().slice(0, 10)}/${crypto.randomUUID()}.${ext}`;
+    const { error: upErr } = await admin.storage
+      .from("payment-proofs")
+      .upload(proofPath, bytes, { contentType: r.proof.type, upsert: false });
+    if (upErr) throw new Error("Could not upload the screenshot: " + upErr.message);
+  }
+
+  let userId = r.userId;
+  if (!userId) {
+    const { data: existingProfile } = await admin.from("profiles").select("id").eq("email", email).maybeSingle();
+    userId = existingProfile?.id ?? null;
+  }
+
+  const { error } = await admin.from("access_requests").insert({
+    user_id: userId,
+    full_name: r.fullName,
+    phone: r.phone.replace(/\s+/g, ""),
+    email,
+    package_id: pkg.id,
+    track_id: pkg.scope === "track" ? r.trackId : null,
+    amount_egp: pkg.price_egp,
+    instapay_reference: r.reference,
+    sender_name: r.senderName,
+    customer_note: r.note,
+    proof_path: proofPath,
+  });
+  if (error) {
+    if (error.code === "23505") throw new Error("This InstaPay reference was already submitted.");
+    throw new Error(error.message);
+  }
+
+  const { data: admins } = await admin.from("user_roles").select("user_id").eq("role", "admin");
+  for (const a of admins ?? []) {
+    await admin.from("notifications").insert({
+      user_id: a.user_id,
+      title: userId ? "Student upgrade request / طلب اشتراك من طالب" : "New InstaPay request / طلب دفع جديد",
+      body: `${r.fullName} — ${pkg.price_egp} EGP — ref ${r.reference}`,
+      url: "/dashboard/admin-panel",
+    });
+  }
+  return { ok: true };
+}
+
 /**
  * PUBLIC: submit a paid access request after an InstaPay transfer.
  * The price is taken from the package row, never from the browser.
@@ -161,86 +260,56 @@ export const submitAccessRequest = createServerFn({ method: "POST" })
         fullName: z.string().trim().min(3).max(120),
         phone: z.string().trim().regex(/^\+?[0-9 ]{10,16}$/, "Invalid phone number"),
         email: z.string().trim().email().max(200),
-        packageId: z.string().uuid(),
-        trackId: z.string().max(80).nullable(),
-        reference: z.string().trim().min(4).max(80),
-        senderName: z.string().trim().max(120).default(""),
-        note: z.string().trim().max(500).default(""),
-        proof: z
-          .object({
-            base64: z.string().max(Math.ceil((MAX_PROOF_BYTES * 4) / 3) + 16),
-            type: z.enum(["image/jpeg", "image/png", "image/webp"]),
-          })
-          .nullable(),
+        ...paymentFields,
       })
       .parse(data),
   )
   .handler(async ({ data }) => {
+    return createRequest(serviceClient(), { ...data, userId: null });
+  });
+
+/**
+ * SIGNED-IN student: buy more courses from inside the dashboard. Name and
+ * e-mail come from the account (never the browser), so the request attaches
+ * to this exact student and approval unlocks on the account they already use.
+ */
+export const submitMyAccessRequest = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) =>
+    z
+      .object({
+        phone: z.string().trim().regex(/^\+?[0-9 ]{10,16}$/, "Invalid phone number"),
+        ...paymentFields,
+      })
+      .parse(data),
+  )
+  .handler(async ({ data, context }) => {
     const admin = serviceClient();
-    const email = data.email.toLowerCase();
-
-    const { data: pkg } = await admin
-      .from("course_packages")
-      .select("id, price_egp, scope, active")
-      .eq("id", data.packageId)
-      .maybeSingle();
-    if (!pkg || !pkg.active) throw new Error("That package is not available.");
-    if (pkg.scope === "track") {
-      const { data: tr } = await admin.from("tracks").select("id").eq("id", data.trackId ?? "").maybeSingle();
-      if (!tr) throw new Error("Choose a track for this package.");
-    }
-
-    // Simple flood guard: max 3 open requests per e-mail.
-    const { count } = await admin
-      .from("access_requests")
-      .select("id", { count: "exact", head: true })
-      .eq("email", email)
-      .eq("status", "pending");
-    if ((count ?? 0) >= 3) throw new Error("You already have requests under review. We will contact you shortly.");
-
-    let proofPath: string | null = null;
-    if (data.proof) {
-      const bytes = Buffer.from(data.proof.base64, "base64");
-      if (bytes.length > MAX_PROOF_BYTES) throw new Error("Screenshot is larger than 4 MB.");
-      const ext = data.proof.type.split("/")[1];
-      proofPath = `${new Date().toISOString().slice(0, 10)}/${crypto.randomUUID()}.${ext}`;
-      const { error: upErr } = await admin.storage
-        .from("payment-proofs")
-        .upload(proofPath, bytes, { contentType: data.proof.type, upsert: false });
-      if (upErr) throw new Error("Could not upload the screenshot: " + upErr.message);
-    }
-
-    const { data: existingProfile } = await admin.from("profiles").select("id").eq("email", email).maybeSingle();
-
-    const { error } = await admin.from("access_requests").insert({
-      user_id: existingProfile?.id ?? null,
-      full_name: data.fullName,
-      phone: data.phone.replace(/\s+/g, ""),
+    const { data: prof } = await admin.from("profiles").select("email, full_name").eq("id", context.userId).maybeSingle();
+    const { data: au } = await admin.auth.admin.getUserById(context.userId);
+    const email = prof?.email ?? au?.user?.email;
+    if (!email) throw new Error("Your account has no e-mail on file. Contact the academy.");
+    return createRequest(admin, {
+      ...data,
+      userId: context.userId,
       email,
-      package_id: pkg.id,
-      track_id: pkg.scope === "track" ? data.trackId : null,
-      amount_egp: pkg.price_egp,
-      instapay_reference: data.reference,
-      sender_name: data.senderName,
-      customer_note: data.note,
-      proof_path: proofPath,
+      fullName: prof?.full_name || email,
     });
-    if (error) {
-      if (error.code === "23505") throw new Error("This InstaPay reference was already submitted.");
-      throw new Error(error.message);
-    }
+  });
 
-    // Tell admins there is something to review.
-    const { data: admins } = await admin.from("user_roles").select("user_id").eq("role", "admin");
-    for (const a of admins ?? []) {
-      await admin.from("notifications").insert({
-        user_id: a.user_id,
-        title: "New InstaPay request / طلب دفع جديد",
-        body: `${data.fullName} — ${pkg.price_egp} EGP — ref ${data.reference}`,
-        url: "/dashboard/admin-panel",
-      });
-    }
-    return { ok: true };
+/** SIGNED-IN student: their own requests (to show "under review" status). */
+export const listMyAccessRequests = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const admin = serviceClient();
+    const { data, error } = await admin
+      .from("access_requests")
+      .select("id, created_at, status, amount_egp, instapay_reference, admin_note, track_id, course_packages(name, name_ar, scope)")
+      .eq("user_id", context.userId)
+      .order("created_at", { ascending: false })
+      .limit(20);
+    if (error) throw new Error(error.message);
+    return { requests: data ?? [] };
   });
 
 // ============================================================ admin: review
@@ -309,7 +378,9 @@ export const approveAccessRequest = createServerFn({ method: "POST" })
       let userId: string | null = null;
       let created = false;
       let password: string | null = null;
-      const { data: prof } = await admin.from("profiles").select("id").eq("email", req.email).maybeSingle();
+      const { data: prof } = req.user_id
+        ? { data: { id: req.user_id as string } }
+        : await admin.from("profiles").select("id").eq("email", req.email).maybeSingle();
       if (prof) {
         userId = prof.id;
       } else {
@@ -335,11 +406,27 @@ export const approveAccessRequest = createServerFn({ method: "POST" })
       const moduleIds = await modulesForScope(admin, req.course_packages.scope, req.track_id);
       const unlocked = await grant(admin, userId!, moduleIds, context.userId, "payment", req.id);
 
-      // 3. Fresh sign-in code (retires older ones).
-      await admin.from("access_codes").update({ revoked_at: new Date().toISOString() }).eq("user_id", userId).is("revoked_at", null);
-      const code = `${randomFrom(4)}-${randomFrom(4)}`;
-      const { error: codeErr } = await admin.from("access_codes").insert({ code, user_id: userId, expires_at: null });
-      if (codeErr) throw new Error(codeErr.message);
+      // 3. Sign-in code. An existing student keeps the code they already use
+      //    (replacing it would log them out of the course they paid for);
+      //    a new account, or one without a valid code, gets a fresh one.
+      const { data: current } = await admin
+        .from("access_codes")
+        .select("code, expires_at")
+        .eq("user_id", userId)
+        .is("revoked_at", null)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      const stillValid = current && (!current.expires_at || new Date(current.expires_at) > new Date());
+      let code: string;
+      if (!created && stillValid) {
+        code = current.code;
+      } else {
+        await admin.from("access_codes").update({ revoked_at: new Date().toISOString() }).eq("user_id", userId).is("revoked_at", null);
+        code = `${randomFrom(4)}-${randomFrom(4)}`;
+        const { error: codeErr } = await admin.from("access_codes").insert({ code, user_id: userId, expires_at: null });
+        if (codeErr) throw new Error(codeErr.message);
+      }
 
       await admin.from("access_requests").update({ user_id: userId, granted_user_id: userId }).eq("id", req.id);
       await notify(admin, userId!, "Payment confirmed / تم تأكيد الدفع", `${unlocked} modules unlocked / تم فتح ${unlocked} وحدة`);

@@ -117,7 +117,7 @@ function ModulePage() {
 
       {!open ? (
         <div className="mt-8">
-          <LockedNotice />
+          <LockedNotice trackId={mod.track_id} />
         </div>
       ) : (
       <>

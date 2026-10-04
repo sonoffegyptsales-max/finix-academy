@@ -19,6 +19,7 @@ import { Route as DashboardCertificationsRouteImport } from './routes/dashboard/
 import { Route as DashboardFieldSurveyRouteImport } from './routes/dashboard/field-survey'
 import { Route as DashboardKpiEvaluatorRouteImport } from './routes/dashboard/kpi-evaluator'
 import { Route as DashboardMyCoursesRouteImport } from './routes/dashboard/my-courses'
+import { Route as DashboardSubscribeRouteImport } from './routes/dashboard/subscribe'
 import { Route as DashboardAuthoringIndexRouteImport } from './routes/dashboard/authoring/index'
 import { Route as DashboardAuthoringModuleIdRouteImport } from './routes/dashboard/authoring/$moduleId'
 import { Route as DashboardModuleSlugRouteImport } from './routes/dashboard/module.$slug'
@@ -74,6 +75,11 @@ const DashboardMyCoursesRoute = DashboardMyCoursesRouteImport.update({
   path: '/my-courses',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardSubscribeRoute = DashboardSubscribeRouteImport.update({
+  id: '/subscribe',
+  path: '/subscribe',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardAuthoringIndexRoute = DashboardAuthoringIndexRouteImport.update({
   id: '/authoring/',
   path: '/authoring/',
@@ -106,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/field-survey': typeof DashboardFieldSurveyRoute
   '/dashboard/kpi-evaluator': typeof DashboardKpiEvaluatorRoute
   '/dashboard/my-courses': typeof DashboardMyCoursesRoute
+  '/dashboard/subscribe': typeof DashboardSubscribeRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/authoring/$moduleId': typeof DashboardAuthoringModuleIdRoute
   '/dashboard/module/$slug': typeof DashboardModuleSlugRoute
@@ -121,6 +128,7 @@ export interface FileRoutesByTo {
   '/dashboard/field-survey': typeof DashboardFieldSurveyRoute
   '/dashboard/kpi-evaluator': typeof DashboardKpiEvaluatorRoute
   '/dashboard/my-courses': typeof DashboardMyCoursesRoute
+  '/dashboard/subscribe': typeof DashboardSubscribeRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/authoring/$moduleId': typeof DashboardAuthoringModuleIdRoute
   '/dashboard/module/$slug': typeof DashboardModuleSlugRoute
@@ -138,6 +146,7 @@ export interface FileRoutesById {
   '/dashboard/field-survey': typeof DashboardFieldSurveyRoute
   '/dashboard/kpi-evaluator': typeof DashboardKpiEvaluatorRoute
   '/dashboard/my-courses': typeof DashboardMyCoursesRoute
+  '/dashboard/subscribe': typeof DashboardSubscribeRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/authoring/$moduleId': typeof DashboardAuthoringModuleIdRoute
   '/dashboard/module/$slug': typeof DashboardModuleSlugRoute
@@ -156,6 +165,7 @@ export interface FileRouteTypes {
     | '/dashboard/field-survey'
     | '/dashboard/kpi-evaluator'
     | '/dashboard/my-courses'
+    | '/dashboard/subscribe'
     | '/dashboard/'
     | '/dashboard/authoring/$moduleId'
     | '/dashboard/module/$slug'
@@ -171,6 +181,7 @@ export interface FileRouteTypes {
     | '/dashboard/field-survey'
     | '/dashboard/kpi-evaluator'
     | '/dashboard/my-courses'
+    | '/dashboard/subscribe'
     | '/dashboard'
     | '/dashboard/authoring/$moduleId'
     | '/dashboard/module/$slug'
@@ -187,6 +198,7 @@ export interface FileRouteTypes {
     | '/dashboard/field-survey'
     | '/dashboard/kpi-evaluator'
     | '/dashboard/my-courses'
+    | '/dashboard/subscribe'
     | '/dashboard/'
     | '/dashboard/authoring/$moduleId'
     | '/dashboard/module/$slug'
@@ -273,6 +285,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardMyCoursesRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/subscribe': {
+      id: '/dashboard/subscribe'
+      path: '/subscribe'
+      fullPath: '/dashboard/subscribe'
+      preLoaderRoute: typeof DashboardSubscribeRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/authoring/': {
       id: '/dashboard/authoring/'
       path: '/authoring'
@@ -310,6 +329,7 @@ interface DashboardRouteChildren {
   DashboardFieldSurveyRoute: typeof DashboardFieldSurveyRoute
   DashboardKpiEvaluatorRoute: typeof DashboardKpiEvaluatorRoute
   DashboardMyCoursesRoute: typeof DashboardMyCoursesRoute
+  DashboardSubscribeRoute: typeof DashboardSubscribeRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   DashboardAuthoringModuleIdRoute: typeof DashboardAuthoringModuleIdRoute
   DashboardModuleSlugRoute: typeof DashboardModuleSlugRoute
@@ -323,6 +343,7 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardFieldSurveyRoute: DashboardFieldSurveyRoute,
   DashboardKpiEvaluatorRoute: DashboardKpiEvaluatorRoute,
   DashboardMyCoursesRoute: DashboardMyCoursesRoute,
+  DashboardSubscribeRoute: DashboardSubscribeRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   DashboardAuthoringModuleIdRoute: DashboardAuthoringModuleIdRoute,
   DashboardModuleSlugRoute: DashboardModuleSlugRoute,

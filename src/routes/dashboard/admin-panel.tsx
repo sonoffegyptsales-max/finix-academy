@@ -621,19 +621,19 @@ function DevicesTab() {
     void load();
   }, []);
 
-  async function handleReset(userId: string) {
+  async function handleReset(userId: string, bindingId: string) {
     if (
       !window.confirm(
         t(
-          "Release this trainee's device? They will be able to register a new device on their next sign-in.",
-          "هل تريد تحرير جهاز هذا المتدرب؟ سيتمكن من تسجيل جهاز جديد عند تسجيل الدخول التالي.",
+          "Free this device slot? The trainee can then sign in from a new device.",
+          "تفضّي مكان الجهاز ده؟ المتدرب هيقدر يدخل من جهاز جديد.",
         ),
       )
     ) {
       return;
     }
     try {
-      await resetDeviceBinding({ data: { userId } });
+      await resetDeviceBinding({ data: { userId, bindingId } });
       await load();
     } catch (e: any) {
       setErr(e?.message ?? "Could not reset that device.");
@@ -656,8 +656,8 @@ function DevicesTab() {
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">
           {t(
-            "Each trainee account locks to the first device it signs in from. Lesson content will not open anywhere else. Release a device if a trainee changes phone or computer.",
-            "يرتبط حساب كل متدرب بأول جهاز يسجل الدخول منه. لن يتم فتح محتوى الدروس على أي جهاز آخر. حرر الجهاز إذا غيّر المتدرب هاتفه أو حاسوبه.",
+            "Each trainee account works on up to 2 devices (for example a phone and a laptop) — the first two it signs in from. A third device is refused. Free a slot if a trainee changes phone or computer.",
+            "كل حساب متدرب بيشتغل على جهازين بحد أقصى (مثلًا موبايل ولابتوب) — أول جهازين يدخل منهم. الجهاز التالت بيترفض. فضّي مكان جهاز لو المتدرب غيّر موبايله أو الكمبيوتر.",
           )}
         </p>
       </div>
@@ -680,31 +680,53 @@ function DevicesTab() {
           </p>
         ) : (
           <div className="divide-y divide-border">
-            {bindings.map((b) => (
-              <div key={b.id} className="flex items-center justify-between gap-4 p-4">
-                <div className="min-w-0">
-                  <p className="truncate text-sm font-medium text-foreground">
-                    {b.fullName || b.email}
-                  </p>
-                  <p className="truncate text-xs text-muted-foreground">{b.email}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    <span className="font-medium text-foreground">
-                      {b.label || t("Unknown device", "جهاز غير معروف")}
+            {Object.values(
+              bindings.reduce<Record<string, DeviceBinding[]>>((acc, b) => {
+                (acc[b.userId] ??= []).push(b);
+                return acc;
+              }, {}),
+            ).map((group) => {
+              const first = group[0]!;
+              const full = group.length >= 2;
+              return (
+                <div key={first.userId} className="p-4">
+                  <div className="flex items-center gap-2">
+                    <p className="min-w-0 truncate text-sm font-medium text-foreground">
+                      {first.fullName || first.email}
+                    </p>
+                    <span
+                      className={`shrink-0 rounded-full px-2 py-0.5 text-[11px] font-medium ${
+                        full ? "bg-amber-100 text-amber-800" : "bg-green-100 text-green-800"
+                      }`}
+                    >
+                      {group.length}/2 {t("devices", "أجهزة")}
                     </span>
-                    {" · "}
-                    {t("bound", "مرتبط")} {fmt(b.boundAt)}
-                    {" · "}
-                    {t("last seen", "آخر ظهور")} {fmt(b.lastSeenAt)}
-                  </p>
+                  </div>
+                  <p className="truncate text-xs text-muted-foreground">{first.email}</p>
+                  <ul className="mt-2 space-y-1.5">
+                    {group.map((b, k) => (
+                      <li key={b.id} className="flex items-center justify-between gap-3 rounded-lg bg-secondary/50 px-3 py-2">
+                        <p className="min-w-0 text-xs text-muted-foreground">
+                          <span className="font-medium text-foreground">
+                            {k + 1}. {b.label || t("Unknown device", "جهاز غير معروف")}
+                          </span>
+                          {" · "}
+                          {t("registered", "اتسجل")} {fmt(b.boundAt)}
+                          {" · "}
+                          {t("last seen", "آخر ظهور")} {fmt(b.lastSeenAt)}
+                        </p>
+                        <button
+                          onClick={() => handleReset(b.userId, b.id)}
+                          className="shrink-0 rounded-lg border border-border bg-card px-3 py-1 text-xs font-medium text-foreground hover:bg-secondary"
+                        >
+                          {t("Free this slot", "فضّي المكان")}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <button
-                  onClick={() => handleReset(b.userId)}
-                  className="shrink-0 rounded-lg border border-border px-3 py-1 text-xs font-medium text-foreground hover:bg-secondary"
-                >
-                  {t("Release device", "تحرير الجهاز")}
-                </button>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

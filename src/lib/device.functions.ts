@@ -36,14 +36,19 @@ async function isStaff(admin: any, userId: string): Promise<boolean> {
   return (data ?? []).length > 0;
 }
 
+/** How many devices one trainee account may use. Mirrors max_trainee_devices() in SQL. */
+export const MAX_DEVICES = 2;
+
 /**
  * Called by the trainee's browser right after sign-in.
  *
- * - First device ever seen for this account  -> bind it, return { status: "bound" }.
- * - Same device as the stored binding        -> refresh last_seen, { status: "ok" }.
- * - Any other device                         -> { status: "blocked" } with the
- *   bound device's label so the trainee knows which machine to use.
+ * - Device already registered for this account -> refresh last_seen, { status: "ok" }.
+ * - New device and a free slot (fewer than 2)   -> register it, { status: "bound" }.
+ * - New device and both slots taken             -> { status: "blocked" } with the
+ *   labels of the registered devices so the trainee knows where to sign in.
  *
+ * The 2-device limit is ALSO enforced by a database trigger, so two new
+ * devices signing in at the same instant cannot both slip through.
  * Staff (admin/trainer) are never device-locked.
  */
 export const claimDevice = createServerFn({ method: "POST" })
@@ -64,39 +69,44 @@ export const claimDevice = createServerFn({ method: "POST" })
       return { status: "staff" as const };
     }
 
-    // Current active binding, if any.
-    const { data: existing, error: readErr } = await admin
+    const { data: active, error: readErr } = await admin
       .from("trainee_devices")
       .select("id, device_id, device_label, bound_at")
       .eq("user_id", context.userId)
       .is("revoked_at", null)
-      .maybeSingle();
+      .order("bound_at", { ascending: true });
     if (readErr) throw new Error(readErr.message);
 
-    if (!existing) {
-      const { error: insErr } = await admin.from("trainee_devices").insert({
-        user_id: context.userId,
-        device_id: data.deviceId,
-        device_label: data.label ?? null,
-        user_agent: data.userAgent ?? null,
-      });
-      if (insErr) throw new Error(insErr.message);
-      return { status: "bound" as const };
-    }
-
-    if (existing.device_id === data.deviceId) {
+    const mine = (active ?? []).find((d) => d.device_id === data.deviceId);
+    if (mine) {
       await admin
         .from("trainee_devices")
         .update({ last_seen_at: new Date().toISOString() })
-        .eq("id", existing.id);
-      return { status: "ok" as const };
+        .eq("id", mine.id);
+      return { status: "ok" as const, used: (active ?? []).length, max: MAX_DEVICES };
     }
 
-    return {
+    const blocked = () => ({
       status: "blocked" as const,
-      boundLabel: existing.device_label ?? "the first device used",
-      boundAt: existing.bound_at,
-    };
+      max: MAX_DEVICES,
+      devices: (active ?? []).map((d) => d.device_label ?? "Unknown device"),
+      boundLabel: (active ?? []).map((d) => d.device_label ?? "Unknown device").join(" + "),
+    });
+
+    if ((active ?? []).length >= MAX_DEVICES) return blocked();
+
+    const { error: insErr } = await admin.from("trainee_devices").insert({
+      user_id: context.userId,
+      device_id: data.deviceId,
+      device_label: data.label ?? null,
+      user_agent: data.userAgent ?? null,
+    });
+    if (insErr) {
+      // Lost a race against another new device: the trigger refused us.
+      if (insErr.message.includes("device_limit_reached")) return blocked();
+      throw new Error(insErr.message);
+    }
+    return { status: "bound" as const, used: (active ?? []).length + 1, max: MAX_DEVICES };
   });
 
 /**
@@ -144,16 +154,23 @@ export const listDeviceBindings = createServerFn({ method: "GET" })
  */
 export const resetDeviceBinding = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data) => z.object({ userId: z.string().uuid() }).parse(data))
+  .inputValidator((data) =>
+    z
+      .object({ userId: z.string().uuid(), bindingId: z.string().uuid().optional() })
+      .parse(data),
+  )
   .handler(async ({ data, context }) => {
     await assertAdmin(context.supabase, context.userId);
     const admin = serviceClient();
 
-    const { error } = await admin
+    // With bindingId: free that one slot. Without: free every device.
+    let q = admin
       .from("trainee_devices")
       .update({ revoked_at: new Date().toISOString() })
       .eq("user_id", data.userId)
       .is("revoked_at", null);
+    if (data.bindingId) q = q.eq("id", data.bindingId);
+    const { error } = await q;
     if (error) throw new Error(error.message);
     return { ok: true };
   });
