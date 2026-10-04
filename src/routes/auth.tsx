@@ -79,8 +79,9 @@ function AuthPage() {
     setError(null);
     try {
       const res = await redeemAccessCode({ data: { code } });
+      // token_hash verification must NOT include email: Supabase Auth rejects
+      // the request with "Only the token_hash and type should be provided".
       const { error: otpErr } = await supabase.auth.verifyOtp({
-        email: res.email,
         token_hash: res.tokenHash,
         type: "magiclink",
       });
