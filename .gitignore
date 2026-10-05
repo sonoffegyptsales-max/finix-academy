@@ -43,3 +43,5 @@ docs/COURSE_PLAN.md
 docs/LAB_CURRICULUM.md
 docs/*PROPOSAL*
 *.pdf
+
+.venv-e2e/
