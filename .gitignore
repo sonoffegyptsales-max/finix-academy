@@ -45,3 +45,4 @@ docs/*PROPOSAL*
 *.pdf
 
 .venv-e2e/
+__pycache__/
