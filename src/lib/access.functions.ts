@@ -39,6 +39,16 @@ async function assertStaff(admin: any, userId: string) {
   if (!r.includes("admin") && !r.includes("trainer")) throw new Error("Trainer or administrator rights required");
 }
 
+/** null = admin (no limit); otherwise the module ids a trainer teaches. */
+async function trainerModuleScope(admin: any, userId: string): Promise<Set<string> | null> {
+  if ((await rolesOf(admin, userId)).includes("admin")) return null;
+  const { data } = await admin
+    .from("trainer_assignments")
+    .select("lessons!inner(module_id)")
+    .eq("trainer_id", userId);
+  return new Set((data ?? []).map((r: any) => r.lessons.module_id as string));
+}
+
 const ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 function randomFrom(n: number) {
   const bytes = crypto.getRandomValues(new Uint8Array(n));
@@ -85,6 +95,7 @@ export const listTraineeAccess = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const admin = serviceClient();
     await assertStaff(admin, context.userId);
+    const scope = await trainerModuleScope(admin, context.userId);
 
     const { data: roleRows } = await admin.from("user_roles").select("user_id").eq("role", "trainee");
     const ids = [...new Set((roleRows ?? []).map((r: { user_id: string }) => r.user_id))] as string[];
@@ -101,6 +112,7 @@ export const listTraineeAccess = createServerFn({ method: "GET" })
       byUser.set(a.user_id, list);
     }
     return {
+      scopeModuleIds: scope ? [...scope] : null,
       trainees: (profiles ?? [])
         .map((p: { id: string; email: string | null; full_name: string | null }) => ({
           userId: p.id,
@@ -128,6 +140,10 @@ export const setModuleAccess = createServerFn({ method: "POST" })
     const admin = serviceClient();
     await assertStaff(admin, context.userId);
     if (!(await rolesOf(admin, data.userId)).includes("trainee")) throw new Error("That account is not a trainee.");
+    const scope = await trainerModuleScope(admin, context.userId);
+    if (scope && data.moduleIds.some((id) => !scope.has(id))) {
+      throw new Error("You can only open or close modules that contain your assigned lessons.");
+    }
 
     if (data.unlock) {
       const n = await grant(admin, data.userId, data.moduleIds, context.userId, "manual");

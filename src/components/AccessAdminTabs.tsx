@@ -276,6 +276,7 @@ export function AccessTab() {
   const { t } = useLang();
   const { tracks, modules } = useCurriculum();
   const [trainees, setTrainees] = useState<{ userId: string; email: string; fullName: string | null; moduleIds: string[] }[]>([]);
+  const [scope, setScope] = useState<Set<string> | null>(null);
   const [sel, setSel] = useState<string>("");
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -287,6 +288,7 @@ export function AccessTab() {
     try {
       const res = await listTraineeAccess();
       setTrainees(res.trainees);
+      setScope(res.scopeModuleIds ? new Set(res.scopeModuleIds) : null);
       if (!keep && res.trainees[0]) setSel(res.trainees[0].userId);
     } catch (e) {
       setMsg({ kind: "err", text: errText(e) });
@@ -345,10 +347,10 @@ export function AccessTab() {
         <div>
           <div className="mb-4 flex flex-wrap items-center gap-2">
             <h3 className="me-auto text-lg font-semibold text-foreground">{current.fullName || current.email}</h3>
-            <button disabled={busy} onClick={() => void change(modules.map((m) => m.id).filter((id) => !has.has(id)), true)} className={`${btn} bg-primary text-primary-foreground hover:bg-primary/90`}>
+            <button disabled={busy} onClick={() => void change(modules.map((m) => m.id).filter((id) => !has.has(id) && (!scope || scope.has(id))), true)} className={`${btn} bg-primary text-primary-foreground hover:bg-primary/90`}>
               {t("Unlock all", "افتح الكل")}
             </button>
-            <button disabled={busy} onClick={() => void change([...has], false)} className={`${btn} border border-border text-muted-foreground hover:bg-secondary`}>
+            <button disabled={busy} onClick={() => void change([...has].filter((id) => !scope || scope.has(id)), false)} className={`${btn} border border-border text-muted-foreground hover:bg-secondary`}>
               {t("Lock all", "اقفل الكل")}
             </button>
           </div>
@@ -356,7 +358,7 @@ export function AccessTab() {
             <p className={`mb-4 rounded-lg px-4 py-2 text-sm ${msg.kind === "ok" ? "bg-green-50 text-green-800" : "bg-destructive/10 text-destructive"}`}>{msg.text}</p>
           )}
           {tracks.map((tr) => {
-            const mods = modules.filter((m) => m.track_id === tr.id);
+            const mods = modules.filter((m) => m.track_id === tr.id && (!scope || scope.has(m.id)));
             if (mods.length === 0) return null;
             const locked = mods.filter((m) => !has.has(m.id)).map((m) => m.id);
             return (

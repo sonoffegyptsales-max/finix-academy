@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
+import { useTrainerScope } from "@/hooks/use-trainer-scope";
 import { useEffect, useState } from "react";
 import { Protected } from "@/lib/auth";
 import { useLang } from "@/lib/language";
@@ -42,6 +43,7 @@ function ModuleEditorPage() {
   const [newLesson, setNewLesson] = useState({ title: "", title_ar: "", content: "", content_ar: "" });
   const [media, setMedia] = useState<LessonMediaRow[]>([]);
   const { listForLessons } = useLessonMedia();
+  const { isScoped } = useTrainerScope();
 
   async function loadMedia(lessonRows: LessonRow[]) {
     try {
@@ -175,7 +177,20 @@ function ModuleEditorPage() {
         </div>
       )}
 
+      {isScoped && (
+        <div className="mb-6 rounded-xl border border-primary/30 bg-primary/5 p-4 text-sm text-foreground">
+          <p className="font-semibold">{mod.code} — {t(mod.title, mod.title_ar)}</p>
+          <p className="mt-1 text-muted-foreground">
+            {t(
+              `You can edit the ${lessons.length} lesson(s) assigned to you below. Module details, lesson order and quizzes are managed by the administrator.`,
+              `تقدر تعدّل ${lessons.length} درس متخصص ليك تحت. بيانات الوحدة وترتيب الدروس والاختبارات بيديرها المدير.`,
+            )}
+          </p>
+        </div>
+      )}
+
       {/* Module details */}
+      {!isScoped && (
       <div className="mb-8 rounded-xl border border-border bg-card p-6">
         <h1 className="mb-4 text-xl font-bold text-foreground">
           {mod.code} — {t("Module Details", "تفاصيل الوحدة")}
@@ -222,6 +237,7 @@ function ModuleEditorPage() {
           {t("Fields save automatically when you click away.", "تُحفظ الحقول تلقائيًا عند النقر خارجها.")}
         </p>
       </div>
+      )}
 
       {/* Lessons */}
       <div className="mb-8 rounded-xl border border-border bg-card p-6">
@@ -233,12 +249,16 @@ function ModuleEditorPage() {
                 <span className="font-mono text-xs text-muted-foreground">
                   {String(i + 1).padStart(2, "0")}
                 </span>
+                {isScoped ? (
+                  <span className="text-xs text-muted-foreground">{t("Saves when you click away", "بيتحفظ لما تدوس برّه")}</span>
+                ) : (
                 <button
                   onClick={() => handleDeleteLesson(l.id)}
                   className="text-xs text-destructive hover:underline"
                 >
                   {t("Delete lesson", "حذف الدرس")}
                 </button>
+                )}
               </div>
               <div className="grid gap-2 sm:grid-cols-2">
                 <input
@@ -282,6 +302,7 @@ function ModuleEditorPage() {
           )}
         </div>
 
+        {!isScoped && (
         <div className="rounded-lg border border-dashed border-border p-4">
           <p className="mb-3 text-sm font-medium text-foreground">{t("+ Add Lesson", "+ إضافة درس")}</p>
           <div className="grid gap-3 sm:grid-cols-2">
@@ -328,9 +349,11 @@ function ModuleEditorPage() {
             )}
           </p>
         </div>
+        )}
       </div>
 
       {/* Quizzes */}
+      {!isScoped && (
       <div className="rounded-xl border border-border bg-card p-6">
         <h2 className="mb-4 text-lg font-semibold text-foreground">{t("Quiz Questions", "أسئلة الاختبار")}</h2>
         <div className="mb-4 flex gap-2">
@@ -429,6 +452,7 @@ function ModuleEditorPage() {
           </div>
         )}
       </div>
+      )}
     </div>
   );
 }

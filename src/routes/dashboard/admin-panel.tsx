@@ -15,6 +15,7 @@ import { BrandingTab } from "@/components/BrandingTab";
 import { AccessTab, PricingTab, RequestsTab } from "@/components/AccessAdminTabs";
 import { CredentialsPanel } from "@/components/CredentialsPanel";
 import { ChangePasswordCard } from "@/components/ChangePasswordCard";
+import { TrainersTab } from "@/components/TrainersTab";
 
 export const Route = createFileRoute("/dashboard/admin-panel")({
   head: () => ({
@@ -34,7 +35,7 @@ interface UserRow {
   roles: string[];
 }
 
-type AdminTab = "overview" | "requests" | "access" | "pricing" | "trainees" | "devices" | "notify" | "branding" | "account";
+type AdminTab = "overview" | "requests" | "access" | "pricing" | "trainees" | "devices" | "notify" | "branding" | "account" | "trainers";
 
 function AdminPanelPage() {
   const { t } = useLang();
@@ -117,6 +118,7 @@ function AdminPanelPage() {
     { id: "access", label: t("Module access", "فتح الوحدات") },
     { id: "pricing", label: t("Pricing & InstaPay", "الأسعار وانستاباي"), adminOnly: true },
     { id: "trainees", label: t("Trainees", "المتدربون"), adminOnly: true },
+    { id: "trainers", label: t("Trainers", "المدربين"), adminOnly: true },
     { id: "devices", label: t("Devices", "الأجهزة"), adminOnly: true },
     { id: "notify", label: t("Notifications", "الإشعارات"), adminOnly: true },
     { id: "branding", label: t("Branding", "الهوية البصرية"), adminOnly: true },
@@ -175,6 +177,8 @@ function AdminPanelPage() {
       {tab === "pricing" && isAdmin && <PricingTab />}
 
       {tab === "trainees" && isAdmin && <TraineesTab onChanged={loadStats} />}
+
+      {tab === "trainers" && isAdmin && <TrainersTab />}
 
       {tab === "devices" && isAdmin && <DevicesTab />}
 

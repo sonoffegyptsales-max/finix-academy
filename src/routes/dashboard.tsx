@@ -42,7 +42,11 @@ function DashboardLayout() {
       ? [{ to: "/dashboard/kpi-evaluator", label: t("KPI Evaluator", "تقييم الأداء"), icon: "kpi" }]
       : []),
     ...(isStaff
-      ? [{ to: "/dashboard/authoring", label: t("Create / Edit Courses", "إنشاء وتحرير الدورات"), icon: "authoring" }]
+      ? [{
+          to: "/dashboard/authoring",
+          label: isAdmin ? t("Create / Edit Courses", "إنشاء وتحرير الدورات") : t("My Lessons", "دروسي"),
+          icon: "authoring",
+        }]
       : []),
     ...(isStaff
       ? [{

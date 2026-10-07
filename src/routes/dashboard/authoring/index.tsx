@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Protected } from "@/lib/auth";
 import { useLang } from "@/lib/language";
 import { useCurriculum } from "@/hooks/use-curriculum";
+import { useTrainerScope } from "@/hooks/use-trainer-scope";
 import { useAuthoring } from "@/hooks/use-authoring";
 
 export const Route = createFileRoute("/dashboard/authoring/")({
@@ -26,7 +27,16 @@ function slugify(input: string) {
 
 function AuthoringIndexPage() {
   const { t } = useLang();
-  const { tracks, modules, loading, refresh } = useCurriculum(true);
+  const { tracks, modules: allModules, loading: curLoading, refresh } = useCurriculum(true);
+  const { lessonIds: scope, isScoped, loading: scopeLoading } = useTrainerScope();
+  const loading = curLoading || scopeLoading;
+  // A trainer sees only modules that contain a lesson assigned to them,
+  // and only those lessons inside them.
+  const modules = isScoped
+    ? allModules
+        .map((m) => ({ ...m, lessons: m.lessons.filter((l) => scope!.has(l.id)) }))
+        .filter((m) => m.lessons.length > 0)
+    : allModules;
   const { createModule, togglePublish, saving, error } = useAuthoring();
   const [showNew, setShowNew] = useState(false);
   const [form, setForm] = useState({
@@ -70,22 +80,35 @@ function AuthoringIndexPage() {
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-foreground">
-            {t("Course Authoring", "تحرير الدورات")}
+            {isScoped ? t("My Lessons", "دروسي") : t("Course Authoring", "تحرير الدورات")}
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            {t(
-              "Create and manage modules, lessons, and quiz questions.",
-              "أنشئ وأدر الوحدات والدروس وأسئلة الاختبارات.",
-            )}
+            {isScoped
+              ? t(
+                  "The lessons the academy assigned to you. You can edit their text, images and videos.",
+                  "الدروس اللي الأكاديمية خصصتها ليك. تقدر تعدّل نصها وصورها وفيديوهاتها.",
+                )
+              : t("Create and manage modules, lessons, and quiz questions.", "أنشئ وأدر الوحدات والدروس وأسئلة الاختبارات.")}
           </p>
         </div>
+        {!isScoped && (
         <button
           onClick={() => setShowNew((v) => !v)}
           className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
         >
           {showNew ? t("Cancel", "إلغاء") : t("+ New Module", "+ وحدة جديدة")}
         </button>
+        )}
       </div>
+
+      {isScoped && !loading && modules.length === 0 && (
+        <div className="mb-6 rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
+          {t(
+            "No lessons are assigned to you yet. The academy administrator will assign them.",
+            "مفيش دروس متخصصة ليك لسه. مدير الأكاديمية هيخصصهالك.",
+          )}
+        </div>
+      )}
 
       {error && (
         <div className="mb-4 rounded-lg border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive">
@@ -93,7 +116,7 @@ function AuthoringIndexPage() {
         </div>
       )}
 
-      {showNew && (
+      {showNew && !isScoped && (
         <div className="mb-8 rounded-xl border border-border bg-card p-6">
           <h2 className="mb-4 text-lg font-semibold text-foreground">
             {t("New Module", "وحدة جديدة")}
@@ -194,6 +217,7 @@ function AuthoringIndexPage() {
                   >
                     {m.published ? t("Published", "منشورة") : t("Draft", "مسودة")}
                   </span>
+                  {!isScoped && (
                   <button
                     onClick={() => handleTogglePublish(m.id, m.published)}
                     disabled={saving}
@@ -201,6 +225,7 @@ function AuthoringIndexPage() {
                   >
                     {m.published ? t("Unpublish", "إلغاء النشر") : t("Publish", "نشر")}
                   </button>
+                  )}
                   <Link
                     to="/dashboard/authoring/$moduleId"
                     params={{ moduleId: m.id }}
