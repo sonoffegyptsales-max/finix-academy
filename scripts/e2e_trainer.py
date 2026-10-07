@@ -98,11 +98,17 @@ try:
     tid = (rest("GET", f"/rest/v1/profiles?email=eq.{temail}&select=id") or [{}])[0].get("id")
     if tid: created.append(tid)
     # pick 2 lessons of F07
-    A.js("""(() => { const row=[...document.querySelectorAll('input[aria-label="F07"]')][0].closest('div.px-4');
-        [...row.querySelectorAll('button')][0].click(); })()"""); time.sleep(1)
+    ready = A.wait("document.querySelectorAll('input[type=checkbox][aria-label]').length >= 20", 30)
+    print("   picker rendered:", bool(ready), A.js("document.querySelectorAll('input[type=checkbox]').length"))
+    print("   checkbox labels:", A.js("[...document.querySelectorAll('input[type=checkbox]')].slice(0,4).map(c=>c.getAttribute('aria-label')+'/'+c.outerHTML.slice(0,90)).join(' || ')"))
+    diag = A.js("""(() => { const cb=document.querySelector('input[aria-label="F07"]'); if(!cb) return 'no F07 checkbox';
+        const btn=cb.parentElement.querySelector('button'); if(!btn) return 'no expand button'; btn.click(); return 'clicked'; })()""")
+    found = A.wait(f"!!document.querySelector('input[data-lesson=\"{pick[0]['id']}\"]')", 10)
+    print("   expand:", diag, "| lesson checkbox present:", bool(found))
     for l in pick:
         A.js(f"document.querySelector('input[data-lesson=\"{l['id']}\"]').click()")
-    time.sleep(1)
+        time.sleep(0.5)
+    print("   selected count text:", A.js("(document.querySelector('.sticky')||{}).innerText"))
     A.js("document.querySelector('[data-testid=save-lessons]').click()")
     saved = A.wait("document.body.innerText.includes('2 lessons assigned')", 25)
     A.shot("1_admin_trainer_lessons.png")
