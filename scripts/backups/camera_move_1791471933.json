@@ -1,0 +1,35 @@
+{
+ "lesson": {
+  "id": "4b4a4388-0e41-4b13-899b-c7c7533c1e3d",
+  "title": "Security Camera Installation: Placement & Privacy Considerations",
+  "position": 4
+ },
+ "m15": "20f44805-c710-430b-a7ee-5af5a0b7a70a",
+ "m14": "42d04373-9d0c-468d-8bdc-818ddc60337d",
+ "moved_questions": [
+  {
+   "tier": "bronze",
+   "id": "f7ae5e69-d464-4ceb-93a9-a904664d8528",
+   "question": "Why should motion-zone masking be configured on security cameras rather than leaving whole-frame detection active?",
+   "position": 2
+  },
+  {
+   "tier": "bronze",
+   "id": "21c83223-0762-456d-8706-df746f22cdcf",
+   "question": "What should be measured before specifying multiple cameras on a property?",
+   "position": 5
+  },
+  {
+   "tier": "silver",
+   "id": "530a27a2-d933-4c8b-bbf0-38f5def7f1ba",
+   "question": "Why must a camera never be mounted behind glass?",
+   "position": 5
+  },
+  {
+   "tier": "gold",
+   "id": "ad859c6a-331b-4d50-9910-6fa08a25a811",
+   "question": "A client insists cameras cover the street and a neighbour complains. Which preparation most protects both client and installer?",
+   "position": 4
+  }
+ ]
+}
