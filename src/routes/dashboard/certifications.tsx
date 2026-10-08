@@ -26,6 +26,7 @@ const tierConfig = [
 
 interface CertRow {
   tier: string;
+  track_id: string | null;
   certificate_number: string;
   issued_at: string;
 }
@@ -33,7 +34,8 @@ interface CertRow {
 function CertificationsPage() {
   const { t } = useLang();
   const { user } = useAuth();
-  const { modules } = useCurriculum();
+  const { tracks, modules } = useCurriculum();
+  const [passed, setPassed] = useState<Set<string>>(new Set());
   const moduleIdBySlug = Object.fromEntries(modules.map((m) => [m.slug, m.id]));
   const { completed } = useEnrollments(moduleIdBySlug);
   const [certificates, setCertificates] = useState<CertRow[]>([]);
@@ -42,9 +44,18 @@ function CertificationsPage() {
     if (!user) return;
     void supabase
       .from("certificates")
-      .select("tier, certificate_number, issued_at")
+      .select("tier, track_id, certificate_number, issued_at")
       .eq("user_id", user.id)
-      .then(({ data }) => setCertificates(data ?? []));
+      .then(({ data }) => setCertificates((data ?? []) as unknown as CertRow[]));
+    // Which (module, tier) quizzes this student has passed -> per-track progress.
+    void (supabase as any)
+      .from("quiz_attempts")
+      .select("quizzes!inner(module_id, tier)")
+      .eq("user_id", user.id)
+      .eq("passed", true)
+      .then(({ data }: { data: { quizzes: { module_id: string; tier: string } }[] | null }) =>
+        setPassed(new Set((data ?? []).map((r) => `${r.quizzes.module_id}:${r.quizzes.tier}`))),
+      );
   }, [user]);
 
   const percent = modules.length > 0 ? Math.round((completed.length / modules.length) * 100) : 0;
@@ -77,8 +88,8 @@ function CertificationsPage() {
             </h3>
             <p className="mt-1 text-sm text-muted-foreground">
               {t(
-                `Every module ends with Bronze, Silver, and Gold quizzes. Pass a tier quiz in each module with ${FINIX_QUIZ_PASS_PERCENT}% or above to earn that certification — issued automatically.`,
-                `تنتهي كل وحدة باختبارات برونزي وفضي وذهبي. اجتز اختبار المستوى في كل وحدة بنسبة ${FINIX_QUIZ_PASS_PERCENT}% أو أعلى لنيل ذلك الاعتماد — يصدر تلقائيًا.`,
+                `Every module ends with Bronze, Silver, and Gold quizzes. Pass a tier quiz in every module of a track with ${FINIX_QUIZ_PASS_PERCENT}% or above to earn that track's certification at that level — issued automatically.`,
+                `تنتهي كل وحدة باختبارات برونزي وفضي وذهبي. اجتز اختبار المستوى في كل وحدات المسار بنسبة ${FINIX_QUIZ_PASS_PERCENT}% أو أعلى لنيل اعتماد المسار بالمستوى ده — يصدر تلقائيًا.`,
               )}
             </p>
           </div>
@@ -97,49 +108,62 @@ function CertificationsPage() {
         </div>
       </div>
 
-      <div className="space-y-4">
-        {tierConfig.map((tier) => {
-          const cert = certificates.find((c) => c.tier === tier.id);
+      <div className="space-y-8">
+        {tracks.map((track) => {
+          const mods = modules.filter((m) => m.track_id === track.id);
+          if (mods.length === 0) return null;
           return (
-            <section
-              key={tier.id}
-              className={`overflow-hidden rounded-xl border p-6 shadow-sm ${
-                cert ? "border-green-300 bg-green-50/30" : "border-border bg-card"
-              }`}
-            >
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <span className={`rounded-full px-3 py-1 text-xs font-semibold ${tier.color}`}>
-                    {t(tier.label, tier.labelAr)}
-                  </span>
-                  <h2 className="text-xl font-semibold text-foreground">
-                    {t(`${tier.label} Certification`, `اعتماد ${tier.labelAr}`)}
-                  </h2>
-                </div>
-                {cert ? (
-                  <span className="rounded-full bg-green-500/10 px-3 py-1 text-xs font-medium text-green-700">
-                    ✓ {t("Issued", "صادر")}
-                  </span>
-                ) : (
-                  <span className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground">
-                    {t("Not yet earned", "لم يتم الحصول عليه بعد")}
-                  </span>
-                )}
+            <section key={track.id}>
+              <h2 className="mb-3 text-lg font-semibold text-foreground">{t(track.name, track.name_ar)}</h2>
+              <div className="grid gap-4 md:grid-cols-3">
+                {tierConfig.map((tier) => {
+                  const cert = certificates.find((c) => c.tier === tier.id && c.track_id === track.id);
+                  const done = mods.filter((m) => passed.has(`${m.id}:${tier.id}`)).length;
+                  return (
+                    <div
+                      key={tier.id}
+                      data-cert={`${track.id}:${tier.id}`}
+                      className={`overflow-hidden rounded-xl border p-5 shadow-sm ${
+                        cert ? "border-green-300 bg-green-50/30" : "border-border bg-card"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <span className={`rounded-full px-3 py-1 text-xs font-semibold ${tier.color}`}>
+                          {t(tier.label, tier.labelAr)}
+                        </span>
+                        {cert ? (
+                          <span className="rounded-full bg-green-500/10 px-2.5 py-0.5 text-xs font-medium text-green-700">
+                            ✓ {t("Issued", "صادر")}
+                          </span>
+                        ) : (
+                          <span className="text-xs text-muted-foreground">
+                            {done} / {mods.length} {t("modules", "وحدات")}
+                          </span>
+                        )}
+                      </div>
+                      {cert ? (
+                        <p className="mt-3 text-xs text-muted-foreground">
+                          <span className="font-mono">{cert.certificate_number}</span>
+                          <br />
+                          {new Date(cert.issued_at).toLocaleDateString()}
+                        </p>
+                      ) : (
+                        <>
+                          <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-secondary">
+                            <div className="h-full bg-primary" style={{ width: `${(done / mods.length) * 100}%` }} />
+                          </div>
+                          <p className="mt-2 text-xs text-muted-foreground">
+                            {t(
+                              `Pass the ${tier.label} quiz in every module of this track (${FINIX_QUIZ_PASS_PERCENT}%+).`,
+                              `اجتز اختبار ${tier.labelAr} في كل وحدات المسار ده (${FINIX_QUIZ_PASS_PERCENT}٪+).`,
+                            )}
+                          </p>
+                        </>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
-              {cert ? (
-                <p className="mt-3 text-sm text-muted-foreground">
-                  {t("Certificate #", "رقم الشهادة")}: <span className="font-mono">{cert.certificate_number}</span>
-                  {" · "}
-                  {t("Issued", "صدرت في")} {new Date(cert.issued_at).toLocaleDateString()}
-                </p>
-              ) : (
-                <p className="mt-3 text-sm text-muted-foreground">
-                  {t(
-                    `Pass the ${tier.label} quiz of every module with ${FINIX_QUIZ_PASS_PERCENT}% or above.`,
-                    `اجتز اختبار ${tier.labelAr} في كل الوحدات بنسبة ${FINIX_QUIZ_PASS_PERCENT}٪ أو أعلى.`,
-                  )}
-                </p>
-              )}
             </section>
           );
         })}
